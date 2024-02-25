@@ -139,11 +139,18 @@ class SubMesh:
 
 
 class MultiResolutionMesh:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_delete")
 
     def __init__(
-        self, src: str | PathLike | Read | bytes | bytearray | VfsNode
+        self,
+        src: str | PathLike | Read | bytes | bytearray | VfsNode = None,
+        **kwargs: Any,
     ) -> None:
+        if "_handle" in kwargs:
+            self._handle = kwargs.pop("_handle")
+            self._delete = kwargs.pop("_delete", False)
+            return
+
         if src is None:
             raise ValueError("No source provided")
 
@@ -157,6 +164,7 @@ class MultiResolutionMesh:
 
         DLL.ZkMultiResolutionMesh_load.restype = c_void_p
         self._handle = c_void_p(DLL.ZkMultiResolutionMesh_load(rd.handle))
+        self._delete = True
 
     @property
     def positions(self) -> list[Vec3f]:
@@ -222,9 +230,10 @@ class MultiResolutionMesh:
         )
 
     def __del__(self) -> None:
-        DLL.ZkMultiResolutionMesh_del.restype = None
-        DLL.ZkMultiResolutionMesh_del(self._handle)
-        self._handle = None
+        if self._delete:
+            DLL.ZkMultiResolutionMesh_del.restype = None
+            DLL.ZkMultiResolutionMesh_del(self._handle)
+            self._handle = None
 
     def __repr__(self) -> str:
         return f"MultiResolutionMesh({self._handle.value:x})"

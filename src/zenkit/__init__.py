@@ -34,6 +34,9 @@ __all__ = [
     "WaveSpeed",
     "AlphaFunction",
     "WaveMode",
+    "MorphAnimation",
+    "MorphMesh",
+    "MorphSource",
 ]
 
 from zenkit._core import Vec2f, Vec3f, Quat, AxisAlignedBoundingBox
@@ -54,7 +57,6 @@ from zenkit.material import (
     AlphaFunction,
 )
 from zenkit.mrm import (
-    MultiResolutionMesh,
     SubMesh,
     MeshEdge,
     MeshPlane,
@@ -63,3 +65,4 @@ from zenkit.mrm import (
     MeshTriangleEdge,
     MultiResolutionMesh,
 )
+from zenkit.morph import MorphAnimation, MorphSource, MorphMesh
