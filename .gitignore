@@ -7,3 +7,5 @@
 
 *.egg-info/
 *.pyc
+
+.pypirc
