@@ -131,6 +131,24 @@ class Vfs:
             self._handle, str(path).encode("utf-8"), c_int(clobber.value)
         )
 
+    def find(self, name: str | PathLike) -> "VfsNode | None":
+        DLL.ZkVfs_findNode.restype = c_void_p
+        handle = DLL.ZkVfs_findNode(self._handle, str(name).encode("utf-8"))
+        return (
+            VfsNode(_handle=c_void_p(handle), _delete=False)
+            if handle is not None
+            else None
+        )
+
+    def resolve(self, path: str | PathLike) -> "VfsNode | None":
+        DLL.ZkVfs_resolvePath.restype = c_void_p
+        handle = DLL.ZkVfs_resolvePath(self._handle, str(path).encode("utf-8"))
+        return (
+            VfsNode(_handle=c_void_p(handle), _delete=False)
+            if handle is not None
+            else None
+        )
+
     @property
     def root(self) -> VfsNode:
         DLL.ZkVfs_getRoot.restype = c_void_p
@@ -139,3 +157,4 @@ class Vfs:
 
     def __del__(self) -> None:
         DLL.ZkVfs_del(self._handle)
+        self._handle = None
