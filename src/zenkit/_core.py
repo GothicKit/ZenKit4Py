@@ -1,11 +1,19 @@
-__all__ = ["DLL", "Vec2f", "Vec3f", "Quat", "AxisAlignedBoundingBox", "Date"]
+__all__ = [
+    "DLL",
+    "Vec2f",
+    "Vec3f",
+    "Quat",
+    "AxisAlignedBoundingBox",
+    "OrientedBoundingBox",
+    "Date",
+]
 
 import atexit
 import functools
-from ctypes import CDLL, c_float, Structure, c_uint32, c_uint16
+from ctypes import CDLL, c_float, Structure, c_uint32, c_uint16, c_void_p, c_size_t
 from datetime import datetime
 from pathlib import Path
-from typing import Final
+from typing import Final, Any
 
 _PATH = Path(__file__).parent / "native" / "linux-x64.so"
 DLL: Final[CDLL] = CDLL(str(_PATH))
@@ -97,3 +105,43 @@ class AxisAlignedBoundingBox(Structure):
 
     def __repr__(self) -> str:
         return f"AxisAlignedBoundingBox(min={self.min}, max={self.max})"
+
+
+class OrientedBoundingBox:
+    __slots__ = ("_handle",)
+
+    def __init__(self, **kwargs: Any) -> None:
+        if "_handle" in kwargs:
+            self._handle: c_void_p = kwargs.pop("_handle")
+
+    @property
+    def center(self) -> Vec3f:
+        DLL.ZkOrientedBoundingBox_getCenter.restype = Vec3f
+        return DLL.ZkOrientedBoundingBox_getCenter(self._handle)
+
+    @property
+    def axis(self) -> Vec3f:
+        DLL.ZkOrientedBoundingBox_getAxis.restype = Vec3f
+        return DLL.ZkOrientedBoundingBox_getAxis(self._handle)
+
+    @property
+    def half_width(self) -> Vec3f:
+        DLL.ZkOrientedBoundingBox_getHalfWidth.restype = Vec3f
+        return DLL.ZkOrientedBoundingBox_getHalfWidth(self._handle)
+
+    @property
+    def children(self) -> list["OrientedBoundingBox"]:
+        DLL.ZkOrientedBoundingBox_getChildCount.restype = c_size_t
+        count = DLL.ZkOrientedBoundingBox_getChildCount(self._handle)
+
+        DLL.ZkOrientedBoundingBox_getChild.restype = c_void_p
+        return [
+            OrientedBoundingBox(
+                _handle=c_void_p(DLL.ZkOrientedBoundingBox_getChild(self._handle, i))
+            )
+            for i in range(count)
+        ]
+
+    def to_aabb(self) -> AxisAlignedBoundingBox:
+        DLL.ZkOrientedBoundingBox_toAabb.restype = AxisAlignedBoundingBox
+        return DLL.ZkOrientedBoundingBox_toAabb(self._handle)

@@ -21,6 +21,19 @@ __all__ = [
     "AxisAlignedBoundingBox",
     "ModelHierarchy",
     "ModelHierarchyNode",
+    "MultiResolutionMesh",
+    "SubMesh",
+    "MeshEdge",
+    "MeshPlane",
+    "MeshTriangle",
+    "MeshWedge",
+    "MeshTriangleEdge",
+    "Material",
+    "MaterialGroup",
+    "AnimationMapping",
+    "WaveSpeed",
+    "AlphaFunction",
+    "WaveMode",
 ]
 
 from zenkit._core import Vec2f, Vec3f, Quat, AxisAlignedBoundingBox
@@ -32,3 +45,21 @@ from zenkit.font import Font, FontGlyph
 from zenkit.cutscene import CutsceneBlock, CutsceneMessage, CutsceneLibrary
 from zenkit.animation import ModelAnimation, AnimationSample
 from zenkit.hierarchy import ModelHierarchy, ModelHierarchyNode
+from zenkit.material import (
+    Material,
+    MaterialGroup,
+    AnimationMapping,
+    WaveMode,
+    WaveSpeed,
+    AlphaFunction,
+)
+from zenkit.mrm import (
+    MultiResolutionMesh,
+    SubMesh,
+    MeshEdge,
+    MeshPlane,
+    MeshTriangle,
+    MeshWedge,
+    MeshTriangleEdge,
+    MultiResolutionMesh,
+)
