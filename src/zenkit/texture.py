@@ -34,7 +34,9 @@ class TextureFormat(IntEnum):
 class Texture:
     __slots__ = ("_handle",)
 
-    def __init__(self, src: str | PathLike | Read | bytes | bytearray | VfsNode):
+    def __init__(
+        self, src: str | PathLike | Read | bytes | bytearray | VfsNode
+    ) -> None:
         rd: Read
         if isinstance(src, VfsNode):
             rd = src.open()
