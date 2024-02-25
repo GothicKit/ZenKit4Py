@@ -10,6 +10,7 @@ from os import PathLike
 from typing import Any, Iterator
 
 from zenkit._core import DLL
+from zenkit.stream import Read
 
 _VfsNodeEnumerator = CFUNCTYPE(c_bool, c_void_p, c_void_p)
 
@@ -38,11 +39,14 @@ class VfsNode:
     @property
     def data(self) -> bytes:
         rd = self.open()
+        return rd.data
 
     @property
     def children(self) -> list["VfsNode"]:
-        nodes = []
+        if not self.is_dir():
+            raise ValueError("Not a directory node")
 
+        nodes = []
         enum = _VfsNodeEnumerator(
             lambda _, node: nodes.append(VfsNode(_handle=c_void_p(node), _delete=False))
         )
@@ -72,6 +76,11 @@ class VfsNode:
         if not self.is_file():
             raise ValueError("Not a file node")
 
+        DLL.ZkVfsNode_open.restype = c_void_p
+        handle = DLL.ZkVfsNode_open(self._handle)
+
+        return Read(c_void_p(handle))
+
     def __iter__(self) -> Iterator["VfsNode"]:
         return iter(self.children)
 
@@ -83,7 +92,10 @@ class VfsNode:
             DLL.ZkVfsNode_del(self._handle)
 
     def __repr__(self) -> str:
-        return f"VfsNode(name={self.name!r}, children={len(self.children)})"
+        if self.is_dir():
+            return f"VfsNode(name={self.name!r}, children={len(self.children)})"
+        else:
+            return f"VfsNode(name={self.name!r})"
 
 
 class Vfs:
