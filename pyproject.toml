@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zenkit"
+requires-python = ">=3.10"
+description = "Python wrapper for the ZenKit library"
+authors = [
+    {name = "Luis Michaelis", email="publishing@lmichaelis.de"}
+]
+maintainers = [
+    {name = "Luis Michaelis", email="publishing@lmichaelis.de"}
+]
+version = "0.0.1"
+keywords = [
+    "game",
+    "library",
+    "game-engine",
+    "gothic",
+    "gothic2",
+    "gothic1",
+    "file-formats",
+    "file-format-library",
+    "zengin",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Android",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: File Formats",
+    "Topic :: Games/Entertainment :: Role-Playing",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Interpreters",
+    "Topic :: Utilities",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://zk.gothickit.dev"
+Documentation = "https://zk.gothickit.dev"
+Repository = "https://github.com/GothicKit/ZenKit4Py.git"
+"Bug Tracker" = "https://github.com/GothicKit/ZenKit4Py/issues"
+
+[project.optional-dependencies]
+dev = [
+    "build"
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["zenkit*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+zenkit = ["native/*"]
