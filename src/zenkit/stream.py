@@ -28,6 +28,10 @@ class Read:
             raise ValueError("Failed to create input stream, see logs.")
 
     @property
+    def handle(self) -> c_void_p:
+        return self._handle
+
+    @property
     def size(self) -> int:
         DLL.ZkRead_getSize.restype = c_size_t
         return DLL.ZkRead_getSize(self._handle)
@@ -43,3 +47,4 @@ class Read:
 
     def __del__(self) -> None:
         DLL.ZkRead_del(self._handle)
+        self._handle = None
