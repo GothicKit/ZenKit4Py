@@ -23,7 +23,11 @@ class LogLevel(IntEnum):
 
 
 def set_logger(level: LogLevel, cb: Callable[[LogLevel, str, str], None]) -> None:
-    logger = _Logger(lambda _, lvl, name, message: cb(LogLevel(lvl), name.decode("utf-8"), message.decode("utf-8")))
+    logger = _Logger(
+        lambda _, lvl, name, message: cb(
+            LogLevel(lvl), name.decode("utf-8"), message.decode("utf-8")
+        )
+    )
 
     global _LOGGER
     _LOGGER = logger
