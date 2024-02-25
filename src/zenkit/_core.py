@@ -59,6 +59,18 @@ class Vec3f(Structure):
         return f"Vec3f(x={self.x}, y={self.y}, z={self.z})"
 
 
+class Vec4f(Structure):
+    _fields_ = [
+        ("x", c_float),
+        ("y", c_float),
+        ("z", c_float),
+        ("w", c_float),
+    ]
+
+    def __repr__(self) -> str:
+        return f"Vec4f(x={self.x}, y={self.y}, z={self.z}, w={self.w})"
+
+
 class Quat(Structure):
     _fields_ = [
         ("x", c_float),
@@ -69,6 +81,12 @@ class Quat(Structure):
 
     def __repr__(self) -> str:
         return f"Quat(x={self.x}, y={self.y}, z={self.z}, w={self.w})"
+
+
+class Mat4x4(Structure):
+    _fields_ = [
+        ("columns", Vec4f * 4),
+    ]
 
 
 class AxisAlignedBoundingBox(Structure):

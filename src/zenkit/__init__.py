@@ -19,6 +19,8 @@ __all__ = [
     "Vec3f",
     "Quat",
     "AxisAlignedBoundingBox",
+    "ModelHierarchy",
+    "ModelHierarchyNode",
 ]
 
 from zenkit._core import Vec2f, Vec3f, Quat, AxisAlignedBoundingBox
@@ -29,3 +31,4 @@ from zenkit.stream import Read
 from zenkit.font import Font, FontGlyph
 from zenkit.cutscene import CutsceneBlock, CutsceneMessage, CutsceneLibrary
 from zenkit.animation import ModelAnimation, AnimationSample
+from zenkit.hierarchy import ModelHierarchy, ModelHierarchyNode
