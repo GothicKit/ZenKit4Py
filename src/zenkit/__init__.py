@@ -37,6 +37,10 @@ __all__ = [
     "MorphAnimation",
     "MorphMesh",
     "MorphSource",
+    "ModelMesh",
+    "SoftSkinMesh",
+    "SoftSkinWeight",
+    "SoftSkinWedgeNormal",
 ]
 
 from zenkit._core import Vec2f, Vec3f, Quat, AxisAlignedBoundingBox
@@ -66,3 +70,5 @@ from zenkit.mrm import (
     MultiResolutionMesh,
 )
 from zenkit.morph import MorphAnimation, MorphSource, MorphMesh
+from zenkit.mdm import ModelMesh
+from zenkit.softskin import SoftSkinMesh, SoftSkinWeight, SoftSkinWedgeNormal
