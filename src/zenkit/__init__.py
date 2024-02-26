@@ -44,33 +44,46 @@ __all__ = [
     "Model",
 ]
 
-from zenkit._core import Vec2f, Vec3f, Quat, AxisAlignedBoundingBox
-from zenkit.vfs import Vfs, VfsNode, VfsOverwriteBehavior
-from zenkit.log import LogLevel, set_logger, set_logger_default
-from zenkit.texture import Texture, TextureFormat
-from zenkit.stream import Read
-from zenkit.font import Font, FontGlyph
-from zenkit.cutscene import CutsceneBlock, CutsceneMessage, CutsceneLibrary
-from zenkit.animation import ModelAnimation, AnimationSample
-from zenkit.hierarchy import ModelHierarchy, ModelHierarchyNode
-from zenkit.material import (
-    Material,
-    MaterialGroup,
-    AnimationMapping,
-    WaveMode,
-    WaveSpeed,
-    AlphaFunction,
-)
-from zenkit.mrm import (
-    SubMesh,
-    MeshEdge,
-    MeshPlane,
-    MeshTriangle,
-    MeshWedge,
-    MeshTriangleEdge,
-    MultiResolutionMesh,
-)
-from zenkit.morph import MorphAnimation, MorphSource, MorphMesh
+from zenkit._core import AxisAlignedBoundingBox
+from zenkit._core import Quat
+from zenkit._core import Vec2f
+from zenkit._core import Vec3f
+from zenkit.csl import CutsceneBlock
+from zenkit.csl import CutsceneLibrary
+from zenkit.csl import CutsceneMessage
+from zenkit.fnt import Font
+from zenkit.fnt import FontGlyph
+from zenkit.log import LogLevel
+from zenkit.log import set_logger
+from zenkit.log import set_logger_default
+from zenkit.man import AnimationSample
+from zenkit.man import ModelAnimation
+from zenkit.mat import AlphaFunction
+from zenkit.mat import AnimationMapping
+from zenkit.mat import Material
+from zenkit.mat import MaterialGroup
+from zenkit.mat import WaveMode
+from zenkit.mat import WaveSpeed
+from zenkit.mdh import ModelHierarchy
+from zenkit.mdh import ModelHierarchyNode
+from zenkit.mdl import Model
 from zenkit.mdm import ModelMesh
-from zenkit.softskin import SoftSkinMesh, SoftSkinWeight, SoftSkinWedgeNormal
-from zenkit.model import Model
+from zenkit.mmb import MorphAnimation
+from zenkit.mmb import MorphMesh
+from zenkit.mmb import MorphSource
+from zenkit.mrm import MeshEdge
+from zenkit.mrm import MeshPlane
+from zenkit.mrm import MeshTriangle
+from zenkit.mrm import MeshTriangleEdge
+from zenkit.mrm import MeshWedge
+from zenkit.mrm import MultiResolutionMesh
+from zenkit.mrm import SubMesh
+from zenkit.ssm import SoftSkinMesh
+from zenkit.ssm import SoftSkinWedgeNormal
+from zenkit.ssm import SoftSkinWeight
+from zenkit.stream import Read
+from zenkit.tex import Texture
+from zenkit.tex import TextureFormat
+from zenkit.vfs import Vfs
+from zenkit.vfs import VfsNode
+from zenkit.vfs import VfsOverwriteBehavior

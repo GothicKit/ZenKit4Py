@@ -3,22 +3,40 @@ __all__ = [
     "Vec2f",
     "Vec3f",
     "Quat",
+    "Mat4x4",
     "AxisAlignedBoundingBox",
     "OrientedBoundingBox",
     "Date",
+    "PathOrFileLike",
 ]
 
 import atexit
 import functools
-from ctypes import CDLL, c_float, Structure, c_uint32, c_uint16, c_void_p, c_size_t
+from ctypes import CDLL
+from ctypes import Structure
+from ctypes import c_float
+from ctypes import c_size_t
+from ctypes import c_uint16
+from ctypes import c_uint32
+from ctypes import c_void_p
 from datetime import datetime
+from os import PathLike
 from pathlib import Path
-from typing import Final, Any
+from typing import TYPE_CHECKING
+from typing import Any
+from typing import Final
+from typing import Union
+
+if TYPE_CHECKING:
+    from zenkit.stream import Read
+    from zenkit.vfs import VfsNode
 
 _PATH = Path(__file__).parent / "native" / "linux-x64.so"
 DLL: Final[CDLL] = CDLL(str(_PATH))
 
 atexit.register(functools.partial(print, DLL))
+
+PathOrFileLike = Union[str, PathLike, "Read", bytes, bytearray, "VfsNode"]
 
 
 class Date(Structure):
@@ -136,9 +154,7 @@ class OrientedBoundingBox:
 
         DLL.ZkOrientedBoundingBox_getChild.restype = c_void_p
         return [
-            OrientedBoundingBox(
-                _handle=c_void_p(DLL.ZkOrientedBoundingBox_getChild(self._handle, i))
-            )
+            OrientedBoundingBox(_handle=c_void_p(DLL.ZkOrientedBoundingBox_getChild(self._handle, i)))
             for i in range(count)
         ]
 

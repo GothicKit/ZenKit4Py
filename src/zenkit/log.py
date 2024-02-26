@@ -4,9 +4,12 @@ __all__ = [
     "set_logger_default",
 ]
 
-from ctypes import c_void_p, c_int, c_char_p, CFUNCTYPE
+from collections.abc import Callable
+from ctypes import CFUNCTYPE
+from ctypes import c_char_p
+from ctypes import c_int
+from ctypes import c_void_p
 from enum import IntEnum
-from typing import Callable
 
 from zenkit._core import DLL
 
@@ -23,11 +26,7 @@ class LogLevel(IntEnum):
 
 
 def set_logger(level: LogLevel, cb: Callable[[LogLevel, str, str], None]) -> None:
-    logger = _Logger(
-        lambda _, lvl, name, message: cb(
-            LogLevel(lvl), name.decode("utf-8"), message.decode("utf-8")
-        )
-    )
+    logger = _Logger(lambda _, lvl, name, message: cb(LogLevel(lvl), name.decode("utf-8"), message.decode("utf-8")))
 
     global _LOGGER
     _LOGGER = logger

@@ -63,3 +63,18 @@ namespaces = false
 
 [tool.setuptools.package-data]
 zenkit = ["native/*"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "D211",
+    "D213",
+    "COM812",
+    "ISC001",
+]
+
+[tool.ruff.lint.isort]
+force-single-line = true

@@ -4,10 +4,15 @@ __all__ = [
     "VfsOverwriteBehavior",
 ]
 
-from ctypes import c_char_p, CFUNCTYPE, c_bool, c_void_p, c_int
+from collections.abc import Iterator
+from ctypes import CFUNCTYPE
+from ctypes import c_bool
+from ctypes import c_char_p
+from ctypes import c_int
+from ctypes import c_void_p
 from enum import IntEnum
 from os import PathLike
-from typing import Any, Iterator
+from typing import Any
 
 from zenkit._core import DLL
 from zenkit.stream import Read
@@ -47,9 +52,7 @@ class VfsNode:
             raise ValueError("Not a directory node")
 
         nodes = []
-        enum = _VfsNodeEnumerator(
-            lambda _, node: nodes.append(VfsNode(_handle=c_void_p(node), _delete=False))
-        )
+        enum = _VfsNodeEnumerator(lambda _, node: nodes.append(VfsNode(_handle=c_void_p(node), _delete=False)))
         DLL.ZkVfsNode_enumerateChildren.restype = None
         DLL.ZkVfsNode_enumerateChildren(self._handle, enum, c_void_p(None))
 
@@ -58,11 +61,7 @@ class VfsNode:
     def get_child(self, name: str) -> "VfsNode | None":
         DLL.ZkVfsNode_getChild.restype = c_void_p
         handle = DLL.ZkVfsNode_getChild(self._handle, name.encode("utf-8"))
-        return (
-            VfsNode(_handle=c_void_p(handle), _delete=False)
-            if handle is not None
-            else None
-        )
+        return VfsNode(_handle=c_void_p(handle), _delete=False) if handle is not None else None
 
     def is_file(self) -> bool:
         DLL.ZkVfsNode_isFile.restype = c_bool
@@ -127,27 +126,17 @@ class Vfs:
         clobber: VfsOverwriteBehavior = VfsOverwriteBehavior.OLDER,
     ) -> None:
         DLL.ZkVfs_mountDiskHost.restype = None
-        DLL.ZkVfs_mountDiskHost(
-            self._handle, str(path).encode("utf-8"), c_int(clobber.value)
-        )
+        DLL.ZkVfs_mountDiskHost(self._handle, str(path).encode("utf-8"), c_int(clobber.value))
 
     def find(self, name: str | PathLike) -> "VfsNode | None":
         DLL.ZkVfs_findNode.restype = c_void_p
         handle = DLL.ZkVfs_findNode(self._handle, str(name).encode("utf-8"))
-        return (
-            VfsNode(_handle=c_void_p(handle), _delete=False)
-            if handle is not None
-            else None
-        )
+        return VfsNode(_handle=c_void_p(handle), _delete=False) if handle is not None else None
 
     def resolve(self, path: str | PathLike) -> "VfsNode | None":
         DLL.ZkVfs_resolvePath.restype = c_void_p
         handle = DLL.ZkVfs_resolvePath(self._handle, str(path).encode("utf-8"))
-        return (
-            VfsNode(_handle=c_void_p(handle), _delete=False)
-            if handle is not None
-            else None
-        )
+        return VfsNode(_handle=c_void_p(handle), _delete=False) if handle is not None else None
 
     @property
     def root(self) -> VfsNode:
