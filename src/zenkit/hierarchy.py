@@ -6,6 +6,7 @@ __all__ = [
 from ctypes import c_void_p, c_uint, c_char_p, c_int16, Structure, c_size_t
 from datetime import datetime
 from os import PathLike
+from typing import Any
 
 from zenkit.vfs import VfsNode
 from zenkit.stream import Read
@@ -30,11 +31,17 @@ class ModelHierarchyNode(Structure):
 
 
 class ModelHierarchy:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_delete")
 
     def __init__(
-        self, src: str | PathLike | Read | bytes | bytearray | VfsNode
+        self, src: str | PathLike | Read | bytes | bytearray | VfsNode = None,
+        **kwargs: Any
     ) -> None:
+        if "_handle" in kwargs:
+            self._handle = kwargs.pop("_handle")
+            self._delete = False
+            return
+
         if src is None:
             raise ValueError("No source provided")
 
@@ -48,6 +55,7 @@ class ModelHierarchy:
 
         DLL.ZkModelHierarchy_load.restype = c_void_p
         self._handle = c_void_p(DLL.ZkModelHierarchy_load(rd.handle))
+        self._delete = True
 
     @property
     def nodes(self) -> list[ModelHierarchyNode]:
@@ -88,9 +96,10 @@ class ModelHierarchy:
         return DLL.ZkModelHierarchy_getSourcePath(self._handle).decode("utf-8")
 
     def __del__(self) -> None:
-        DLL.ZkModelHierarchy_del.restype = None
-        DLL.ZkModelHierarchy_del(self._handle)
-        self._handle = None
+        if self._delete:
+            DLL.ZkModelHierarchy_del.restype = None
+            DLL.ZkModelHierarchy_del(self._handle)
+            self._handle = None
 
     def __repr__(self) -> str:
         return f"ModelHierarchy(checksum={self.checksum})"

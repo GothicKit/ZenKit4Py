@@ -2,6 +2,7 @@ __all__ = ["ModelMesh"]
 
 from ctypes import c_void_p, c_size_t, CFUNCTYPE, c_bool, c_char_p, c_uint
 from os import PathLike
+from typing import Any
 
 from zenkit import Read, VfsNode, MultiResolutionMesh
 from zenkit._core import DLL
@@ -11,11 +12,17 @@ _ModelMeshAttachmentEnumerator = CFUNCTYPE(c_bool, c_void_p, c_char_p, c_void_p)
 
 
 class ModelMesh:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_delete")
 
     def __init__(
-        self, src: str | PathLike | Read | bytes | bytearray | VfsNode
+        self, src: str | PathLike | Read | bytes | bytearray | VfsNode = None,
+        **kwargs: Any
     ) -> None:
+        if "_handle" in kwargs:
+            self._handle = kwargs.pop("_handle")
+            self._delete = False
+            return
+
         if src is None:
             raise ValueError("No source provided")
 
@@ -29,6 +36,7 @@ class ModelMesh:
 
         DLL.ZkModelMesh_load.restype = c_void_p
         self._handle = c_void_p(DLL.ZkModelMesh_load(rd.handle))
+        self._delete = True
 
     @property
     def checksum(self) -> int:
@@ -61,5 +69,6 @@ class ModelMesh:
         return attachments
 
     def __del__(self) -> None:
-        DLL.ZkModelMesh_del(self._handle)
-        self._handle = None
+        if self._delete:
+            DLL.ZkModelMesh_del(self._handle)
+            self._handle = None
