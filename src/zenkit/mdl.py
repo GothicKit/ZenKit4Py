@@ -33,11 +33,11 @@ class Model:
 
     @property
     def mesh(self) -> ModelMesh:
-        return ModelMesh(_handle=DLL.ZkModel_getMesh(self._handle).value)
+        return ModelMesh(_handle=DLL.ZkModel_getMesh(self._handle).value, _keepalive=self)
 
     @property
     def hierarchy(self) -> ModelHierarchy:
-        return ModelHierarchy(_handle=DLL.ZkModel_getHierarchy(self._handle).value)
+        return ModelHierarchy(_handle=DLL.ZkModel_getHierarchy(self._handle).value, _keepalive=self)
 
     def __del__(self) -> None:
         if self._delete:

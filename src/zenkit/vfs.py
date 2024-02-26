@@ -27,19 +27,26 @@ class VfsOverwriteBehavior(IntEnum):
     OLDER = 3
 
 
+DLL.ZkVfsNode_getName.restype = c_char_p
+DLL.ZkVfsNode_enumerateChildren.restype = None
+DLL.ZkVfsNode_getChild.restype = c_void_p
+DLL.ZkVfsNode_isFile.restype = c_bool
+DLL.ZkVfsNode_isDir.restype = c_bool
+DLL.ZkVfsNode_open.restype = c_void_p
+
+
 class VfsNode:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_handle", "_delete", "_keepalive")
 
     def __init__(self, **kwargs: Any):
         if "_handle" in kwargs:
             self._handle = kwargs.pop("_handle")
-            self._delete = kwargs.pop("_delete", True)
+            self._delete = kwargs.pop("_delete", False)
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @property
     def name(self) -> str:
-        DLL.ZkVfsNode_getName.restype = c_char_p
-        name = DLL.ZkVfsNode_getName(self._handle)
-        return name.decode("utf-8") if name is not None else ""
+        return DLL.ZkVfsNode_getName(self._handle).decode("utf-8")
 
     @property
     def data(self) -> bytes:
@@ -52,32 +59,26 @@ class VfsNode:
             raise ValueError("Not a directory node")
 
         nodes = []
-        enum = _VfsNodeEnumerator(lambda _, node: nodes.append(VfsNode(_handle=c_void_p(node), _delete=False)))
-        DLL.ZkVfsNode_enumerateChildren.restype = None
+        enum = _VfsNodeEnumerator(lambda _, node: nodes.append(VfsNode(_handle=c_void_p(node), _keepalive=self)))
         DLL.ZkVfsNode_enumerateChildren(self._handle, enum, c_void_p(None))
 
         return nodes
 
     def get_child(self, name: str) -> "VfsNode | None":
-        DLL.ZkVfsNode_getChild.restype = c_void_p
         handle = DLL.ZkVfsNode_getChild(self._handle, name.encode("utf-8"))
-        return VfsNode(_handle=c_void_p(handle), _delete=False) if handle is not None else None
+        return VfsNode(_handle=c_void_p(handle), _keepalive=self)
 
     def is_file(self) -> bool:
-        DLL.ZkVfsNode_isFile.restype = c_bool
         return DLL.ZkVfsNode_isFile(self._handle)
 
     def is_dir(self) -> bool:
-        DLL.ZkVfsNode_isDir.restype = c_bool
         return DLL.ZkVfsNode_isDir(self._handle)
 
     def open(self) -> "Read":
         if not self.is_file():
             raise ValueError("Not a file node")
 
-        DLL.ZkVfsNode_open.restype = c_void_p
         handle = DLL.ZkVfsNode_open(self._handle)
-
         return Read(c_void_p(handle))
 
     def __iter__(self) -> Iterator["VfsNode"]:
@@ -89,6 +90,8 @@ class VfsNode:
     def __del__(self) -> None:
         if self._delete:
             DLL.ZkVfsNode_del(self._handle)
+        self._keepalive = None
+        self._handle = None
 
     def __repr__(self) -> str:
         if self.is_dir():
@@ -98,11 +101,12 @@ class VfsNode:
 
 
 class Vfs:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_delete")
 
     def __init__(self) -> None:
         DLL.ZkVfs_new.restype = c_void_p
         self._handle = c_void_p(DLL.ZkVfs_new())
+        self._delete = True
 
     def mount_path(
         self,
@@ -131,19 +135,20 @@ class Vfs:
     def find(self, name: str | PathLike) -> "VfsNode | None":
         DLL.ZkVfs_findNode.restype = c_void_p
         handle = DLL.ZkVfs_findNode(self._handle, str(name).encode("utf-8"))
-        return VfsNode(_handle=c_void_p(handle), _delete=False) if handle is not None else None
+        return VfsNode(_handle=c_void_p(handle), _keepalive=self) if handle is not None else None
 
     def resolve(self, path: str | PathLike) -> "VfsNode | None":
         DLL.ZkVfs_resolvePath.restype = c_void_p
         handle = DLL.ZkVfs_resolvePath(self._handle, str(path).encode("utf-8"))
-        return VfsNode(_handle=c_void_p(handle), _delete=False) if handle is not None else None
+        return VfsNode(_handle=c_void_p(handle), _keepalive=self) if handle is not None else None
 
     @property
     def root(self) -> VfsNode:
         DLL.ZkVfs_getRoot.restype = c_void_p
         handle = c_void_p(DLL.ZkVfs_getRoot(self._handle))
-        return VfsNode(_handle=handle, _delete=False)
+        return VfsNode(_handle=handle, _keepalive=self)
 
     def __del__(self) -> None:
-        DLL.ZkVfs_del(self._handle)
+        if self._delete:
+            DLL.ZkVfs_del(self._handle)
         self._handle = None

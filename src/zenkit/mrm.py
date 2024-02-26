@@ -119,17 +119,18 @@ DLL.ZkSubMesh_getEdges.restype = POINTER(MeshEdge)
 
 
 class SubMesh:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @property
     def material(self) -> Material:
-        return Material(_handle=DLL.ZkSubMesh_getMaterial(self._handle).value)
+        return Material(_handle=DLL.ZkSubMesh_getMaterial(self._handle).value, _keepalive=self)
 
     @property
     def triangles(self) -> list[MeshTriangle]:
@@ -183,6 +184,9 @@ class SubMesh:
         handle = DLL.ZkSubMesh_getEdges(self._handle, byref(count))
         return [handle[i] for i in range(count.value)]
 
+    def __del__(self) -> None:
+        self._keepalive = None
+
     def __repr__(self) -> str:
         return f"<SubMesh handle={self._handle} material={self.material}>"
 
@@ -201,7 +205,7 @@ DLL.ZkMultiResolutionMesh_getOrientedBbox.restype = ZkPointer
 
 
 class MultiResolutionMesh:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_handle", "_delete", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -209,6 +213,7 @@ class MultiResolutionMesh:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @staticmethod
     def load(path_or_file_like: PathOrFileLike) -> "MultiResolutionMesh":
@@ -232,7 +237,7 @@ class MultiResolutionMesh:
 
         for i in range(count):
             handle = DLL.ZkMultiResolutionMesh_getSubMesh(self._handle, i).value
-            items.append(SubMesh(_handle=handle))
+            items.append(SubMesh(_handle=handle, _keepalive=self))
 
         return items
 
@@ -243,7 +248,7 @@ class MultiResolutionMesh:
 
         for i in range(count):
             handle = DLL.ZkMultiResolutionMesh_getMaterial(self._handle, i).value
-            items.append(Material(_handle=handle))
+            items.append(Material(_handle=handle, _keepalive=self))
 
         return items
 
@@ -264,6 +269,7 @@ class MultiResolutionMesh:
         if self._delete:
             DLL.ZkMultiResolutionMesh_del(self._handle)
         self._handle = None
+        self._keepalive = None
 
     def __repr__(self) -> str:
         return f"<MultiResolutionMesh handle={self._handle}>"

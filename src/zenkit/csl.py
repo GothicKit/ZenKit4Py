@@ -21,13 +21,14 @@ DLL.ZkCutsceneMessage_getText.restype = ZkString
 
 
 class CutsceneMessage:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @property
     def type(self) -> int:
@@ -41,6 +42,9 @@ class CutsceneMessage:
     def text(self) -> str:
         return DLL.ZkCutsceneMessage_getText(self._handle).value
 
+    def __del__(self) -> None:
+        self._keepalive = None
+
     def __repr__(self) -> str:
         return f"<CutsceneMessage handle={self._handle} name={self.name!r}>"
 
@@ -50,13 +54,14 @@ DLL.ZkCutsceneBlock_getMessage.restype = ZkPointer
 
 
 class CutsceneBlock:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
+            self._keepalive = kwargs.pop("_keepalive")
 
     @property
     def name(self) -> str:
@@ -65,7 +70,10 @@ class CutsceneBlock:
     @property
     def message(self) -> CutsceneMessage:
         handle = DLL.ZkCutsceneBlock_getMessage(self._handle).value
-        return CutsceneMessage(_handle=handle)
+        return CutsceneMessage(_handle=handle, _keepalive=self)
+
+    def __del__(self) -> None:
+        self._keepalive = None
 
     def __repr__(self) -> str:
         return f"<CutsceneBlock handle={self._handle} name={self.name!r}>"
@@ -98,7 +106,7 @@ class CutsceneLibrary:
 
         for i in range(count):
             handle = DLL.ZkCutsceneLibrary_getBlockByIndex(self._handle, i).value
-            items.append(CutsceneBlock(_handle=handle))
+            items.append(CutsceneBlock(_handle=handle, _keepalive=self))
 
         return items
 
@@ -106,7 +114,7 @@ class CutsceneLibrary:
         handle = DLL.ZkCutsceneLibrary_getBlock(self._handle, name.encode("utf-8")).value
         if handle is None:
             return None
-        return CutsceneBlock(_handle=handle)
+        return CutsceneBlock(_handle=handle, _keepalive=self)
 
     def __getitem__(self, name: str) -> "CutsceneBlock | None":
         return self.get(name)

@@ -39,13 +39,14 @@ DLL.ZkMorphAnimation_getSample.restype = Vec3f
 
 
 class MorphAnimation:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @property
     def name(self) -> str:
@@ -90,6 +91,9 @@ class MorphAnimation:
         count = DLL.ZkMorphAnimation_getSampleCount(self._handle)
         return [DLL.ZkMorphAnimation_getSample(self._handle, i) for i in range(count)]
 
+    def __del__(self) -> None:
+        self._keepalive = None
+
     def __repr__(self) -> str:
         return f"<MorphAnimation handle={self._handle} name={self.name!r}>"
 
@@ -99,13 +103,14 @@ DLL.ZkMorphSource_getFileDate.restype = Date
 
 
 class MorphSource:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @property
     def file(self) -> str:
@@ -114,6 +119,9 @@ class MorphSource:
     @property
     def date(self) -> datetime:
         return DLL.ZkMorphSource_getFileDate(self._handle).to_datetime()
+
+    def __del__(self) -> None:
+        self._keepalive = None
 
     def __repr__(self) -> str:
         return f"<MorphSource handle={self._handle}>"
@@ -150,7 +158,7 @@ class MorphMesh:
 
     @property
     def mesh(self) -> MultiResolutionMesh:
-        return MultiResolutionMesh(_handle=DLL.ZkMorphMesh_getMesh(self._handle).value)
+        return MultiResolutionMesh(_handle=DLL.ZkMorphMesh_getMesh(self._handle).value, _keepalive=self)
 
     @property
     def morph_positions(self) -> list[Vec3f]:
@@ -164,7 +172,7 @@ class MorphMesh:
 
         for i in range(count):
             handle = DLL.ZkMorphMesh_getAnimation(self._handle, i).value
-            items.append(MorphAnimation(_handle=handle))
+            items.append(MorphAnimation(_handle=handle, _keepalive=self))
 
         return items
 
@@ -175,7 +183,7 @@ class MorphMesh:
 
         for i in range(count):
             handle = DLL.ZkMorphMesh_getSource(self._handle, i).value
-            items.append(MorphSource(_handle=handle))
+            items.append(MorphSource(_handle=handle, _keepalive=self))
 
         return items
 

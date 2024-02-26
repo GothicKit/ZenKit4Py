@@ -23,7 +23,7 @@ DLL.ZkModelMesh_getMesh.restype = ZkPointer
 
 
 class ModelMesh:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_handle", "_delete", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -31,6 +31,7 @@ class ModelMesh:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @staticmethod
     def load(path_or_file_like: PathOrFileLike) -> "ModelMesh":
@@ -48,14 +49,14 @@ class ModelMesh:
 
         for i in range(count):
             handle = DLL.ZkModelMesh_getMesh(self._handle, i).value
-            items.append(SoftSkinMesh(_handle=handle))
+            items.append(SoftSkinMesh(_handle=handle, _keepalive=self))
 
         return items
 
     @property
     def attachments(self) -> dict[str, MultiResolutionMesh]:
         def _enumerate(_, name, ptr):
-            attachments[name.value] = MultiResolutionMesh(_handle=ptr.value)
+            attachments[name.value] = MultiResolutionMesh(_handle=ptr.value, _keepalive=self)
             return False
 
         attachments = {}
@@ -68,6 +69,7 @@ class ModelMesh:
         if self._delete:
             DLL.ZkModelMesh_del(self._handle)
         self._handle = None
+        self._keepalive = None
 
     def __repr__(self) -> str:
         return f"<ModelMesh handle={self._handle}>"

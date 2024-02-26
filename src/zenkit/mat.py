@@ -89,13 +89,14 @@ DLL.ZkMaterial_getDefaultMapping.restype = Vec2f
 
 
 class Material:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @property
     def name(self) -> str:
@@ -188,6 +189,9 @@ class Material:
     @property
     def default_mapping(self) -> Vec2f:
         return DLL.ZkMaterial_getDefaultMapping(self._handle)
+
+    def __del__(self) -> None:
+        self._keepalive = None
 
     def __repr__(self) -> str:
         return f"<Material handle={self._handle} name={self.name!r}>"

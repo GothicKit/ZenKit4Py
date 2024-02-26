@@ -72,18 +72,19 @@ DLL.ZkSoftSkinMesh_getNodes.restype = POINTER(c_int)
 
 
 class SoftSkinMesh:
-    __slots__ = ("_handle",)
+    __slots__ = ("_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
+            self._keepalive = kwargs.pop("_keepalive", None)
 
     @property
     def mesh(self) -> MultiResolutionMesh:
         handle = DLL.ZkSoftSkinMesh_getMesh(self._handle).value
-        return MultiResolutionMesh(_handle=handle)
+        return MultiResolutionMesh(_handle=handle, _keepalive=self)
 
     @property
     def bboxes(self) -> list[OrientedBoundingBox]:
@@ -117,6 +118,9 @@ class SoftSkinMesh:
         count = c_size_t(0)
         handle = DLL.ZkSoftSkinMesh_getNodes(self._handle, byref(count))
         return [handle[i] for i in range(count.value)]
+
+    def __del__(self) -> None:
+        self._keepalive = None
 
     def __repr__(self) -> str:
         return f"<SoftSkinMesh handle={self._handle}>"
