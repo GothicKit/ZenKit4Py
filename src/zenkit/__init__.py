@@ -43,6 +43,7 @@ __all__ = [
     "SoftSkinWeight",
     "SoftSkinWedgeNormal",
     "Model",
+    "Mesh",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -79,6 +80,7 @@ from zenkit.mrm import MeshTriangleEdge
 from zenkit.mrm import MeshWedge
 from zenkit.mrm import MultiResolutionMesh
 from zenkit.mrm import SubMesh
+from zenkit.msh import Mesh
 from zenkit.ssm import SoftSkinMesh
 from zenkit.ssm import SoftSkinWedgeNormal
 from zenkit.ssm import SoftSkinWeight
