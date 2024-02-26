@@ -3,6 +3,7 @@ __all__ = [
     "TextureFormat",
 ]
 
+from ctypes import c_bool
 from ctypes import c_char_p
 from ctypes import c_int
 from ctypes import c_size_t
@@ -10,15 +11,14 @@ from ctypes import c_uint
 from ctypes import c_void_p
 from ctypes import string_at
 from enum import IntEnum
-from os import PathLike
-
-from _ctypes import byref
 from typing import Any
 
+from _ctypes import byref
+
 from zenkit import _native
-from zenkit._core import DLL, PathOrFileLike
-from zenkit.stream import Read
-from zenkit.vfs import VfsNode
+from zenkit._core import DLL
+from zenkit._core import PathOrFileLike
+from zenkit._native import ZkPointer
 
 
 class TextureFormat(IntEnum):
@@ -136,3 +136,29 @@ class Texture:
 
     def __repr__(self) -> str:
         return f"<Texture handle={self._handle}>"
+
+
+DLL.ZkTextureBuilder_new.restype = ZkPointer
+DLL.ZkTextureBuilder_addMipmap.restype = c_bool
+DLL.ZkTextureBuilder_build.restype = ZkPointer
+
+
+class TextureBuilder:
+    __slots__ = ("_handle",)
+
+    def __init__(self, width: int, height: int) -> None:
+        self._handle = DLL.ZkTextureBuilder_new(c_size_t(width), c_size_t(height)).value
+
+    def add_mipmap(self, data: bytes | bytearray, fmt: TextureFormat) -> "TextureBuilder":
+        res = DLL.ZkTextureBuilder_addMipmap(self._handle, data, c_size_t(len(data)), fmt.value)
+        if not res:
+            raise ValueError("Cannot process mipmap texture; see log")
+        return self
+
+    def build(self, fmt: TextureFormat) -> Texture:
+        handle = DLL.ZkTextureBuilder_build(self._handle, fmt.value).value
+        return Texture(_handle=handle, _delete=False)
+
+    def __del__(self) -> None:
+        DLL.ZkTextureBuilder_del(self._handle)
+        self._handle = None

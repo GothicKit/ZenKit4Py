@@ -5,6 +5,7 @@ __all__ = [
     "LogLevel",
     "set_logger",
     "set_logger_default",
+    "TextureBuilder",
     "TextureFormat",
     "Texture",
     "Read",
@@ -83,6 +84,7 @@ from zenkit.ssm import SoftSkinWedgeNormal
 from zenkit.ssm import SoftSkinWeight
 from zenkit.stream import Read
 from zenkit.tex import Texture
+from zenkit.tex import TextureBuilder
 from zenkit.tex import TextureFormat
 from zenkit.vfs import Vfs
 from zenkit.vfs import VfsNode
