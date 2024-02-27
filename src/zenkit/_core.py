@@ -4,6 +4,7 @@ __all__ = [
     "Vec3f",
     "Quat",
     "Mat4x4",
+    "Mat3x3",
     "AxisAlignedBoundingBox",
     "OrientedBoundingBox",
     "Date",
@@ -109,17 +110,37 @@ class Quat(Structure):
         return f"Quat(x={self.x}, y={self.y}, z={self.z}, w={self.w})"
 
 
+class Mat3x3(Structure):
+    _fields_ = [
+        ("_columns", Vec3f * 3),
+    ]
+
+    def columns(self) -> tuple[Vec3f, Vec3f, Vec3f]:
+        return self._columns[0], self._columns[1], self._columns[2]
+
+
 class Mat4x4(Structure):
     _fields_ = [
         ("columns", Vec4f * 4),
     ]
 
+    def columns(self) -> tuple[Vec4f, Vec4f, Vec4f, Vec4f]:
+        return self._columns[0], self._columns[1], self._columns[2], self._columns[3]
+
 
 class AxisAlignedBoundingBox(Structure):
     _fields_ = [
-        ("min", Vec3f),
-        ("max", Vec3f),
+        ("_min", Vec3f),
+        ("_max", Vec3f),
     ]
+
+    @property
+    def min(self) -> Vec3f:
+        return self._min
+
+    @property
+    def max(self) -> Vec3f:
+        return self._max
 
     def __repr__(self) -> str:
         return f"AxisAlignedBoundingBox(min={self.min}, max={self.max})"

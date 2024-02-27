@@ -44,6 +44,23 @@ __all__ = [
     "SoftSkinWedgeNormal",
     "Model",
     "Mesh",
+    "World",
+    "WayNet",
+    "WayEdge",
+    "WayPoint",
+    "BspNode",
+    "BspTree",
+    "BspTreeType",
+    "BspSector",
+    "Visual",
+    "VisualDecal",
+    "VisualType",
+    "VobType",
+    "AnimationType",
+    "ShadowType",
+    "VirtualObject",
+    "SpriteAlignment",
+    "EventManager",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -91,3 +108,20 @@ from zenkit.tex import TextureFormat
 from zenkit.vfs import Vfs
 from zenkit.vfs import VfsNode
 from zenkit.vfs import VfsOverwriteBehavior
+from zenkit.vob.base import AnimationType
+from zenkit.vob.base import EventManager
+from zenkit.vob.base import ShadowType
+from zenkit.vob.base import SpriteAlignment
+from zenkit.vob.base import VirtualObject
+from zenkit.vob.base import Visual
+from zenkit.vob.base import VisualDecal
+from zenkit.vob.base import VisualType
+from zenkit.vob.base import VobType
+from zenkit.world.bsptree import BspNode
+from zenkit.world.bsptree import BspSector
+from zenkit.world.bsptree import BspTree
+from zenkit.world.bsptree import BspTreeType
+from zenkit.world.waynet import WayEdge
+from zenkit.world.waynet import WayNet
+from zenkit.world.waynet import WayPoint
+from zenkit.world.world import World
