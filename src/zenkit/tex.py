@@ -1,6 +1,7 @@
 __all__ = [
     "Texture",
     "TextureFormat",
+    "TextureBuilder",
 ]
 
 from ctypes import c_bool
