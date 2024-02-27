@@ -13,6 +13,7 @@ __all__ = [
 
 import atexit
 import functools
+import platform
 from ctypes import CDLL
 from ctypes import Structure
 from ctypes import c_float
@@ -32,7 +33,13 @@ if TYPE_CHECKING:
     from zenkit.stream import Read
     from zenkit.vfs import VfsNode
 
-_PATH = Path(__file__).parent / "native" / "linux-x64.so"
+_NAME = {
+    "Windows": "win-x64.dll",
+    "Linux": "linux-x64.so",
+    "Darwin": "osx-x64.dylib",
+}[platform.system()]
+
+_PATH = Path(__file__).parent / "native" / _NAME
 DLL: Final[CDLL] = CDLL(str(_PATH))
 
 atexit.register(functools.partial(print, DLL))
