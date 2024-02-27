@@ -78,7 +78,7 @@ class BspSector:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def name(self) -> str:
@@ -125,7 +125,7 @@ class BspTree:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def type(self) -> BspTreeType:

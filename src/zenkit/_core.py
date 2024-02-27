@@ -11,8 +11,6 @@ __all__ = [
     "PathOrFileLike",
 ]
 
-import atexit
-import functools
 import platform
 from ctypes import CDLL
 from ctypes import Structure
@@ -41,8 +39,6 @@ _NAME = {
 
 _PATH = Path(__file__).parent / "native" / _NAME
 DLL: Final[CDLL] = CDLL(str(_PATH))
-
-atexit.register(functools.partial(print, DLL))
 
 PathOrFileLike = Union[str, PathLike, "Read", bytes, bytearray, "VfsNode"]
 

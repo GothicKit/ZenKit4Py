@@ -55,7 +55,7 @@ class WayPoint:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def name(self) -> str:
@@ -102,7 +102,7 @@ class WayNet:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def edges(self) -> list[WayEdge]:

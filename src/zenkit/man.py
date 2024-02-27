@@ -56,7 +56,7 @@ DLL.ZkModelAnimation_getSample.restype = AnimationSample
 
 
 class ModelAnimation:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_handle", "_delete", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -64,6 +64,7 @@ class ModelAnimation:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @staticmethod
     def load(path_or_file_like: PathOrFileLike) -> "ModelAnimation":
@@ -127,6 +128,7 @@ class ModelAnimation:
         if self._delete:
             DLL.ZkModelAnimation_del(self._handle)
         self._handle = None
+        self._keepalive = None
 
     def __repr__(self) -> str:
         return f"<ModelAnimation handle={self._handle} name={self.name!r}>"

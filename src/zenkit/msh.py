@@ -73,7 +73,7 @@ class Polygon:
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def material_index(self) -> int:
@@ -152,7 +152,7 @@ class LightMap:
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def image(self) -> Texture:
@@ -195,7 +195,7 @@ class Mesh:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @staticmethod
     def load(path_or_file_like: PathOrFileLike) -> "Mesh":

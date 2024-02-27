@@ -126,7 +126,7 @@ class Visual:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @staticmethod
     def from_native(handle: c_void_p, *, _delete: bool = False, _keepalive: Any = None) -> "Visual | None":
@@ -261,7 +261,7 @@ class Ai:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def handle(self) -> c_void_p:
@@ -283,7 +283,7 @@ class EventManager:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def handle(self) -> c_void_p:
@@ -334,7 +334,7 @@ class VirtualObject:
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._delete: bool = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @staticmethod
     def new(typ: VobType) -> "VirtualObject":

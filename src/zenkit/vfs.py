@@ -42,7 +42,7 @@ class VfsNode:
         if "_handle" in kwargs:
             self._handle = kwargs.pop("_handle")
             self._delete = kwargs.pop("_delete", False)
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def name(self) -> str:

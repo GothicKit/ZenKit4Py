@@ -96,7 +96,7 @@ class Material:
 
         if "_handle" in kwargs:
             self._handle: c_void_p = kwargs.pop("_handle")
-            self._keepalive = kwargs.pop("_keepalive", None)
+            self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @property
     def name(self) -> str:

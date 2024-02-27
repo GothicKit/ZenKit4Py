@@ -12,10 +12,11 @@ DLL.ZkRead_getBytes.restype = c_size_t
 
 
 class Read:
-    __slots__ = ("_handle", "_native")
+    __slots__ = ("_handle", "_native", "_keepalive")
 
     def __init__(self, source: str | PathLike | bytes | bytearray | c_void_p) -> None:
         self._handle = c_void_p(None)
+        self._keepalive = DLL
 
         if isinstance(source, (bytes, bytearray)):
             self._native = source
@@ -47,3 +48,4 @@ class Read:
     def __del__(self) -> None:
         DLL.ZkRead_del(self._handle)
         self._handle = None
+        self._keepalive = None
