@@ -15,8 +15,6 @@ from ctypes import c_void_p
 from datetime import datetime
 from typing import Any
 
-from zenkit import Material
-from zenkit import Texture
 from zenkit import _native
 from zenkit._core import DLL
 from zenkit._core import AxisAlignedBoundingBox
@@ -27,6 +25,8 @@ from zenkit._core import Vec2f
 from zenkit._core import Vec3f
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
+from zenkit.mat import Material
+from zenkit.tex import Texture
 
 
 class Feature(Structure):
@@ -266,3 +266,6 @@ class Mesh:
             DLL.ZkMesh_del(self._handle)
         self._handle = None
         self._keepalive = None
+
+    def __repr__(self) -> str:
+        return f"<Mesh handle={self._handle} name={self.name!r}>"
