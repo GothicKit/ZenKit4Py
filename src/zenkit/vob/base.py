@@ -9,6 +9,9 @@ __all__ = [
     "SpriteAlignment",
     "VisualDecal",
     "VisualType",
+    "AiType",
+    "AiMove",
+    "AiHuman",
 ]
 
 from collections.abc import Iterator
@@ -21,7 +24,7 @@ from ctypes import c_uint8
 from ctypes import c_uint32
 from ctypes import c_void_p
 from enum import IntEnum
-from typing import Any
+from typing import Any, cast
 from typing import Final
 
 from zenkit import AlphaFunction
@@ -32,8 +35,6 @@ from zenkit._core import Vec2f
 from zenkit._core import Vec3f
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
-
-# TODO(lmichaelis): ZkAiHuman, ZkAiMove, ZkEventManger!
 
 
 class VobType(IntEnum):
@@ -113,8 +114,14 @@ class VisualType(IntEnum):
     UNKNOWN = 7
 
 
+class AiType(IntEnum):
+    HUMAN = 0
+    MOVE = 1
+
+
 DLL.ZkVisual_getName.restype = ZkString
 DLL.ZkVisual_getType.restype = c_int
+DLL.ZkVisual_new.restype = ZkPointer
 
 
 class Visual:
@@ -129,11 +136,19 @@ class Visual:
             self._keepalive = kwargs.pop("_keepalive", DLL)
 
     @staticmethod
+    def new(fmt: VisualType) -> "Visual":
+        return Visual.from_native(
+            DLL.ZkVisual_new(fmt.value).value,
+            _delete=True,
+            _keepalive=DLL,
+        )
+
+    @staticmethod
     def from_native(handle: c_void_p, *, _delete: bool = False, _keepalive: Any = None) -> "Visual | None":
         if handle.value is None:
             return None
         visual = VisualType(DLL.ZkVisual_getType(handle))
-        return _VISUALS[visual](_handle=handle, _delete=_delete, _keepalive=_keepalive)
+        return _VISUALS.get(visual, Visual)(_handle=handle, _delete=_delete, _keepalive=_keepalive)
 
     @property
     def handle(self) -> c_void_p:
@@ -174,6 +189,10 @@ DLL.ZkVisualDecal_getIgnoreDaylight.restype = c_bool
 class VisualDecal(Visual):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
+
+    @staticmethod
+    def new(*args: Any) -> "VisualDecal":
+        return cast(VisualDecal, Visual.new(VisualType.DECAL))
 
     @property
     def name(self) -> str:
@@ -242,7 +261,7 @@ class VisualDecal(Visual):
 
 _VISUALS: Final[dict[VisualType, type[Visual]]] = {
     VisualType.DECAL: VisualDecal,
-    VisualType.MESH: Visual,  #
+    VisualType.MESH: Visual,
     VisualType.MULTI_RESOLUTION_MESH: Visual,
     VisualType.PARTICLE_EFFECT: Visual,
     VisualType.CAMERA: Visual,
@@ -250,6 +269,9 @@ _VISUALS: Final[dict[VisualType, type[Visual]]] = {
     VisualType.MORPH_MESH: Visual,
     VisualType.UNKNOWN: Visual,
 }
+
+DLL.ZkAi_new.restype = ZkPointer
+DLL.ZkAi_getType.restype = c_int
 
 
 class Ai:
@@ -263,15 +285,230 @@ class Ai:
             self._delete: bool = kwargs.pop("_delete", False)
             self._keepalive = kwargs.pop("_keepalive", DLL)
 
+    @staticmethod
+    def new(fmt: AiType) -> "Ai":
+        return Ai.from_native(
+            DLL.ZkAi_new(fmt.value).value,
+            _delete=True,
+            _keepalive=DLL,
+        )
+
+    @staticmethod
+    def from_native(handle: c_void_p, *, _delete: bool = False, _keepalive: Any = None) -> "Ai | None":
+        if handle.value is None:
+            return None
+        ai = AiType(DLL.ZkAi_getType(handle))
+        return _AIS.get(ai, Ai)(_handle=handle, _delete=_delete, _keepalive=_keepalive)
+
     @property
     def handle(self) -> c_void_p:
         return self._handle
+
+    @property
+    def type(self) -> AiType:
+        return AiType(DLL.ZkAi_getType(self._handle))
 
     def __del__(self) -> None:
         if self._delete:
             DLL.ZkAi_del(self._handle)
         self._handle = None
         self._keepalive = None
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} handle={self._handle} type={self.type.name}>"
+
+
+DLL.ZkAiHuman_getWaterLevel.restype = int
+DLL.ZkAiHuman_getFloorY.restype = c_float
+DLL.ZkAiHuman_getWaterY.restype = c_float
+DLL.ZkAiHuman_getCeilY.restype = c_float
+DLL.ZkAiHuman_getFeetY.restype = c_float
+DLL.ZkAiHuman_getHeadY.restype = c_float
+DLL.ZkAiHuman_getFallDistY.restype = c_float
+DLL.ZkAiHuman_getFallStartY.restype = c_float
+DLL.ZkAiHuman_getNpc.restype = ZkPointer
+DLL.ZkAiHuman_getWalkMode.restype = int
+DLL.ZkAiHuman_getWeaponMode.restype = int
+DLL.ZkAiHuman_getWmodeAst.restype = int
+DLL.ZkAiHuman_getWmodeSelect.restype = int
+DLL.ZkAiHuman_getChangeWeapon.restype = c_bool
+DLL.ZkAiHuman_getActionMode.restype = int
+
+
+class AiHuman(Ai):
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+
+    @staticmethod
+    def new(*args) -> "AiHuman":
+        return cast(AiHuman, Ai.new(AiType.HUMAN))
+
+    @property
+    def water_level(self) -> int:
+        return DLL.ZkAiHuman_getWaterLevel(self._handle)
+
+    @property
+    def floor_y(self) -> float:
+        return DLL.ZkAiHuman_getFloorY(self._handle)
+
+    @property
+    def water_y(self) -> float:
+        return DLL.ZkAiHuman_getWaterY(self._handle)
+
+    @property
+    def ceil_y(self) -> float:
+        return DLL.ZkAiHuman_getCeilY(self._handle)
+
+    @property
+    def feet_y(self) -> float:
+        return DLL.ZkAiHuman_getFeetY(self._handle)
+
+    @property
+    def head_y(self) -> float:
+        return DLL.ZkAiHuman_getHeadY(self._handle)
+
+    @property
+    def fall_dist_y(self) -> float:
+        return DLL.ZkAiHuman_getFallDistY(self._handle)
+
+    @property
+    def fall_start_y(self) -> float:
+        return DLL.ZkAiHuman_getFallStartY(self._handle)
+
+    @property
+    def npc(self) -> "VirtualObject":
+        # FIXME(lmichaelis): Should return an `Npc` instance
+        return VirtualObject(_handle=DLL.ZkAiHuman_getNpc(self._handle).value, _keepalive=self)
+
+    @property
+    def walk_mode(self) -> int:
+        return DLL.ZkAiHuman_getWalkMode(self._handle)
+
+    @property
+    def weapon_mode(self) -> int:
+        return DLL.ZkAiHuman_getWeaponMode(self._handle)
+
+    @property
+    def wmode_ast(self) -> int:
+        return DLL.ZkAiHuman_getWmodeAst(self._handle)
+
+    @property
+    def wmode_select(self) -> int:
+        return DLL.ZkAiHuman_getWmodeSelect(self._handle)
+
+    @property
+    def change_weapon(self) -> bool:
+        return DLL.ZkAiHuman_getChangeWeapon(self._handle)
+
+    @property
+    def action_mode(self) -> int:
+        return DLL.ZkAiHuman_getActionMode(self._handle)
+
+    @water_level.setter
+    def water_level(self, value: int) -> None:
+        DLL.ZkAiHuman_setWaterLevel(self._handle, int(value))
+
+    @floor_y.setter
+    def floor_y(self, value: float) -> None:
+        DLL.ZkAiHuman_setFloorY(self._handle, c_float(value))
+
+    @water_y.setter
+    def water_y(self, value: float) -> None:
+        DLL.ZkAiHuman_setWaterY(self._handle, c_float(value))
+
+    @ceil_y.setter
+    def ceil_y(self, value: float) -> None:
+        DLL.ZkAiHuman_setCeilY(self._handle, c_float(value))
+
+    @feet_y.setter
+    def feet_y(self, value: float) -> None:
+        DLL.ZkAiHuman_setFeetY(self._handle, c_float(value))
+
+    @head_y.setter
+    def head_y(self, value: float) -> None:
+        DLL.ZkAiHuman_setHeadY(self._handle, c_float(value))
+
+    @fall_dist_y.setter
+    def fall_dist_y(self, value: float) -> None:
+        DLL.ZkAiHuman_setFallDistY(self._handle, c_float(value))
+
+    @fall_start_y.setter
+    def fall_start_y(self, value: float) -> None:
+        DLL.ZkAiHuman_setFallStartY(self._handle, c_float(value))
+
+    # FIXME(lmichaelis): Implement this setter
+    """
+    @npc.setter
+    def npc(self, value: Npc) -> None:
+        DLL.ZkAiHuman_setNpc(self._handle, value.handle)
+    """
+
+    @walk_mode.setter
+    def walk_mode(self, value: int) -> None:
+        DLL.ZkAiHuman_setWalkMode(self._handle, int(value))
+
+    @weapon_mode.setter
+    def weapon_mode(self, value: int) -> None:
+        DLL.ZkAiHuman_setWeaponMode(self._handle, int(value))
+
+    @wmode_ast.setter
+    def wmode_ast(self, value: int) -> None:
+        DLL.ZkAiHuman_setWmodeAst(self._handle, int(value))
+
+    @wmode_select.setter
+    def wmode_select(self, value: int) -> None:
+        DLL.ZkAiHuman_setWmodeSelect(self._handle, int(value))
+
+    @change_weapon.setter
+    def change_weapon(self, value: bool) -> None:
+        DLL.ZkAiHuman_setChangeWeapon(self._handle, c_bool(value))
+
+    @action_mode.setter
+    def action_mode(self, value: int) -> None:
+        DLL.ZkAiHuman_setActionMode(self._handle, int(value))
+
+
+DLL.ZkAiMove_getVob.restype = ZkPointer
+DLL.ZkAiMove_getOwner.restype = ZkPointer
+
+
+class AiMove(Ai):
+    def __init__(self, **kwargs: Any) -> None:
+        super().__init__(**kwargs)
+
+    @staticmethod
+    def new(*args: Any) -> "AiMove":
+        return cast(AiMove, Ai.new(AiType.MOVE))
+
+    @property
+    def vob(self) -> "VirtualObject":
+        return VirtualObject(_handle=DLL.ZkAiMove_getVob(self._handle).value, _keepalive=self)
+
+    @vob.setter
+    def vob(self, value: "VirtualObject") -> None:
+        DLL.ZkAiMove_setVob(self._handle, value.handle)
+
+    @property
+    def owner(self) -> "VirtualObject":
+        # FIXME(lmichaelis): Should return an `Npc` instance
+        return VirtualObject(_handle=DLL.ZkAiMove_getOwner(self._handle).value, _keepalive=self)
+
+    # FIXME(lmichaelis): Implement this setter
+    """
+    @owner.setter
+    def owner(self, value: Npc) -> None:
+        DLL.ZkAiMove_setOwner(self._handle, value.handle)
+    """
+
+
+_AIS: Final[dict[AiType, type[Ai]]] = {
+    AiType.HUMAN: AiHuman,
+    AiType.MOVE: AiMove
+}
+
+
+DLL.ZkEventManager_getCleared.restype = c_bool
+DLL.ZkEventManager_getActive.restype = c_bool
 
 
 class EventManager:
@@ -285,15 +522,42 @@ class EventManager:
             self._delete: bool = kwargs.pop("_delete", False)
             self._keepalive = kwargs.pop("_keepalive", DLL)
 
+    @staticmethod
+    def new() -> "EventManager":
+        return EventManager(
+            _handle=DLL.ZkEventManager_new().value,
+            _delete=True,
+            _keepalive=DLL,
+        )
+
     @property
     def handle(self) -> c_void_p:
         return self._handle
+
+    @property
+    def cleared(self) -> bool:
+        return DLL.ZkEventManager_getCleared(self._handle)
+
+    @cleared.setter
+    def cleared(self, value: bool) -> None:
+        DLL.ZkEventManager_setCleared(self._handle, c_bool(value))
+
+    @property
+    def active(self) -> bool:
+        return DLL.ZkEventManager_getActive(self._handle)
+
+    @active.setter
+    def active(self, value: bool) -> None:
+        DLL.ZkEventManager_setActive(self._handle, c_bool(value))
 
     def __del__(self) -> None:
         if self._delete:
             DLL.ZkEventManager_del(self._handle)
         self._handle = None
         self._keepalive = None
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} handle={self._handle}>"
 
 
 DLL.ZkVirtualObject_getType.restype = c_int
@@ -339,6 +603,10 @@ class VirtualObject:
     @staticmethod
     def new(typ: VobType) -> "VirtualObject":
         return VirtualObject(_handle=DLL.ZkVirtualObject_new(typ.value).value, _delete=True)
+
+    @property
+    def handle(self) -> c_void_p:
+        return self._handle
 
     @property
     def type(self) -> VobType:
@@ -559,7 +827,7 @@ class VirtualObject:
         self._keepalive = None
 
     def __repr__(self) -> str:
-        return f"<{self.__class__} handle={self._handle} name={self.name!r}>"
+        return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r}>"
 
     def __iter__(self) -> Iterator["VirtualObject"]:
         return iter(self.children)
