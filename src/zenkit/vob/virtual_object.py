@@ -24,8 +24,9 @@ from ctypes import c_uint8
 from ctypes import c_uint32
 from ctypes import c_void_p
 from enum import IntEnum
-from typing import Any, cast
+from typing import Any
 from typing import Final
+from typing import cast
 
 from zenkit import AlphaFunction
 from zenkit._core import DLL
@@ -501,10 +502,7 @@ class AiMove(Ai):
     """
 
 
-_AIS: Final[dict[AiType, type[Ai]]] = {
-    AiType.HUMAN: AiHuman,
-    AiType.MOVE: AiMove
-}
+_AIS: Final[dict[AiType, type[Ai]]] = {AiType.HUMAN: AiHuman, AiType.MOVE: AiMove}
 
 
 DLL.ZkEventManager_getCleared.restype = c_bool

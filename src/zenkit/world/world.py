@@ -11,7 +11,7 @@ from zenkit import _native
 from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
 from zenkit._native import ZkPointer
-from zenkit.vob.base import VirtualObject
+from zenkit.vob.virtual_object import VirtualObject
 from zenkit.world.bsptree import BspTree
 from zenkit.world.waynet import WayNet
 

@@ -61,6 +61,9 @@ __all__ = [
     "VirtualObject",
     "SpriteAlignment",
     "EventManager",
+    "AiMove",
+    "AiHuman",
+    "AiType",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -108,15 +111,18 @@ from zenkit.tex import TextureFormat
 from zenkit.vfs import Vfs
 from zenkit.vfs import VfsNode
 from zenkit.vfs import VfsOverwriteBehavior
-from zenkit.vob.base import AnimationType
-from zenkit.vob.base import EventManager
-from zenkit.vob.base import ShadowType
-from zenkit.vob.base import SpriteAlignment
-from zenkit.vob.base import VirtualObject
-from zenkit.vob.base import Visual
-from zenkit.vob.base import VisualDecal
-from zenkit.vob.base import VisualType
-from zenkit.vob.base import VobType
+from zenkit.vob.virtual_object import AiHuman
+from zenkit.vob.virtual_object import AiMove
+from zenkit.vob.virtual_object import AiType
+from zenkit.vob.virtual_object import AnimationType
+from zenkit.vob.virtual_object import EventManager
+from zenkit.vob.virtual_object import ShadowType
+from zenkit.vob.virtual_object import SpriteAlignment
+from zenkit.vob.virtual_object import VirtualObject
+from zenkit.vob.virtual_object import Visual
+from zenkit.vob.virtual_object import VisualDecal
+from zenkit.vob.virtual_object import VisualType
+from zenkit.vob.virtual_object import VobType
 from zenkit.world.bsptree import BspNode
 from zenkit.world.bsptree import BspSector
 from zenkit.world.bsptree import BspTree
