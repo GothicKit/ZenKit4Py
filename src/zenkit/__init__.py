@@ -64,6 +64,12 @@ __all__ = [
     "AiMove",
     "AiHuman",
     "AiType",
+    "CutsceneCamera",
+    "CameraTrajectory",
+    "CameraTrajectoryFrame",
+    "CameraMotion",
+    "CameraLoopType",
+    "CameraLerpType",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -111,6 +117,12 @@ from zenkit.tex import TextureFormat
 from zenkit.vfs import Vfs
 from zenkit.vfs import VfsNode
 from zenkit.vfs import VfsOverwriteBehavior
+from zenkit.vob.cutscene_camera import CameraLerpType
+from zenkit.vob.cutscene_camera import CameraLoopType
+from zenkit.vob.cutscene_camera import CameraMotion
+from zenkit.vob.cutscene_camera import CameraTrajectory
+from zenkit.vob.cutscene_camera import CameraTrajectoryFrame
+from zenkit.vob.cutscene_camera import CutsceneCamera
 from zenkit.vob.virtual_object import AiHuman
 from zenkit.vob.virtual_object import AiMove
 from zenkit.vob.virtual_object import AiType

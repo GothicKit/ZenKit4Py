@@ -56,7 +56,7 @@ class World:
 
         for i in range(count):
             handle = DLL.ZkWorld_getRootObject(self._handle, i).value
-            items.append(VirtualObject(_handle=handle, _keepalive=self))
+            items.append(VirtualObject.from_native(handle=handle, takeref=True))
 
         return items
 

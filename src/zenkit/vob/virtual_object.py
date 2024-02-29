@@ -379,7 +379,7 @@ class AiHuman(Ai):
     @property
     def npc(self) -> "VirtualObject":
         # FIXME(lmichaelis): Should return an `Npc` instance
-        return VirtualObject(_handle=DLL.ZkAiHuman_getNpc(self._handle).value, _keepalive=self)
+        return VirtualObject.from_native(DLL.ZkAiHuman_getNpc(self._handle).value, takeref=True)
 
     @property
     def walk_mode(self) -> int:
@@ -483,7 +483,7 @@ class AiMove(Ai):
 
     @property
     def vob(self) -> "VirtualObject":
-        return VirtualObject(_handle=DLL.ZkAiMove_getVob(self._handle).value, _keepalive=self)
+        return VirtualObject.from_native(DLL.ZkAiMove_getVob(self._handle).value, takeref=True)
 
     @vob.setter
     def vob(self, value: "VirtualObject") -> None:
@@ -492,7 +492,7 @@ class AiMove(Ai):
     @property
     def owner(self) -> "VirtualObject":
         # FIXME(lmichaelis): Should return an `Npc` instance
-        return VirtualObject(_handle=DLL.ZkAiMove_getOwner(self._handle).value, _keepalive=self)
+        return VirtualObject.from_native(DLL.ZkAiMove_getOwner(self._handle).value, takeref=True)
 
     # FIXME(lmichaelis): Implement this setter
     """
@@ -585,6 +585,7 @@ DLL.ZkVirtualObject_getEventManager.restype = ZkPointer
 DLL.ZkVirtualObject_getChildCount.restype = c_size_t
 DLL.ZkVirtualObject_getChild.restype = ZkPointer
 DLL.ZkVirtualObject_new.restype = ZkPointer
+DLL.ZkObject_takeRef.restype = ZkPointer
 
 
 class VirtualObject:
@@ -600,7 +601,24 @@ class VirtualObject:
 
     @staticmethod
     def new(typ: VobType) -> "VirtualObject":
-        return VirtualObject(_handle=DLL.ZkVirtualObject_new(typ.value).value, _delete=True)
+        return VirtualObject.from_native(DLL.ZkVirtualObject_new(typ.value).value, takeref=False)
+
+    @staticmethod
+    def from_native(handle: c_void_p, *, delete: bool = False, keepalive: Any = DLL, takeref: bool) -> "VirtualObject":
+        from zenkit.vob import _VOBS
+
+        if handle is None or handle.value is None:
+            return None
+
+        if takeref:
+            handle = DLL.ZkObject_takeRef(handle).value
+            delete = True
+            keepalive = None
+
+        typ = VobType(DLL.ZkVirtualObject_getType(handle))
+        ctor = _VOBS.get(typ, VirtualObject)
+
+        return ctor(_handle=handle, _delete=delete, _keepalive=keepalive)
 
     @property
     def handle(self) -> c_void_p:
@@ -804,13 +822,13 @@ class VirtualObject:
 
         for i in range(count):
             handle = DLL.ZkVirtualObject_getChild(self._handle, i)
-            items.append(VirtualObject(_handle=handle, _keepalive=self))
+            items.append(VirtualObject.from_native(handle, takeref=True))
 
         return items
 
     def get_child(self, i: int) -> "VirtualObject":
         handle = DLL.ZkVirtualObject_getChild(self._handle, i)
-        return VirtualObject(_handle=handle, _keepalive=self)
+        return VirtualObject.from_native(handle, takeref=True)
 
     def add_child(self, child: "VirtualObject") -> None:
         DLL.ZkVirtualObject_addChild(self._handle, child._handle)
@@ -825,7 +843,7 @@ class VirtualObject:
         self._keepalive = None
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r}>"
+        return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r} type={self.type.name}>"
 
     def __iter__(self) -> Iterator["VirtualObject"]:
         return iter(self.children)
