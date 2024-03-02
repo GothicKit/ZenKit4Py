@@ -93,6 +93,18 @@ __all__ = [
     "SoundMaterialType",
     "Sound",
     "SoundDaytime",
+    "Trigger",
+    "TriggerList",
+    "TriggerScript",
+    "TriggerChangeLevel",
+    "TriggerWorldStart",
+    "TriggerUntouch",
+    "Mover",
+    "MoverBehavior",
+    "MoverLerpType",
+    "MoverSpeedType",
+    "TriggerBatchMode",
+    "TriggerListTarget",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -169,6 +181,18 @@ from zenkit.vob.movable_object import MovableObject
 from zenkit.vob.movable_object import SoundMaterialType
 from zenkit.vob.sound import Sound
 from zenkit.vob.sound import SoundDaytime
+from zenkit.vob.trigger import Mover
+from zenkit.vob.trigger import MoverBehavior
+from zenkit.vob.trigger import MoverLerpType
+from zenkit.vob.trigger import MoverSpeedType
+from zenkit.vob.trigger import Trigger
+from zenkit.vob.trigger import TriggerBatchMode
+from zenkit.vob.trigger import TriggerChangeLevel
+from zenkit.vob.trigger import TriggerList
+from zenkit.vob.trigger import TriggerListTarget
+from zenkit.vob.trigger import TriggerScript
+from zenkit.vob.trigger import TriggerUntouch
+from zenkit.vob.trigger import TriggerWorldStart
 from zenkit.vob.virtual_object import AiHuman
 from zenkit.vob.virtual_object import AiMove
 from zenkit.vob.virtual_object import AiType

@@ -16,6 +16,13 @@ from zenkit.vob.movable_object import InteractiveObject
 from zenkit.vob.movable_object import MovableObject
 from zenkit.vob.sound import Sound
 from zenkit.vob.sound import SoundDaytime
+from zenkit.vob.trigger import Mover
+from zenkit.vob.trigger import Trigger
+from zenkit.vob.trigger import TriggerChangeLevel
+from zenkit.vob.trigger import TriggerList
+from zenkit.vob.trigger import TriggerScript
+from zenkit.vob.trigger import TriggerUntouch
+from zenkit.vob.trigger import TriggerWorldStart
 from zenkit.vob.virtual_object import VirtualObject
 from zenkit.vob.virtual_object import VobType
 
@@ -42,4 +49,11 @@ _VOBS: dict[VobType, type[VirtualObject]] = {
     VobType.oCMobFire: Fire,
     VobType.zCVobSound: Sound,
     VobType.zCVobSoundDaytime: SoundDaytime,
+    VobType.zCTrigger: Trigger,
+    VobType.zCTriggerList: TriggerList,
+    VobType.oCTriggerScript: TriggerScript,
+    VobType.oCTriggerChangeLevel: TriggerChangeLevel,
+    VobType.zCTriggerWorldStart: TriggerWorldStart,
+    VobType.zCTriggerUntouch: TriggerUntouch,
+    VobType.zCMover: Mover,
 }
