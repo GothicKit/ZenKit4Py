@@ -85,6 +85,12 @@ __all__ = [
     "CodeMaster",
     "Earthquake",
     "MoverMessageType",
+    "MovableObject",
+    "InteractiveObject",
+    "Container",
+    "Door",
+    "Fire",
+    "SoundMaterialType",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -153,6 +159,12 @@ from zenkit.vob.misc import MoverMessageType
 from zenkit.vob.misc import ParticleEffectController
 from zenkit.vob.misc import TouchCollisionType
 from zenkit.vob.misc import TouchDamage
+from zenkit.vob.movable_object import Container
+from zenkit.vob.movable_object import Door
+from zenkit.vob.movable_object import Fire
+from zenkit.vob.movable_object import InteractiveObject
+from zenkit.vob.movable_object import MovableObject
+from zenkit.vob.movable_object import SoundMaterialType
 from zenkit.vob.virtual_object import AiHuman
 from zenkit.vob.virtual_object import AiMove
 from zenkit.vob.virtual_object import AiType

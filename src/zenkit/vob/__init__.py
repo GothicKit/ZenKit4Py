@@ -9,6 +9,11 @@ from zenkit.vob.misc import MessageFilter
 from zenkit.vob.misc import MoverController
 from zenkit.vob.misc import ParticleEffectController
 from zenkit.vob.misc import TouchDamage
+from zenkit.vob.movable_object import Container
+from zenkit.vob.movable_object import Door
+from zenkit.vob.movable_object import Fire
+from zenkit.vob.movable_object import InteractiveObject
+from zenkit.vob.movable_object import MovableObject
 from zenkit.vob.virtual_object import VirtualObject
 from zenkit.vob.virtual_object import VobType
 
@@ -24,4 +29,13 @@ _VOBS: dict[VobType, type[VirtualObject]] = {
     VobType.oCTouchDamage: TouchDamage,
     VobType.zCCodeMaster: CodeMaster,
     VobType.zCEarthquake: Earthquake,
+    VobType.oCMOB: MovableObject,
+    VobType.oCMobInter: InteractiveObject,
+    VobType.oCMobBed: InteractiveObject,
+    VobType.oCMobWheel: InteractiveObject,
+    VobType.oCMobLadder: InteractiveObject,
+    VobType.oCMobSwitch: InteractiveObject,
+    VobType.oCMobContainer: Container,
+    VobType.oCMobDoor: Door,
+    VobType.oCMobFire: Fire,
 }
