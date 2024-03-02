@@ -14,6 +14,8 @@ from zenkit.vob.movable_object import Door
 from zenkit.vob.movable_object import Fire
 from zenkit.vob.movable_object import InteractiveObject
 from zenkit.vob.movable_object import MovableObject
+from zenkit.vob.sound import Sound
+from zenkit.vob.sound import SoundDaytime
 from zenkit.vob.virtual_object import VirtualObject
 from zenkit.vob.virtual_object import VobType
 
@@ -38,4 +40,6 @@ _VOBS: dict[VobType, type[VirtualObject]] = {
     VobType.oCMobContainer: Container,
     VobType.oCMobDoor: Door,
     VobType.oCMobFire: Fire,
+    VobType.zCVobSound: Sound,
+    VobType.zCVobSoundDaytime: SoundDaytime,
 }

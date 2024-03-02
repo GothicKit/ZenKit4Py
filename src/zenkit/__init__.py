@@ -91,6 +91,8 @@ __all__ = [
     "Door",
     "Fire",
     "SoundMaterialType",
+    "Sound",
+    "SoundDaytime",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -165,6 +167,8 @@ from zenkit.vob.movable_object import Fire
 from zenkit.vob.movable_object import InteractiveObject
 from zenkit.vob.movable_object import MovableObject
 from zenkit.vob.movable_object import SoundMaterialType
+from zenkit.vob.sound import Sound
+from zenkit.vob.sound import SoundDaytime
 from zenkit.vob.virtual_object import AiHuman
 from zenkit.vob.virtual_object import AiMove
 from zenkit.vob.virtual_object import AiType
