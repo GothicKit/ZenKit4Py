@@ -105,6 +105,9 @@ __all__ = [
     "MoverSpeedType",
     "TriggerBatchMode",
     "TriggerListTarget",
+    "ZoneMusic",
+    "ZoneFog",
+    "ZoneFarPlane",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -205,6 +208,9 @@ from zenkit.vob.virtual_object import Visual
 from zenkit.vob.virtual_object import VisualDecal
 from zenkit.vob.virtual_object import VisualType
 from zenkit.vob.virtual_object import VobType
+from zenkit.vob.zone import ZoneFarPlane
+from zenkit.vob.zone import ZoneFog
+from zenkit.vob.zone import ZoneMusic
 from zenkit.world.bsptree import BspNode
 from zenkit.world.bsptree import BspSector
 from zenkit.world.bsptree import BspTree

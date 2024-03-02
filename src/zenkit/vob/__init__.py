@@ -25,6 +25,9 @@ from zenkit.vob.trigger import TriggerUntouch
 from zenkit.vob.trigger import TriggerWorldStart
 from zenkit.vob.virtual_object import VirtualObject
 from zenkit.vob.virtual_object import VobType
+from zenkit.vob.zone import ZoneFarPlane
+from zenkit.vob.zone import ZoneFog
+from zenkit.vob.zone import ZoneMusic
 
 _VOBS: dict[VobType, type[VirtualObject]] = {
     VobType.zCCSCamera: CutsceneCamera,
@@ -56,4 +59,10 @@ _VOBS: dict[VobType, type[VirtualObject]] = {
     VobType.zCTriggerWorldStart: TriggerWorldStart,
     VobType.zCTriggerUntouch: TriggerUntouch,
     VobType.zCMover: Mover,
+    VobType.oCZoneMusic: ZoneMusic,
+    VobType.oCZoneMusicDefault: ZoneMusic,
+    VobType.zCZoneZFog: ZoneFog,
+    VobType.zCZoneZFogDefault: ZoneFog,
+    VobType.zCZoneVobFarPlane: ZoneFarPlane,
+    VobType.zCZoneVobFarPlaneDefault: ZoneFarPlane,
 }
