@@ -9,6 +9,7 @@ __all__ = [
     "OrientedBoundingBox",
     "Date",
     "PathOrFileLike",
+    "Color",
 ]
 
 import platform
@@ -16,6 +17,7 @@ from ctypes import CDLL
 from ctypes import Structure
 from ctypes import c_float
 from ctypes import c_size_t
+from ctypes import c_uint8
 from ctypes import c_uint16
 from ctypes import c_uint32
 from ctypes import c_void_p
@@ -185,3 +187,31 @@ class OrientedBoundingBox:
     def to_aabb(self) -> AxisAlignedBoundingBox:
         DLL.ZkOrientedBoundingBox_toAabb.restype = AxisAlignedBoundingBox
         return DLL.ZkOrientedBoundingBox_toAabb(self._handle)
+
+
+class Color(Structure):
+    _fields_ = [
+        ("_r", c_uint8),
+        ("_g", c_uint8),
+        ("_b", c_uint8),
+        ("_a", c_uint8),
+    ]
+
+    @property
+    def r(self) -> int:
+        return self._r
+
+    @property
+    def g(self) -> int:
+        return self._g
+
+    @property
+    def b(self) -> int:
+        return self._b
+
+    @property
+    def a(self) -> int:
+        return self._a
+
+    def __repr__(self) -> str:
+        return f"<Color r={self._r} g={self._g} b={self._b} a={self._a}>"

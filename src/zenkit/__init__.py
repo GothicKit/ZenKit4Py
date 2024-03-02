@@ -70,6 +70,9 @@ __all__ = [
     "CameraMotion",
     "CameraLoopType",
     "CameraLerpType",
+    "Light",
+    "LightType",
+    "LightQuality",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -123,6 +126,9 @@ from zenkit.vob.cutscene_camera import CameraMotion
 from zenkit.vob.cutscene_camera import CameraTrajectory
 from zenkit.vob.cutscene_camera import CameraTrajectoryFrame
 from zenkit.vob.cutscene_camera import CutsceneCamera
+from zenkit.vob.light import Light
+from zenkit.vob.light import LightQuality
+from zenkit.vob.light import LightType
 from zenkit.vob.virtual_object import AiHuman
 from zenkit.vob.virtual_object import AiMove
 from zenkit.vob.virtual_object import AiType
