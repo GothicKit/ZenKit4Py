@@ -30,6 +30,12 @@ from zenkit.vob.zone import ZoneFog
 from zenkit.vob.zone import ZoneMusic
 
 _VOBS: dict[VobType, type[VirtualObject]] = {
+    VobType.zCVob: VirtualObject,
+    VobType.zCVobScreenFX: VirtualObject,
+    VobType.zCVobStair: VirtualObject,
+    VobType.zCVobStartpoint: VirtualObject,
+    VobType.zCVobSpot: VirtualObject,
+    VobType.zCVobLevelCompo: VirtualObject,
     VobType.zCCSCamera: CutsceneCamera,
     VobType.zCCamTrj_KeyFrame: CameraTrajectoryFrame,
     VobType.zCVobLight: Light,
