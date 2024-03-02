@@ -73,6 +73,18 @@ __all__ = [
     "Light",
     "LightType",
     "LightQuality",
+    "Animate",
+    "Item",
+    "LensFlare",
+    "ParticleEffectController",
+    "MessageFilterAction",
+    "MessageFilter",
+    "MoverController",
+    "TouchDamage",
+    "TouchCollisionType",
+    "CodeMaster",
+    "Earthquake",
+    "MoverMessageType",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -129,6 +141,18 @@ from zenkit.vob.cutscene_camera import CutsceneCamera
 from zenkit.vob.light import Light
 from zenkit.vob.light import LightQuality
 from zenkit.vob.light import LightType
+from zenkit.vob.misc import Animate
+from zenkit.vob.misc import CodeMaster
+from zenkit.vob.misc import Earthquake
+from zenkit.vob.misc import Item
+from zenkit.vob.misc import LensFlare
+from zenkit.vob.misc import MessageFilter
+from zenkit.vob.misc import MessageFilterAction
+from zenkit.vob.misc import MoverController
+from zenkit.vob.misc import MoverMessageType
+from zenkit.vob.misc import ParticleEffectController
+from zenkit.vob.misc import TouchCollisionType
+from zenkit.vob.misc import TouchDamage
 from zenkit.vob.virtual_object import AiHuman
 from zenkit.vob.virtual_object import AiMove
 from zenkit.vob.virtual_object import AiType
