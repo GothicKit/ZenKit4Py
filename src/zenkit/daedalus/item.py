@@ -13,6 +13,7 @@ from typing import Any
 from zenkit._core import DLL
 from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
+from zenkit.daedalus.npc import DamageType
 
 
 class ItemInstanceFlag(IntEnum):
@@ -370,23 +371,65 @@ class ItemInstance(DaedalusInstance):
     def inv_animate(self, value: int) -> None:
         DLL.ZkItemInstance_setInvAnimate(self._handle, c_int32(value))
 
-    """TODO(lmichaelis):
-    ZKC_API int32_t ZkItemInstance_getDamage(ZkItemInstance const* slf, ZkDamageType type);
-    ZKC_API void ZkItemInstance_setDamage(ZkItemInstance* slf, ZkDamageType type, int32_t damage);
-    ZKC_API int32_t ZkItemInstance_getProtection(ZkItemInstance const* slf, ZkDamageType type);
-    ZKC_API void ZkItemInstance_setProtection(ZkItemInstance* slf, ZkDamageType type, int32_t protection);
-    ZKC_API int32_t ZkItemInstance_getCondAtr(ZkItemInstance const* slf, ZkItemInstanceConditionSlot slot);
-    ZKC_API void ZkItemInstance_setCondAtr(ZkItemInstance* slf, ZkItemInstanceConditionSlot slot, int32_t condAtr);
-    ZKC_API int32_t ZkItemInstance_getCondValue(ZkItemInstance const* slf, ZkItemInstanceConditionSlot slot);
-    ZKC_API void ZkItemInstance_setCondValue(ZkItemInstance* slf, ZkItemInstanceConditionSlot slot, int32_t condValue);
-    ZKC_API int32_t ZkItemInstance_getChangeAtr(ZkItemInstance const* slf, ZkItemInstanceConditionSlot slot);
-    ZKC_API void ZkItemInstance_setChangeAtr(ZkItemInstance* slf, ZkItemInstanceConditionSlot slot, int32_t changeAtr);
-    ZKC_API int32_t ZkItemInstance_getChangeValue(ZkItemInstance const* slf, ZkItemInstanceConditionSlot slot);
-    ZKC_API void ZkItemInstance_setChangeValue(ZkItemInstance* slf, ZkItemInstanceConditionSlot slot, int32_t changeValue);
-    ZKC_API int32_t ZkItemInstance_getOnState(ZkItemInstance const* slf, ZkItemInstanceStateSlot slot);
-    ZKC_API void ZkItemInstance_setOnState(ZkItemInstance* slf, ZkItemInstanceStateSlot slot, int32_t onState);
-    ZKC_API ZkString ZkItemInstance_getText(ZkItemInstance const* slf, ZkItemInstanceTextSlot slot);
-    ZKC_API void ZkItemInstance_setText(ZkItemInstance* slf, ZkItemInstanceTextSlot slot, ZkString text);
-    ZKC_API int32_t ZkItemInstance_getCount(ZkItemInstance const* slf, ZkItemInstanceTextSlot slot);
-    ZKC_API void ZkItemInstance_setCount(ZkItemInstance* slf, ZkItemInstanceTextSlot slot, int32_t count);
-    """
+    def get_damage(self, type: DamageType) -> int:
+        DLL.ZkItemInstance_getDamage.restype = c_int32
+        return DLL.ZkItemInstance_getDamage(self._handle, type.value)
+
+    def get_protection(self, type: DamageType) -> int:
+        DLL.ZkItemInstance_getProtection.restype = c_int32
+        return DLL.ZkItemInstance_getProtection(self._handle, type.value)
+
+    def get_cond_atr(self, slot: ItemInstanceConditionSlot) -> int:
+        DLL.ZkItemInstance_getCondAtr.restype = c_int32
+        return DLL.ZkItemInstance_getCondAtr(self._handle, slot.value)
+
+    def get_cond_value(self, slot: ItemInstanceConditionSlot) -> int:
+        DLL.ZkItemInstance_getCondValue.restype = c_int32
+        return DLL.ZkItemInstance_getCondValue(self._handle, slot.value)
+
+    def get_change_atr(self, slot: ItemInstanceConditionSlot) -> int:
+        DLL.ZkItemInstance_getChangeAtr.restype = c_int32
+        return DLL.ZkItemInstance_getChangeAtr(self._handle, slot.value)
+
+    def get_change_value(self, slot: ItemInstanceConditionSlot) -> int:
+        DLL.ZkItemInstance_getChangeValue.restype = c_int32
+        return DLL.ZkItemInstance_getChangeValue(self._handle, slot.value)
+
+    def get_on_state(self, slot: ItemInstanceStateSlot) -> int:
+        DLL.ZkItemInstance_getOnState.restype = c_int32
+        return DLL.ZkItemInstance_getOnState(self._handle, slot.value)
+
+    def get_count(self, slot: ItemInstanceTextSlot) -> int:
+        DLL.ZkItemInstance_getCount.restype = c_int32
+        return DLL.ZkItemInstance_getCount(self._handle, slot.value)
+
+    def get_text(self, slot: ItemInstanceTextSlot) -> str:
+        DLL.ZkItemInstance_getText.restype = ZkString
+        return DLL.ZkItemInstance_getText(self._handle, slot.value)
+
+    def set_damage(self, type: DamageType, val: int) -> None:
+        DLL.ZkItemInstance_setDamage(self._handle, type.value, c_int32(val))
+
+    def set_protection(self, type: DamageType, val: int) -> None:
+        DLL.ZkItemInstance_setProtection(self._handle, type.value, c_int32(val))
+
+    def set_cond_atr(self, slot: ItemInstanceConditionSlot, val: int) -> None:
+        DLL.ZkItemInstance_setCondAtr(self._handle, slot.value, c_int32(val))
+
+    def set_cond_value(self, slot: ItemInstanceConditionSlot, val: int) -> None:
+        DLL.ZkItemInstance_setCondValue(self._handle, slot.value, c_int32(val))
+
+    def set_change_atr(self, slot: ItemInstanceConditionSlot, val: int) -> None:
+        DLL.ZkItemInstance_setChangeAtr(self._handle, slot.value, c_int32(val))
+
+    def set_change_value(self, slot: ItemInstanceConditionSlot, val: int) -> None:
+        DLL.ZkItemInstance_setChangeValue(self._handle, slot.value, c_int32(val))
+
+    def set_on_state(self, slot: ItemInstanceStateSlot, val: int) -> None:
+        DLL.ZkItemInstance_setOnState(self._handle, slot.value, c_int32(val))
+
+    def set_count(self, slot: ItemInstanceTextSlot, val: int) -> None:
+        DLL.ZkItemInstance_setCount(self._handle, slot.value, c_int32(val))
+
+    def set_text(self, slot: ItemInstanceTextSlot, val: str) -> None:
+        DLL.ZkItemInstance_setText(self._handle, slot.value, val.encode("utf-8"))

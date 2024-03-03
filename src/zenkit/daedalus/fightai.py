@@ -1,8 +1,11 @@
 __all__ = ["FightAiInstance"]
 
+from ctypes import c_int
+from ctypes import c_size_t
 from enum import IntEnum
 from typing import Any
 
+from zenkit._core import DLL
 from zenkit.daedalus.base import DaedalusInstance
 
 
@@ -31,7 +34,14 @@ class FightAiInstance(DaedalusInstance):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
-    """TODO(lmichaelis):
-    ZKC_API ZkFightAiMove ZkFightAiInstance_getMove(ZkFightAiInstance const* slf, ZkSize i);
-    ZKC_API void ZkFightAiInstance_setMove(ZkFightAiInstance* slf, ZkSize i, ZkFightAiMove move);
-    """
+    def get_move(self, i: int) -> FightAiMove:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+
+        DLL.ZkFightAiInstance_getMove.restype = c_int
+        return FightAiMove(DLL.ZkFightAiInstance_getMove(self._handle, c_size_t(i)))
+
+    def set_user_string(self, i: int, val: FightAiMove) -> None:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+        return DLL.ZkFightAiInstance_setMove(self._handle, c_size_t(i), val.value)

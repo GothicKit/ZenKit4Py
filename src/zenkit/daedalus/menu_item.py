@@ -4,8 +4,10 @@ __all__ = [
     "MenuItemInstance",
 ]
 
-from ctypes import c_float, c_int
+from ctypes import c_float
+from ctypes import c_int
 from ctypes import c_int32
+from ctypes import c_size_t
 from enum import IntEnum
 from typing import Any
 
@@ -246,17 +248,68 @@ class MenuItemInstance(DaedalusInstance):
     def hide_on_value(self, value: int) -> None:
         DLL.ZkMenuItemInstance_setHideOnValue(self._handle, c_int32(value))
 
-    """TODO(lmichaelis):
-    ZKC_API ZkString ZkMenuItemInstance_getText(ZkMenuItemInstance const* slf, ZkSize i);
-    ZKC_API void ZkMenuItemInstance_setText(ZkMenuItemInstance* slf, ZkSize i, ZkString text);
-    ZKC_API int32_t ZkMenuItemInstance_getOnSelAction(ZkMenuItemInstance const* slf, ZkSize i);
-    ZKC_API void ZkMenuItemInstance_setOnSelAction(ZkMenuItemInstance* slf, ZkSize i, int32_t onSelAction);
-    ZKC_API ZkString ZkMenuItemInstance_getOnSelActionS(ZkMenuItemInstance const* slf, ZkSize i);
-    ZKC_API void ZkMenuItemInstance_setOnSelActionS(ZkMenuItemInstance* slf, ZkSize i, ZkString onSelActionS);
-    ZKC_API int32_t ZkMenuItemInstance_getOnEventAction(ZkMenuItemInstance const* slf, ZkSize i);
-    ZKC_API void ZkMenuItemInstance_setOnEventAction(ZkMenuItemInstance* slf, ZkSize i, int32_t onEventAction);
-    ZKC_API float ZkMenuItemInstance_getUserFloat(ZkMenuItemInstance const* slf, ZkSize i);
-    ZKC_API void ZkMenuItemInstance_setUserFloat(ZkMenuItemInstance* slf, ZkSize i, float userFloat);
-    ZKC_API ZkString ZkMenuItemInstance_getUserString(ZkMenuItemInstance const* slf, ZkSize i);
-    ZKC_API void ZkMenuItemInstance_setUserString(ZkMenuItemInstance* slf, ZkSize i, ZkString userString);
-    """
+    def get_on_sel_action(self, i: int) -> int:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_getOnSelAction.restype = c_int32
+        return DLL.ZkMenuItemInstance_getOnSelAction(self._handle, c_size_t(i))
+
+    def get_on_event_action(self, i: int) -> int:
+        if i < 0 or i >= 10:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_getOnEventAction.restype = c_int32
+        return DLL.ZkMenuItemInstance_getOnEventAction(self._handle, c_size_t(i))
+
+    def get_user_float(self, i: int) -> float:
+        if i < 0 or i >= 4:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_getUserFloat.restype = float
+        return DLL.ZkMenuItemInstance_getUserFloat(self._handle, c_size_t(i))
+
+    def get_text(self, i: int) -> str:
+        if i < 0 or i >= 10:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_getText.restype = ZkString
+        return DLL.ZkMenuItemInstance_getText(self._handle, c_size_t(i)).value
+
+    def get_on_sel_action_s(self, i: int) -> str:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_getOnSelActionS.restype = ZkString
+        return DLL.ZkMenuItemInstance_getOnSelActionS(self._handle, c_size_t(i)).value
+
+    def get_user_string(self, i: int) -> str:
+        if i < 0 or i >= 4:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_getUserString.restype = ZkString
+        return DLL.ZkMenuItemInstance_getUserString(self._handle, c_size_t(i)).value
+
+    def set_on_sel_action(self, i: int, val: int) -> None:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_setOnSelAction(self._handle, c_size_t(i), val)
+
+    def set_on_event_action(self, i: int, val: int) -> None:
+        if i < 0 or i >= 10:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_setOnEventAction(self._handle, c_size_t(i), val)
+
+    def set_user_float(self, i: int, val: float) -> None:
+        if i < 0 or i >= 4:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_setUserFloat(self._handle, c_size_t(i), c_float(val))
+
+    def set_text(self, i: int, val: str) -> None:
+        if i < 0 or i >= 10:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_setText(self._handle, c_size_t(i), val.encode("utf-8"))
+
+    def set_on_sel_action_s(self, i: int, val: str) -> None:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_setOnSelActionS(self._handle, c_size_t(i), val.encode("utf-8"))
+
+    def set_user_string(self, i: int, val: str) -> None:
+        if i < 0 or i >= 4:
+            raise IndexError(i)
+        DLL.ZkMenuItemInstance_setUserString(self._handle, c_size_t(i), val.encode("utf-8"))

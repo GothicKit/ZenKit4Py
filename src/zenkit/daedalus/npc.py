@@ -11,6 +11,7 @@ __all__ = [
 
 from ctypes import c_int
 from ctypes import c_int32
+from ctypes import c_size_t
 from ctypes import c_uint32
 from enum import IntEnum
 from typing import Any
@@ -323,19 +324,55 @@ class NpcInstance(DaedalusInstance):
     def no_focus(self, value: int) -> None:
         DLL.ZkNpcInstance_setNoFocus(self._handle, c_int32(value))
 
-    """TODO(lmichaelis):
-    ZKC_API ZkString ZkNpcInstance_getName(ZkNpcInstance const* slf, ZkNpcInstanceNameSlot slot);
-    ZKC_API void ZkNpcInstance_setName(ZkNpcInstance* slf, ZkNpcInstanceNameSlot slot, ZkString name);
-    ZKC_API int32_t ZkNpcInstance_getMission(ZkNpcInstance const* slf, ZkNpcInstanceMissionSlot slot);
-    ZKC_API void ZkNpcInstance_setMission(ZkNpcInstance* slf, ZkNpcInstanceMissionSlot slot, int32_t mission);
-    ZKC_API int32_t ZkNpcInstance_getAttribute(ZkNpcInstance const* slf, ZkNpcInstanceAttribute attribute);
-    ZKC_API void ZkNpcInstance_setAttribute(ZkNpcInstance* slf, ZkNpcInstanceAttribute attribute, int32_t value);
-    ZKC_API int32_t ZkNpcInstance_getHitChance(ZkNpcInstance const* slf, ZkNpcInstanceTalent talent);
-    ZKC_API void ZkNpcInstance_setHitChance(ZkNpcInstance* slf, ZkNpcInstanceTalent talent, int32_t hitChance);
-    ZKC_API int32_t ZkNpcInstance_getProtection(ZkNpcInstance const* slf, ZkDamageType type);
-    ZKC_API void ZkNpcInstance_setProtection(ZkNpcInstance* slf, ZkDamageType type, int32_t protection);
-    ZKC_API int32_t ZkNpcInstance_getDamage(ZkNpcInstance const* slf, ZkDamageType type);
-    ZKC_API void ZkNpcInstance_setDamage(ZkNpcInstance* slf, ZkDamageType type, int32_t damage);
-    ZKC_API int32_t ZkNpcInstance_getAiVar(ZkNpcInstance const* slf, ZkSize i);
-    ZKC_API void ZkNpcInstance_setAiVar(ZkNpcInstance* slf, ZkSize i, int32_t aiVar);
-    """
+    def get_name(self, slot: NpcInstanceNameSlot) -> str:
+        DLL.ZkNpcInstance_getName.restype = ZkString
+        return DLL.ZkNpcInstance_getName(self._handle, slot.value)
+
+    def get_mission(self, slot: NpcInstanceMissionSlot) -> int:
+        DLL.ZkNpcInstance_getMission.restype = c_int32
+        return DLL.ZkNpcInstance_getMission(self._handle, slot.value)
+
+    def get_attribute(self, attribute: NpcInstanceAttribute) -> int:
+        DLL.ZkNpcInstance_getAttribute.restype = c_int32
+        return DLL.ZkNpcInstance_getAttribute(self._handle, attribute.value)
+
+    def get_hit_chance(self, talent: NpcInstanceTalent) -> int:
+        DLL.ZkNpcInstance_getHitChance.restype = c_int32
+        return DLL.ZkNpcInstance_getHitChance(self._handle, talent.value)
+
+    def get_protection(self, type: DamageType) -> int:
+        DLL.ZkNpcInstance_getProtection.restype = c_int32
+        return DLL.ZkNpcInstance_getProtection(self._handle, type.value)
+
+    def get_damage(self, type: DamageType) -> int:
+        DLL.ZkNpcInstance_getDamage.restype = c_int32
+        return DLL.ZkNpcInstance_getDamage(self._handle, type.value)
+
+    def get_ai_var(self, i: int) -> int:
+        if i < 0 or i >= 100:
+            raise IndexError(i)
+        DLL.ZkNpcInstance_getAiVar.restype = c_int32
+        return DLL.ZkNpcInstance_getAiVar(self._handle, c_size_t(i))
+
+    def set_name(self, slot: NpcInstanceNameSlot, val: str) -> None:
+        DLL.ZkNpcInstance_setName(self._handle, slot.value, val.encode("utf-8"))
+
+    def set_mission(self, slot: NpcInstanceMissionSlot, val: int) -> None:
+        DLL.ZkNpcInstance_setMission(self._handle, slot.value, val)
+
+    def set_attribute(self, attribute: NpcInstanceAttribute, val: int) -> None:
+        DLL.ZkNpcInstance_setAttribute(self._handle, attribute.value, val)
+
+    def set_hit_chance(self, talent: NpcInstanceTalent, val: int) -> None:
+        DLL.ZkNpcInstance_setHitChance(self._handle, talent.value, val)
+
+    def set_protection(self, type: DamageType, val: int) -> None:
+        DLL.ZkNpcInstance_setProtection(self._handle, type.value, val)
+
+    def set_damage(self, type: DamageType, val: int) -> None:
+        DLL.ZkNpcInstance_setDamage(self._handle, type.value, val)
+
+    def set_ai_var(self, i: int, val: int) -> None:
+        if i < 0 or i >= 100:
+            raise IndexError(i)
+        DLL.ZkNpcInstance_setAiVar(self._handle, c_size_t(i), val)

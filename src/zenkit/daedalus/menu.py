@@ -1,6 +1,7 @@
 __all__ = ["MenuInstance"]
 
 from ctypes import c_int32
+from ctypes import c_size_t
 from typing import Any
 
 from zenkit._core import DLL
@@ -120,7 +121,13 @@ class MenuInstance(DaedalusInstance):
     def default_ingame(self, value: int) -> None:
         DLL.ZkMenuInstance_setDefaultIngame(self._handle, c_int32(value))
 
-    """TODO(lmichaelis):
-    ZKC_API ZkString ZkMenuInstance_getItem(ZkMenuInstance const* slf, ZkSize i);
-    ZKC_API void ZkMenuInstance_setItem(ZkMenuInstance* slf, ZkSize i, ZkString item);
-    """
+    def get_item(self, i: int) -> str:
+        if i < 0 or i >= 150:
+            raise IndexError(i)
+        DLL.ZkMenuInstance_getItem.restype = ZkString
+        return DLL.ZkMenuInstance_getItem(self._handle, c_size_t(i))
+
+    def set_item(self, i: int, val: str) -> None:
+        if i < 0 or i >= 150:
+            raise IndexError(i)
+        DLL.ZkMenuInstance_setItem(self._handle, c_size_t(i), val.encode("utf-8"))

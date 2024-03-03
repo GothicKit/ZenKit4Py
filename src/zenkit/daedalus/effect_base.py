@@ -2,6 +2,7 @@ __all__ = ["EffectBaseInstance"]
 
 from ctypes import c_float
 from ctypes import c_int32
+from ctypes import c_size_t
 from typing import Any
 
 from zenkit._core import DLL
@@ -418,7 +419,14 @@ class EffectBaseInstance(DaedalusInstance):
     def em_fx_coll_dyn_perc_s(self, value: str) -> None:
         DLL.ZkEffectBaseInstance_setEmFxCollDynPercS(self._handle, value.encode("utf-8"))
 
-    """TODO(lmichaelis):
-    ZKC_API ZkString ZkEffectBaseInstance_getUserString(ZkEffectBaseInstance const* slf, ZkSize i);
-    ZKC_API void ZkEffectBaseInstance_setUserString(ZkEffectBaseInstance* slf, ZkSize i, ZkString userString);
-    """
+    def get_user_string(self, i: int) -> str:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+
+        DLL.ZkEffectBaseInstance_getUserString.restype = ZkString
+        return DLL.ZkEffectBaseInstance_getUserString(self._handle, c_size_t(i)).value
+
+    def set_user_string(self, i: int, val: str) -> None:
+        if i < 0 or i >= 5:
+            raise IndexError(i)
+        return DLL.ZkEffectBaseInstance_setUserString(self._handle, c_size_t(i), val.encode("utf-8"))

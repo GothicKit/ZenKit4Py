@@ -1,7 +1,11 @@
 __all__ = ["GuildValuesInstance"]
 
+from ctypes import c_int32
+from ctypes import c_size_t
 from typing import Any
 
+from zenkit._core import DLL
+from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
 
 
@@ -9,67 +13,343 @@ class GuildValuesInstance(DaedalusInstance):
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
-    """TODO(lmichaelis):
-    ZKC_API int32_t ZkGuildValuesInstance_getWaterDepthKnee(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setWaterDepthKnee(ZkGuildValuesInstance* slf, ZkSize i, int32_t waterDepthKnee);
-    ZKC_API int32_t ZkGuildValuesInstance_getWaterDepthChest(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setWaterDepthChest(ZkGuildValuesInstance* slf, ZkSize i, int32_t waterDepthChest);
-    ZKC_API int32_t ZkGuildValuesInstance_getJumpUpHeight(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setJumpUpHeight(ZkGuildValuesInstance* slf, ZkSize i, int32_t jumpUpHeight);
-    ZKC_API int32_t ZkGuildValuesInstance_getSwimTime(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setSwimTime(ZkGuildValuesInstance* slf, ZkSize i, int32_t swimTime);
-    ZKC_API int32_t ZkGuildValuesInstance_getDiveTime(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setDiveTime(ZkGuildValuesInstance* slf, ZkSize i, int32_t diveTime);
-    ZKC_API int32_t ZkGuildValuesInstance_getStepHeight(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setStepHeight(ZkGuildValuesInstance* slf, ZkSize i, int32_t stepHeight);
-    ZKC_API int32_t ZkGuildValuesInstance_getJumpLowHeight(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setJumpLowHeight(ZkGuildValuesInstance* slf, ZkSize i, int32_t jumpLowHeight);
-    ZKC_API int32_t ZkGuildValuesInstance_getJumpMidHeight(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setJumpMidHeight(ZkGuildValuesInstance* slf, ZkSize i, int32_t jumpMidHeight);
-    ZKC_API int32_t ZkGuildValuesInstance_getSlideAngle(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setSlideAngle(ZkGuildValuesInstance* slf, ZkSize i, int32_t slideAngle);
-    ZKC_API int32_t ZkGuildValuesInstance_getSlideAngle2(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setSlideAngle2(ZkGuildValuesInstance* slf, ZkSize i, int32_t slideAngle2);
-    ZKC_API int32_t ZkGuildValuesInstance_getDisableAutoRoll(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setDisableAutoRoll(ZkGuildValuesInstance* slf, ZkSize i, int32_t disableAutoRoll);
-    ZKC_API int32_t ZkGuildValuesInstance_getSurfaceAlign(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setSurfaceAlign(ZkGuildValuesInstance* slf, ZkSize i, int32_t surfaceAlign);
-    ZKC_API int32_t ZkGuildValuesInstance_getClimbHeadingAngle(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setClimbHeadingAngle(ZkGuildValuesInstance* slf, ZkSize i, int32_t climbHeadingAngle);
-    ZKC_API int32_t ZkGuildValuesInstance_getClimbHorizAngle(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setClimbHorizAngle(ZkGuildValuesInstance* slf, ZkSize i, int32_t climbHorizAngle);
-    ZKC_API int32_t ZkGuildValuesInstance_getClimbGroundAngle(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setClimbGroundAngle(ZkGuildValuesInstance* slf, ZkSize i, int32_t climbGroundAngle);
-    ZKC_API int32_t ZkGuildValuesInstance_getFightRangeBase(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFightRangeBase(ZkGuildValuesInstance* slf, ZkSize i, int32_t fightRangeBase);
-    ZKC_API int32_t ZkGuildValuesInstance_getFightRangeFist(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFightRangeFist(ZkGuildValuesInstance* slf, ZkSize i, int32_t fightRangeFist);
-    ZKC_API int32_t ZkGuildValuesInstance_getFightRangeG(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFightRangeG(ZkGuildValuesInstance* slf, ZkSize i, int32_t fightRangeG);
-    ZKC_API int32_t ZkGuildValuesInstance_getFightRange1Hs(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFightRange1Hs(ZkGuildValuesInstance* slf, ZkSize i, int32_t fightRange1Hs);
-    ZKC_API int32_t ZkGuildValuesInstance_getFightRange1Ha(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFightRange1Ha(ZkGuildValuesInstance* slf, ZkSize i, int32_t fightRange1Ha);
-    ZKC_API int32_t ZkGuildValuesInstance_getFightRange2Hs(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFightRange2Hs(ZkGuildValuesInstance* slf, ZkSize i, int32_t fightRange2Hs);
-    ZKC_API int32_t ZkGuildValuesInstance_getFightRange2Ha(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFightRange2Ha(ZkGuildValuesInstance* slf, ZkSize i, int32_t fightRange2Ha);
-    ZKC_API int32_t ZkGuildValuesInstance_getFallDownHeight(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFallDownHeight(ZkGuildValuesInstance* slf, ZkSize i, int32_t fallDownHeight);
-    ZKC_API int32_t ZkGuildValuesInstance_getFallDownDamage(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setFallDownDamage(ZkGuildValuesInstance* slf, ZkSize i, int32_t fallDownDamage);
-    ZKC_API int32_t ZkGuildValuesInstance_getBloodDisabled(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setBloodDisabled(ZkGuildValuesInstance* slf, ZkSize i, int32_t bloodDisabled);
-    ZKC_API int32_t ZkGuildValuesInstance_getBloodMaxDistance(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setBloodMaxDistance(ZkGuildValuesInstance* slf, ZkSize i, int32_t bloodMaxDistance);
-    ZKC_API int32_t ZkGuildValuesInstance_getBloodAmount(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setBloodAmount(ZkGuildValuesInstance* slf, ZkSize i, int32_t bloodAmount);
-    ZKC_API int32_t ZkGuildValuesInstance_getBloodFlow(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setBloodFlow(ZkGuildValuesInstance* slf, ZkSize i, int32_t bloodFlow);
-    ZKC_API int32_t ZkGuildValuesInstance_getTurnSpeed(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setTurnSpeed(ZkGuildValuesInstance* slf, ZkSize i, int32_t turnSpeed);
-    ZKC_API ZkString ZkGuildValuesInstance_getBloodEmitter(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setBloodEmitter(ZkGuildValuesInstance* slf, ZkSize i, ZkString bloodEmitter);
-    ZKC_API ZkString ZkGuildValuesInstance_getBloodTexture(ZkGuildValuesInstance const* slf, ZkSize i);
-    ZKC_API void ZkGuildValuesInstance_setBloodTexture(ZkGuildValuesInstance* slf, ZkSize i, ZkString bloodTexture);
-    """
+    def get_water_depth_knee(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getWaterDepthKnee.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getWaterDepthKnee(self._handle, c_size_t(i))
+
+    def get_water_depth_chest(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getWaterDepthChest.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getWaterDepthChest(self._handle, c_size_t(i))
+
+    def get_jump_up_height(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getJumpUpHeight.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getJumpUpHeight(self._handle, c_size_t(i))
+
+    def get_swim_time(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getSwimTime.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getSwimTime(self._handle, c_size_t(i))
+
+    def get_dive_time(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getDiveTime.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getDiveTime(self._handle, c_size_t(i))
+
+    def get_step_height(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getStepHeight.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getStepHeight(self._handle, c_size_t(i))
+
+    def get_jump_low_height(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getJumpLowHeight.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getJumpLowHeight(self._handle, c_size_t(i))
+
+    def get_jump_mid_height(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getJumpMidHeight.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getJumpMidHeight(self._handle, c_size_t(i))
+
+    def get_slide_angle(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getSlideAngle.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getSlideAngle(self._handle, c_size_t(i))
+
+    def get_slide_angle_2(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getSlideAngle2.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getSlideAngle2(self._handle, c_size_t(i))
+
+    def get_disable_auto_roll(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getDisableAutoRoll.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getDisableAutoRoll(self._handle, c_size_t(i))
+
+    def get_surface_align(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getSurfaceAlign.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getSurfaceAlign(self._handle, c_size_t(i))
+
+    def get_climb_heading_angle(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getClimbHeadingAngle.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getClimbHeadingAngle(self._handle, c_size_t(i))
+
+    def get_climb_horiz_angle(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getClimbHorizAngle.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getClimbHorizAngle(self._handle, c_size_t(i))
+
+    def get_climb_ground_angle(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getClimbGroundAngle.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getClimbGroundAngle(self._handle, c_size_t(i))
+
+    def get_fight_range_base(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFightRangeBase.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFightRangeBase(self._handle, c_size_t(i))
+
+    def get_fight_range_fist(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFightRangeFist.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFightRangeFist(self._handle, c_size_t(i))
+
+    def get_fight_range_g(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFightRangeG.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFightRangeG(self._handle, c_size_t(i))
+
+    def get_fight_range_1_hs(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFightRange1Hs.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFightRange1Hs(self._handle, c_size_t(i))
+
+    def get_fight_range_1_ha(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFightRange1Ha.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFightRange1Ha(self._handle, c_size_t(i))
+
+    def get_fight_range_2_hs(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFightRange2Hs.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFightRange2Hs(self._handle, c_size_t(i))
+
+    def get_fight_range_2_ha(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFightRange2Ha.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFightRange2Ha(self._handle, c_size_t(i))
+
+    def get_fall_down_height(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFallDownHeight.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFallDownHeight(self._handle, c_size_t(i))
+
+    def get_fall_down_damage(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getFallDownDamage.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getFallDownDamage(self._handle, c_size_t(i))
+
+    def get_blood_disabled(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getBloodDisabled.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getBloodDisabled(self._handle, c_size_t(i))
+
+    def get_blood_max_distance(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getBloodMaxDistance.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getBloodMaxDistance(self._handle, c_size_t(i))
+
+    def get_blood_amount(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getBloodAmount.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getBloodAmount(self._handle, c_size_t(i))
+
+    def get_blood_flow(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getBloodFlow.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getBloodFlow(self._handle, c_size_t(i))
+
+    def get_turn_speed(self, i: int) -> int:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getTurnSpeed.restype = c_int32
+        return DLL.ZkGuildValuesInstance_getTurnSpeed(self._handle, c_size_t(i))
+
+    def get_blood_emitter(self, i: int) -> str:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getBloodEmitter.restype = ZkString
+        return DLL.ZkGuildValuesInstance_getBloodEmitter(self._handle, i).value
+
+    def get_blood_texture(self, i: int) -> str:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_getBloodTexture.restype = ZkString
+        return DLL.ZkGuildValuesInstance_getBloodTexture(self._handle, i).value
+
+    def set_water_depth_knee(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setWaterDepthKnee(self._handle, i, c_int32(val))
+
+    def set_water_depth_chest(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setWaterDepthChest(self._handle, i, c_int32(val))
+
+    def set_jump_up_height(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setJumpUpHeight(self._handle, i, c_int32(val))
+
+    def set_swim_time(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setSwimTime(self._handle, i, c_int32(val))
+
+    def set_dive_time(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setDiveTime(self._handle, i, c_int32(val))
+
+    def set_step_height(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setStepHeight(self._handle, i, c_int32(val))
+
+    def set_jump_low_height(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setJumpLowHeight(self._handle, i, c_int32(val))
+
+    def set_jump_mid_height(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setJumpMidHeight(self._handle, i, c_int32(val))
+
+    def set_slide_angle(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setSlideAngle(self._handle, i, c_int32(val))
+
+    def set_slide_angle_2(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setSlideAngle2(self._handle, i, c_int32(val))
+
+    def set_disable_auto_roll(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setDisableAutoRoll(self._handle, i, c_int32(val))
+
+    def set_surface_align(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setSurfaceAlign(self._handle, i, c_int32(val))
+
+    def set_climb_heading_angle(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setClimbHeadingAngle(self._handle, i, c_int32(val))
+
+    def set_climb_horiz_angle(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setClimbHorizAngle(self._handle, i, c_int32(val))
+
+    def set_climb_ground_angle(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setClimbGroundAngle(self._handle, i, c_int32(val))
+
+    def set_fight_range_base(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFightRangeBase(self._handle, i, c_int32(val))
+
+    def set_fight_range_fist(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFightRangeFist(self._handle, i, c_int32(val))
+
+    def set_fight_range_g(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFightRangeG(self._handle, i, c_int32(val))
+
+    def set_fight_range_1_hs(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFightRange1Hs(self._handle, i, c_int32(val))
+
+    def set_fight_range_1_ha(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFightRange1Ha(self._handle, i, c_int32(val))
+
+    def set_fight_range_2_hs(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFightRange2Hs(self._handle, i, c_int32(val))
+
+    def set_fight_range_2_ha(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFightRange2Ha(self._handle, i, c_int32(val))
+
+    def set_fall_down_height(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFallDownHeight(self._handle, i, c_int32(val))
+
+    def set_fall_down_damage(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setFallDownDamage(self._handle, i, c_int32(val))
+
+    def set_blood_disabled(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setBloodDisabled(self._handle, i, c_int32(val))
+
+    def set_blood_max_distance(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setBloodMaxDistance(self._handle, i, c_int32(val))
+
+    def set_blood_amount(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setBloodAmount(self._handle, i, c_int32(val))
+
+    def set_blood_flow(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setBloodFlow(self._handle, i, c_int32(val))
+
+    def set_turn_speed(self, i: int, val: int) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setTurnSpeed(self._handle, i, c_int32(val))
+
+    def set_blood_emitter(self, i: int, val: str) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setBloodEmitter(self._handle, i, val.encode("utf-8"))
+
+    def set_blood_texture(self, i: int, val: str) -> None:
+        if i < 0 or i >= 66:
+            raise IndexError(i)
+        DLL.ZkGuildValuesInstance_setBloodTexture(self._handle, i, val.encode("utf-8"))
