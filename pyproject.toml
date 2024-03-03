@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "zenkit"
 requires-python = ">=3.10"
 description = "Python wrapper for the ZenKit library"
+readme = "readme.md"
 authors = [
     {name = "Luis Michaelis", email="publishing@lmichaelis.de"}
 ]
