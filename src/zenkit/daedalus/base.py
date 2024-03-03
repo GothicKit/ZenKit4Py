@@ -3,8 +3,13 @@ __all__ = [
     "DaedalusInstanceType",
 ]
 
+from ctypes import c_int
+from ctypes import c_uint32
+from ctypes import c_void_p
 from enum import IntEnum
 from typing import Any
+
+from zenkit._core import DLL
 
 
 class DaedalusInstanceType(IntEnum):
@@ -40,3 +45,17 @@ class DaedalusInstance:
 
         if "_handle" in kwargs:
             self._handle = kwargs.pop("_handle")
+
+    @property
+    def handle(self) -> c_void_p:
+        return self._handle
+
+    @property
+    def type(self) -> DaedalusInstanceType:
+        DLL.ZkDaedalusInstance_getType.restype = c_int
+        return DaedalusInstanceType(DLL.ZkDaedalusInstance_getType(self._handle))
+
+    @property
+    def index(self) -> int:
+        DLL.ZkDaedalusInstance_getIndex.restype = c_uint32
+        return DLL.ZkDaedalusInstance_getIndex(self._handle)

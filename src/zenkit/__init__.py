@@ -108,6 +108,11 @@ __all__ = [
     "ZoneMusic",
     "ZoneFog",
     "ZoneFarPlane",
+    "DaedalusScript",
+    "DaedalusSymbol",
+    "DaedalusInstruction",
+    "DaedalusDataType",
+    "DaedalusOpcode",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -117,6 +122,11 @@ from zenkit._core import Vec3f
 from zenkit.csl import CutsceneBlock
 from zenkit.csl import CutsceneLibrary
 from zenkit.csl import CutsceneMessage
+from zenkit.daedalus_script import DaedalusDataType
+from zenkit.daedalus_script import DaedalusInstruction
+from zenkit.daedalus_script import DaedalusOpcode
+from zenkit.daedalus_script import DaedalusScript
+from zenkit.daedalus_script import DaedalusSymbol
 from zenkit.fnt import Font
 from zenkit.fnt import FontGlyph
 from zenkit.log import LogLevel
