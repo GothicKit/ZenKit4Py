@@ -6,6 +6,7 @@ from ctypes import c_uint
 from ctypes import c_uint8
 from ctypes import c_void_p
 from typing import Any
+from typing import ClassVar
 
 from zenkit import _native
 from zenkit._core import DLL
@@ -15,7 +16,7 @@ from zenkit._native import ZkString
 
 
 class FontGlyph(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_width", c_uint8),
         ("_top_left", Vec2f),
         ("_bottom_right", Vec2f),

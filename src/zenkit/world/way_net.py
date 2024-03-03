@@ -13,6 +13,7 @@ from ctypes import c_size_t
 from ctypes import c_uint32
 from ctypes import c_void_p
 from typing import Any
+from typing import ClassVar
 
 from zenkit._core import DLL
 from zenkit._core import Vec3f
@@ -21,7 +22,7 @@ from zenkit._native import ZkString
 
 
 class WayEdge(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_a", c_uint32),
         ("_b", c_uint32),
     ]

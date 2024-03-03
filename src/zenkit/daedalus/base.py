@@ -40,23 +40,23 @@ class DaedalusInstanceType(IntEnum):
 class DaedalusInstance:
     __slots__ = ("_handle",)
 
-    def __init__(self, **kwargs: Any):
+    def __init__(self, **kwargs: Any) -> None:
         self._handle = None
 
         if "_handle" in kwargs:
             self._handle = kwargs.pop("_handle")
 
     @staticmethod
-    def from_native(handle: c_void_p) -> "DaedalusInstance":
+    def from_native(handle: c_void_p | None) -> "DaedalusInstance | None":
         from zenkit.daedalus import _INSTANCES
 
-        if handle is None or handle.value is None:
+        if handle is None or handle.value is None or handle.value == 0:
             return None
 
         DLL.ZkDaedalusInstance_getType.restype = c_int
-        type = DaedalusInstanceType(DLL.ZkDaedalusInstance_getType(handle))
+        typ = DaedalusInstanceType(DLL.ZkDaedalusInstance_getType(handle))
 
-        return _INSTANCES.get(type, DaedalusInstance)(_handle=handle)
+        return _INSTANCES.get(typ, DaedalusInstance)(_handle=handle)
 
     @property
     def handle(self) -> c_void_p:

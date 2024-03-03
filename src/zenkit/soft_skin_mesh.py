@@ -10,16 +10,17 @@ from ctypes import c_uint
 from ctypes import c_uint8
 from ctypes import c_void_p
 from typing import Any
+from typing import ClassVar
 
 from zenkit._core import DLL
 from zenkit._core import OrientedBoundingBox
 from zenkit._core import Vec3f
 from zenkit._native import ZkPointer
-from zenkit.mrm import MultiResolutionMesh
+from zenkit.multi_resolution_mesh import MultiResolutionMesh
 
 
 class SoftSkinWeight(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_weight", c_float),
         ("_position", Vec3f),
         ("_index", c_uint8),
@@ -42,7 +43,7 @@ class SoftSkinWeight(Structure):
 
 
 class SoftSkinWedgeNormal(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_normal", Vec3f),
         ("_index", c_uint),
     ]

@@ -17,6 +17,7 @@ from ctypes import c_size_t
 from ctypes import c_uint16
 from ctypes import c_void_p
 from typing import Any
+from typing import ClassVar
 
 from zenkit import _native
 from zenkit._core import DLL
@@ -26,11 +27,11 @@ from zenkit._core import PathOrFileLike
 from zenkit._core import Vec2f
 from zenkit._core import Vec3f
 from zenkit._native import ZkPointer
-from zenkit.mat import Material
+from zenkit.material import Material
 
 
 class MeshTriangle(Structure):
-    _fields_ = [("_wedges", c_uint16 * 3)]
+    _fields_: ClassVar[tuple[str, Any]] = [("_wedges", c_uint16 * 3)]
 
     @property
     def wedges(self) -> tuple[int, int, int]:
@@ -41,7 +42,7 @@ class MeshTriangle(Structure):
 
 
 class MeshTriangleEdge(Structure):
-    _fields_ = [("_edges", c_uint16 * 3)]
+    _fields_: ClassVar[tuple[str, Any]] = [("_edges", c_uint16 * 3)]
 
     @property
     def edges(self) -> tuple[int, int, int]:
@@ -52,7 +53,7 @@ class MeshTriangleEdge(Structure):
 
 
 class MeshEdge(Structure):
-    _fields_ = [("_edges", c_uint16 * 2)]
+    _fields_: ClassVar[tuple[str, Any]] = [("_edges", c_uint16 * 2)]
 
     @property
     def edges(self) -> tuple[int, int, int]:
@@ -63,7 +64,7 @@ class MeshEdge(Structure):
 
 
 class MeshWedge(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_normal", Vec3f),
         ("_texture", Vec2f),
         ("_index", c_uint16),
@@ -86,7 +87,7 @@ class MeshWedge(Structure):
 
 
 class MeshPlane(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_distance", c_float),
         ("_normal", Vec3f),
     ]

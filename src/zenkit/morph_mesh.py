@@ -23,7 +23,7 @@ from zenkit._core import PathOrFileLike
 from zenkit._core import Vec3f
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
-from zenkit.mrm import MultiResolutionMesh
+from zenkit.multi_resolution_mesh import MultiResolutionMesh
 
 DLL.ZkMorphAnimation_getName.restype = ZkString
 DLL.ZkMorphAnimation_getLayer.restype = c_int

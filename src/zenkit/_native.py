@@ -15,7 +15,8 @@ class ZkString(c_char_p):
         value = super().value
 
         if value is None:
-            raise ValueError("Failed to load native string")
+            error = "Failed to load native string"
+            raise ValueError(error)
 
         return value.decode("utf-8")
 

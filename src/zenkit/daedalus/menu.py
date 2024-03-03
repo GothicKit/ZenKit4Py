@@ -8,6 +8,8 @@ from zenkit._core import DLL
 from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
 
+_MENU_ITEM_COUNT = 150
+
 
 class MenuInstance(DaedalusInstance):
     def __init__(self, **kwargs: Any) -> None:
@@ -122,12 +124,12 @@ class MenuInstance(DaedalusInstance):
         DLL.ZkMenuInstance_setDefaultIngame(self._handle, c_int32(value))
 
     def get_item(self, i: int) -> str:
-        if i < 0 or i >= 150:
+        if i < 0 or i >= _MENU_ITEM_COUNT:
             raise IndexError(i)
         DLL.ZkMenuInstance_getItem.restype = ZkString
         return DLL.ZkMenuInstance_getItem(self._handle, c_size_t(i))
 
     def set_item(self, i: int, val: str) -> None:
-        if i < 0 or i >= 150:
+        if i < 0 or i >= _MENU_ITEM_COUNT:
             raise IndexError(i)
         DLL.ZkMenuInstance_setItem(self._handle, c_size_t(i), val.encode("utf-8"))

@@ -22,10 +22,12 @@ from ctypes import c_uint16
 from ctypes import c_uint32
 from ctypes import c_void_p
 from datetime import datetime
+from datetime import timezone
 from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
+from typing import ClassVar
 from typing import Final
 from typing import Union
 
@@ -47,7 +49,7 @@ PathOrFileLike = Union[str, PathLike, "Read", bytes, bytearray, "VfsNode"]
 
 class Date(Structure):
     _pack_ = 1
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("year", c_uint32),
         ("month", c_uint16),
         ("day", c_uint16),
@@ -64,14 +66,16 @@ class Date(Structure):
             hour=self.hour,
             minute=self.minute,
             second=self.second,
+            tzinfo=timezone.utc
         )
 
     def __repr__(self) -> str:
-        return f"Date(year={self.year}, month={self.month}, day={self.day}, hour={self.hour}, minute={self.minute}, second={self.second})"
+        return (f"Date(year={self.year}, month={self.month}, day={self.day}, "
+                f"hour={self.hour}, minute={self.minute}, second={self.second})")
 
 
 class Vec2f(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("x", c_float),
         ("y", c_float),
     ]
@@ -81,7 +85,7 @@ class Vec2f(Structure):
 
 
 class Vec3f(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("x", c_float),
         ("y", c_float),
         ("z", c_float),
@@ -92,7 +96,7 @@ class Vec3f(Structure):
 
 
 class Vec4f(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("x", c_float),
         ("y", c_float),
         ("z", c_float),
@@ -104,7 +108,7 @@ class Vec4f(Structure):
 
 
 class Quat(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("x", c_float),
         ("y", c_float),
         ("z", c_float),
@@ -116,7 +120,7 @@ class Quat(Structure):
 
 
 class Mat3x3(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_columns", Vec3f * 3),
     ]
 
@@ -125,7 +129,7 @@ class Mat3x3(Structure):
 
 
 class Mat4x4(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("columns", Vec4f * 4),
     ]
 
@@ -134,7 +138,7 @@ class Mat4x4(Structure):
 
 
 class AxisAlignedBoundingBox(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_min", Vec3f),
         ("_max", Vec3f),
     ]
@@ -190,7 +194,7 @@ class OrientedBoundingBox:
 
 
 class Color(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_r", c_uint8),
         ("_g", c_uint8),
         ("_b", c_uint8),

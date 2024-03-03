@@ -9,6 +9,8 @@ from zenkit._core import DLL
 from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
 
+_USER_STRING_COUNT = 5
+
 
 class EffectBaseInstance(DaedalusInstance):
     def __init__(self, **kwargs: Any) -> None:
@@ -420,13 +422,13 @@ class EffectBaseInstance(DaedalusInstance):
         DLL.ZkEffectBaseInstance_setEmFxCollDynPercS(self._handle, value.encode("utf-8"))
 
     def get_user_string(self, i: int) -> str:
-        if i < 0 or i >= 5:
+        if i < 0 or i >= _USER_STRING_COUNT:
             raise IndexError(i)
 
         DLL.ZkEffectBaseInstance_getUserString.restype = ZkString
         return DLL.ZkEffectBaseInstance_getUserString(self._handle, c_size_t(i)).value
 
     def set_user_string(self, i: int, val: str) -> None:
-        if i < 0 or i >= 5:
+        if i < 0 or i >= _USER_STRING_COUNT:
             raise IndexError(i)
         return DLL.ZkEffectBaseInstance_setUserString(self._handle, c_size_t(i), val.encode("utf-8"))

@@ -77,12 +77,11 @@ class Texture:
     @property
     def palette(self) -> list[int]:
         if self.format != TextureFormat.P8:
-            raise ValueError("Not a palette texture")
+            error = "Not a palette texture"
+            raise ValueError(error)
 
         size = DLL.ZkTexture_getPaletteSize(self._handle)
-        palette = [DLL.ZkTexture_getPaletteItem(self._handle, c_size_t(i)) for i in range(size)]
-
-        return palette
+        return [DLL.ZkTexture_getPaletteItem(self._handle, c_size_t(i)) for i in range(size)]
 
     @property
     def width(self) -> int:
@@ -152,7 +151,8 @@ class TextureBuilder:
     def add_mipmap(self, data: bytes | bytearray, fmt: TextureFormat) -> "TextureBuilder":
         res = DLL.ZkTextureBuilder_addMipmap(self._handle, data, c_size_t(len(data)), fmt.value)
         if not res:
-            raise ValueError("Cannot process mipmap texture; see log")
+            error = "Cannot process mipmap texture; see log"
+            raise ValueError(error)
         return self
 
     def build(self, fmt: TextureFormat) -> Texture:

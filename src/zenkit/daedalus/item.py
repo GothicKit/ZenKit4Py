@@ -371,13 +371,13 @@ class ItemInstance(DaedalusInstance):
     def inv_animate(self, value: int) -> None:
         DLL.ZkItemInstance_setInvAnimate(self._handle, c_int32(value))
 
-    def get_damage(self, type: DamageType) -> int:
+    def get_damage(self, typ: DamageType) -> int:
         DLL.ZkItemInstance_getDamage.restype = c_int32
-        return DLL.ZkItemInstance_getDamage(self._handle, type.value)
+        return DLL.ZkItemInstance_getDamage(self._handle, typ.value)
 
-    def get_protection(self, type: DamageType) -> int:
+    def get_protection(self, typ: DamageType) -> int:
         DLL.ZkItemInstance_getProtection.restype = c_int32
-        return DLL.ZkItemInstance_getProtection(self._handle, type.value)
+        return DLL.ZkItemInstance_getProtection(self._handle, typ.value)
 
     def get_cond_atr(self, slot: ItemInstanceConditionSlot) -> int:
         DLL.ZkItemInstance_getCondAtr.restype = c_int32
@@ -407,11 +407,11 @@ class ItemInstance(DaedalusInstance):
         DLL.ZkItemInstance_getText.restype = ZkString
         return DLL.ZkItemInstance_getText(self._handle, slot.value)
 
-    def set_damage(self, type: DamageType, val: int) -> None:
-        DLL.ZkItemInstance_setDamage(self._handle, type.value, c_int32(val))
+    def set_damage(self, typ: DamageType, val: int) -> None:
+        DLL.ZkItemInstance_setDamage(self._handle, typ.value, c_int32(val))
 
-    def set_protection(self, type: DamageType, val: int) -> None:
-        DLL.ZkItemInstance_setProtection(self._handle, type.value, c_int32(val))
+    def set_protection(self, typ: DamageType, val: int) -> None:
+        DLL.ZkItemInstance_setProtection(self._handle, typ.value, c_int32(val))
 
     def set_cond_atr(self, slot: ItemInstanceConditionSlot, val: int) -> None:
         DLL.ZkItemInstance_setCondAtr(self._handle, slot.value, c_int32(val))

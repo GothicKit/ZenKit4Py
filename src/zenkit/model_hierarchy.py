@@ -10,6 +10,7 @@ from ctypes import c_uint
 from ctypes import c_void_p
 from datetime import datetime
 from typing import Any
+from typing import ClassVar
 
 from zenkit import _native
 from zenkit._core import DLL
@@ -22,7 +23,7 @@ from zenkit._native import ZkString
 
 
 class ModelHierarchyNode(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_parent", c_int16),
         ("_name", ZkString),
         ("_transform", Mat4x4),

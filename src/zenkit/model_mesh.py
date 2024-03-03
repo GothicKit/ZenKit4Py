@@ -12,8 +12,8 @@ from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
-from zenkit.mrm import MultiResolutionMesh
-from zenkit.ssm import SoftSkinMesh
+from zenkit.multi_resolution_mesh import MultiResolutionMesh
+from zenkit.soft_skin_mesh import SoftSkinMesh
 
 _ModelMeshAttachmentEnumerator = CFUNCTYPE(c_bool, c_void_p, ZkString, ZkPointer)
 
@@ -55,7 +55,7 @@ class ModelMesh:
 
     @property
     def attachments(self) -> dict[str, MultiResolutionMesh]:
-        def _enumerate(_, name, ptr):
+        def _enumerate(_ctx: int, name: ZkString, ptr: ZkPointer) -> bool:
             attachments[name.value] = MultiResolutionMesh(_handle=ptr.value, _keepalive=self)
             return False
 

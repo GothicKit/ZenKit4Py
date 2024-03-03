@@ -8,9 +8,9 @@ from ctypes import CFUNCTYPE
 from ctypes import c_float
 from ctypes import c_int32
 from ctypes import c_void_p
+from types import NoneType
 from typing import Any
 from typing import TypeVar
-from typing import Union
 
 from zenkit import _native
 from zenkit._core import DLL
@@ -22,7 +22,7 @@ from zenkit.daedalus.base import DaedalusInstanceType
 from zenkit.daedalus_script import DaedalusScript
 from zenkit.daedalus_script import DaedalusSymbol
 
-DaedalusType = Union[int, float, str, bool, DaedalusInstance, None]
+DaedalusType = int | float | str | bool | DaedalusInstance | None
 DaedalusTypeGeneric = TypeVar("DaedalusTypeGeneric", bound=DaedalusType)
 
 DaedalusVmExternalCallback = CFUNCTYPE(None, c_void_p, c_void_p)
@@ -102,19 +102,18 @@ class DaedalusVm(DaedalusScript):
         elif isinstance(val, str):
             DLL.ZkDaedalusVm_pushString(self._handle, val.encode("utf-8"))
         else:
-            raise ValueError("Unsupported type: " + type(val))
+            raise TypeError("Unsupported type: " + type(val))
 
     def pop(self, typ: type[DaedalusTypeGeneric]) -> DaedalusTypeGeneric:
         if typ == DaedalusInstance:
             return self.pop_instance()
-        elif typ == int or typ == bool:
+        if typ in (int, bool):
             return self.pop_int()
-        elif typ == float:
+        if typ == float:
             return self.pop_float()
-        elif typ == str:
+        if typ == str:
             return self.pop_string()
-        else:
-            raise ValueError("Unsupported type: " + typ)
+        raise ValueError("Unsupported type: " + typ)
 
     def pop_int(self) -> int:
         DLL.ZkDaedalusVm_popInt.restype = c_int32
@@ -133,14 +132,14 @@ class DaedalusVm(DaedalusScript):
         handle = DLL.ZkDaedalusVm_popInstance(self._handle).value
         return DaedalusInstance.from_native(handle)
 
-    def alloc_instance(self, sym: DaedalusSymbol, type: DaedalusInstanceType) -> DaedalusInstance:
+    def alloc_instance(self, sym: DaedalusSymbol, typ: DaedalusInstanceType) -> DaedalusInstance:
         DLL.ZkDaedalusVm_allocInstance.restype = ZkPointer
-        handle = DLL.ZkDaedalusVm_allocInstance(self._handle, sym.handle, type.value).value
+        handle = DLL.ZkDaedalusVm_allocInstance(self._handle, sym.handle, typ.value).value
         return DaedalusInstance.from_native(handle)
 
-    def init_instance(self, sym: DaedalusSymbol, type: DaedalusInstanceType) -> DaedalusInstance:
+    def init_instance(self, sym: DaedalusSymbol, typ: DaedalusInstanceType) -> DaedalusInstance:
         DLL.ZkDaedalusVm_initInstance.restype = ZkPointer
-        handle = DLL.ZkDaedalusVm_initInstance(self._handle, sym.handle, type.value).value
+        handle = DLL.ZkDaedalusVm_initInstance(self._handle, sym.handle, typ.value).value
         return DaedalusInstance.from_native(handle)
 
     def init_instance_direct(self, sym: DaedalusInstance) -> DaedalusInstance:
@@ -152,32 +151,32 @@ class DaedalusVm(DaedalusScript):
         DLL.ZkDaedalusVm_printStackTrace(self._handle)
 
     def call(
-        self, sym: DaedalusSymbol, *args: DaedalusType, rtype: type[DaedalusTypeGeneric] = None
+            self, sym: DaedalusSymbol, *args: DaedalusType, rtype: type[DaedalusTypeGeneric] | None = None
     ) -> DaedalusTypeGeneric:
         for arg in args:
             self.push(arg)
         self._call_function(sym)
 
-        if rtype is not None:
+        if rtype is not None and rtype != NoneType:
             return self.pop(rtype)
         return None
 
     def register_external(
-        self, sym: DaedalusSymbol, cb: Callable[..., DaedalusType | None], *args: type[DaedalusType]
+            self, sym: DaedalusSymbol, cb: Callable[..., DaedalusType | None], *args: type[DaedalusType]
     ) -> None:
-        def _fn():
+        def _wrapper() -> None:
             vals = [self.pop(arg) for arg in reversed(args)][::-1]
             res = cb(*vals)
             if res is not None:
                 self.push(res)
 
-        self._register_external(sym, _fn)
+        self._register_external(sym, _wrapper)
 
     def register_external_default(self, cb: Callable[[DaedalusSymbol], None]) -> None:
-        def _handle(_, __, p):
-            cb(DaedalusSymbol(_handle=c_void_p(p)))
+        def _wrapper(_ctx: int, _vm: int, sym: int) -> None:
+            cb(DaedalusSymbol(_handle=c_void_p(sym)))
 
-        fptr = DaedalusVmExternalDefaultCallback(_handle)
+        fptr = DaedalusVmExternalDefaultCallback(_wrapper)
         self._externals.append(fptr)
         DLL.ZkDaedalusVm_registerExternalDefault(self._handle, fptr, c_void_p(None))
 

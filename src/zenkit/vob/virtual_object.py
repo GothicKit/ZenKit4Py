@@ -192,7 +192,7 @@ class VisualDecal(Visual):
         super().__init__(**kwargs)
 
     @staticmethod
-    def new(*args: Any) -> "VisualDecal":
+    def new(*_args: Any) -> "VisualDecal":
         return cast(VisualDecal, Visual.new(VisualType.DECAL))
 
     @property
@@ -341,7 +341,7 @@ class AiHuman(Ai):
         super().__init__(**kwargs)
 
     @staticmethod
-    def new(*args) -> "AiHuman":
+    def new(*_args: Any) -> "AiHuman":
         return cast(AiHuman, Ai.new(AiType.HUMAN))
 
     @property
@@ -478,7 +478,7 @@ class AiMove(Ai):
         super().__init__(**kwargs)
 
     @staticmethod
-    def new(*args: Any) -> "AiMove":
+    def new(*_args: Any) -> "AiMove":
         return cast(AiMove, Ai.new(AiType.MOVE))
 
     @property
@@ -831,7 +831,7 @@ class VirtualObject:
         return VirtualObject.from_native(handle, takeref=True)
 
     def add_child(self, child: "VirtualObject") -> None:
-        DLL.ZkVirtualObject_addChild(self._handle, child._handle)
+        DLL.ZkVirtualObject_addChild(self._handle, child.handle)
 
     def remove_child(self, i: int) -> None:
         DLL.ZkVirtualObject_removeChild(self._handle, c_size_t(i))

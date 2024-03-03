@@ -8,6 +8,8 @@ from typing import Any
 from zenkit._core import DLL
 from zenkit.daedalus.base import DaedalusInstance
 
+_FAI_MOVE_COUNT = 5
+
 
 class FightAiMove(IntEnum):
     NOP = (0,)
@@ -35,13 +37,13 @@ class FightAiInstance(DaedalusInstance):
         super().__init__(**kwargs)
 
     def get_move(self, i: int) -> FightAiMove:
-        if i < 0 or i >= 5:
+        if i < 0 or i >= _FAI_MOVE_COUNT:
             raise IndexError(i)
 
         DLL.ZkFightAiInstance_getMove.restype = c_int
         return FightAiMove(DLL.ZkFightAiInstance_getMove(self._handle, c_size_t(i)))
 
     def set_user_string(self, i: int, val: FightAiMove) -> None:
-        if i < 0 or i >= 5:
+        if i < 0 or i >= _FAI_MOVE_COUNT:
             raise IndexError(i)
         return DLL.ZkFightAiInstance_setMove(self._handle, c_size_t(i), val.value)

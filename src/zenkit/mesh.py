@@ -14,6 +14,7 @@ from ctypes import c_uint32
 from ctypes import c_void_p
 from datetime import datetime
 from typing import Any
+from typing import ClassVar
 
 from zenkit import _native
 from zenkit._core import DLL
@@ -25,12 +26,12 @@ from zenkit._core import Vec2f
 from zenkit._core import Vec3f
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
-from zenkit.mat import Material
-from zenkit.tex import Texture
+from zenkit.material import Material
+from zenkit.texture import Texture
 
 
 class Feature(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_texture", Vec2f),
         ("_light", c_uint32),
         ("_normal", Vec3f),

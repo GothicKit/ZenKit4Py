@@ -13,6 +13,7 @@ from ctypes import c_int
 from ctypes import c_int32
 from ctypes import c_size_t
 from enum import IntEnum
+from typing import Any
 
 from zenkit._core import DLL
 from zenkit._core import Mat4x4
@@ -65,7 +66,7 @@ DLL.ZkCameraTrajectoryFrame_getOriginalPose.restype = Mat4x4
 
 
 class CameraTrajectoryFrame(VirtualObject):
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
     @property
@@ -198,7 +199,7 @@ DLL.ZkCutsceneCamera_getFrame.restype = ZkPointer
 
 
 class CutsceneCamera(VirtualObject):
-    def __init__(self, **kwargs) -> None:
+    def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
 
     @property

@@ -38,7 +38,7 @@ DLL.ZkVfsNode_open.restype = c_void_p
 class VfsNode:
     __slots__ = ("_handle", "_delete", "_keepalive")
 
-    def __init__(self, **kwargs: Any):
+    def __init__(self, **kwargs: Any) -> None:
         if "_handle" in kwargs:
             self._handle = kwargs.pop("_handle")
             self._delete = kwargs.pop("_delete", False)
@@ -56,7 +56,8 @@ class VfsNode:
     @property
     def children(self) -> list["VfsNode"]:
         if not self.is_dir():
-            raise ValueError("Not a directory node")
+            error = "Not a directory node"
+            raise ValueError(error)
 
         nodes = []
         enum = _VfsNodeEnumerator(lambda _, node: nodes.append(VfsNode(_handle=c_void_p(node), _keepalive=self)))
@@ -76,7 +77,8 @@ class VfsNode:
 
     def open(self) -> "Read":
         if not self.is_file():
-            raise ValueError("Not a file node")
+            error = "Not a file node"
+            raise ValueError(error)
 
         handle = DLL.ZkVfsNode_open(self._handle)
         return Read(c_void_p(handle))
@@ -96,8 +98,7 @@ class VfsNode:
     def __repr__(self) -> str:
         if self.is_dir():
             return f"VfsNode(name={self.name!r}, children={len(self.children)})"
-        else:
-            return f"VfsNode(name={self.name!r})"
+        return f"VfsNode(name={self.name!r})"
 
 
 class Vfs:
@@ -114,7 +115,7 @@ class Vfs:
         parent: str | PathLike = "/",
         *,
         clobber: VfsOverwriteBehavior = VfsOverwriteBehavior.OLDER,
-    ):
+    ) -> None:
         DLL.ZkVfs_mountHost.restype = None
         DLL.ZkVfs_mountHost(
             self._handle,

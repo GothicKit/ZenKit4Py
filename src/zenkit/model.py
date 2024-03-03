@@ -9,8 +9,8 @@ from zenkit import _native
 from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
 from zenkit._native import ZkPointer
-from zenkit.mdh import ModelHierarchy
-from zenkit.mdm import ModelMesh
+from zenkit.model_hierarchy import ModelHierarchy
+from zenkit.model_mesh import ModelMesh
 
 DLL.ZkModel_getMesh.restype = ZkPointer
 DLL.ZkModel_getHierarchy.restype = ZkPointer

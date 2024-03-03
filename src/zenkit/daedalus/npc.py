@@ -20,6 +20,8 @@ from zenkit._core import DLL
 from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
 
+_NPC_AIVAR_COUNT = 100
+
 
 class DamageType(IntEnum):
     BARRIER = 0
@@ -340,16 +342,16 @@ class NpcInstance(DaedalusInstance):
         DLL.ZkNpcInstance_getHitChance.restype = c_int32
         return DLL.ZkNpcInstance_getHitChance(self._handle, talent.value)
 
-    def get_protection(self, type: DamageType) -> int:
+    def get_protection(self, typ: DamageType) -> int:
         DLL.ZkNpcInstance_getProtection.restype = c_int32
-        return DLL.ZkNpcInstance_getProtection(self._handle, type.value)
+        return DLL.ZkNpcInstance_getProtection(self._handle, typ.value)
 
-    def get_damage(self, type: DamageType) -> int:
+    def get_damage(self, typ: DamageType) -> int:
         DLL.ZkNpcInstance_getDamage.restype = c_int32
-        return DLL.ZkNpcInstance_getDamage(self._handle, type.value)
+        return DLL.ZkNpcInstance_getDamage(self._handle, typ.value)
 
     def get_ai_var(self, i: int) -> int:
-        if i < 0 or i >= 100:
+        if i < 0 or i >= _NPC_AIVAR_COUNT:
             raise IndexError(i)
         DLL.ZkNpcInstance_getAiVar.restype = c_int32
         return DLL.ZkNpcInstance_getAiVar(self._handle, c_size_t(i))
@@ -366,13 +368,13 @@ class NpcInstance(DaedalusInstance):
     def set_hit_chance(self, talent: NpcInstanceTalent, val: int) -> None:
         DLL.ZkNpcInstance_setHitChance(self._handle, talent.value, val)
 
-    def set_protection(self, type: DamageType, val: int) -> None:
-        DLL.ZkNpcInstance_setProtection(self._handle, type.value, val)
+    def set_protection(self, typ: DamageType, val: int) -> None:
+        DLL.ZkNpcInstance_setProtection(self._handle, typ.value, val)
 
-    def set_damage(self, type: DamageType, val: int) -> None:
-        DLL.ZkNpcInstance_setDamage(self._handle, type.value, val)
+    def set_damage(self, typ: DamageType, val: int) -> None:
+        DLL.ZkNpcInstance_setDamage(self._handle, typ.value, val)
 
     def set_ai_var(self, i: int, val: int) -> None:
-        if i < 0 or i >= 100:
+        if i < 0 or i >= _NPC_AIVAR_COUNT:
             raise IndexError(i)
         DLL.ZkNpcInstance_setAiVar(self._handle, c_size_t(i), val)

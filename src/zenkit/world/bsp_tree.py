@@ -10,6 +10,7 @@ from ctypes import c_uint32
 from ctypes import c_void_p
 from enum import IntEnum
 from typing import Any
+from typing import ClassVar
 
 from zenkit._core import DLL
 from zenkit._core import AxisAlignedBoundingBox
@@ -25,7 +26,7 @@ class BspTreeType(IntEnum):
 
 
 class BspNode(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_plane", Vec4f),
         ("_bbox", AxisAlignedBoundingBox),
         ("_polygon_index", c_uint32),

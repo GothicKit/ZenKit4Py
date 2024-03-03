@@ -18,6 +18,7 @@ from ctypes import c_uint32
 from ctypes import c_void_p
 from enum import IntEnum
 from typing import Any
+from typing import ClassVar
 
 from zenkit import _native
 from zenkit._core import DLL
@@ -83,6 +84,24 @@ class DaedalusDataType(IntEnum):
     INSTANCE = 7
 
 
+DLL.ZkDaedalusSymbol_getString.restype = ZkString
+DLL.ZkDaedalusSymbol_getInt.restype = c_int32
+DLL.ZkDaedalusSymbol_getFloat.restype = c_float
+DLL.ZkDaedalusSymbol_getIsConst.restype = c_bool
+DLL.ZkDaedalusSymbol_getIsMember.restype = c_bool
+DLL.ZkDaedalusSymbol_getIsExternal.restype = c_bool
+DLL.ZkDaedalusSymbol_getIsMerged.restype = c_bool
+DLL.ZkDaedalusSymbol_getIsGenerated.restype = c_bool
+DLL.ZkDaedalusSymbol_getHasReturn.restype = c_bool
+DLL.ZkDaedalusSymbol_getName.restype = ZkString
+DLL.ZkDaedalusSymbol_getAddress.restype = c_int32
+DLL.ZkDaedalusSymbol_getParent.restype = c_int32
+DLL.ZkDaedalusSymbol_getSize.restype = c_int32
+DLL.ZkDaedalusSymbol_getType.restype = c_int
+DLL.ZkDaedalusSymbol_getIndex.restype = c_uint32
+DLL.ZkDaedalusSymbol_getReturnType.restype = c_int
+
+
 class DaedalusSymbol:
     __slots__ = ("_handle", "_keepalive")
 
@@ -98,21 +117,18 @@ class DaedalusSymbol:
         return self._handle
 
     def get_string(self, i: int = 0, ctx: DaedalusInstance | None = None) -> str:
-        DLL.ZkDaedalusSymbol_getString.restype = ZkString
         return DLL.ZkDaedalusSymbol_getString(self._handle, c_uint16(i), ctx.handle if ctx else None).value
 
     def set_string(self, val: str, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setString(self._handle, val.encode("utf-8"), c_uint16(i), ctx.handle if ctx else None)
 
     def get_int(self, i: int = 0, ctx: DaedalusInstance | None = None) -> int:
-        DLL.ZkDaedalusSymbol_getInt.restype = c_int32
         return DLL.ZkDaedalusSymbol_getInt(self._handle, c_uint16(i), ctx.handle if ctx else None).value
 
     def set_int(self, val: int, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setInt(self._handle, c_int32(val), c_uint16(i), ctx.handle if ctx else None)
 
     def get_float(self, i: int = 0, ctx: DaedalusInstance | None = None) -> float:
-        DLL.ZkDaedalusSymbol_getFloat.restype = c_float
         return DLL.ZkDaedalusSymbol_getFloat(self._handle, c_uint16(i), ctx.handle if ctx else None).value
 
     def set_float(self, val: float, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
@@ -120,67 +136,54 @@ class DaedalusSymbol:
 
     @property
     def is_const(self) -> bool:
-        DLL.ZkDaedalusSymbol_getIsConst.restype = c_bool
         return DLL.ZkDaedalusSymbol_getIsConst(self._handle)
 
     @property
     def is_member(self) -> bool:
-        DLL.ZkDaedalusSymbol_getIsMember.restype = c_bool
         return DLL.ZkDaedalusSymbol_getIsMember(self._handle)
 
     @property
     def is_external(self) -> bool:
-        DLL.ZkDaedalusSymbol_getIsExternal.restype = c_bool
         return DLL.ZkDaedalusSymbol_getIsExternal(self._handle)
 
     @property
     def is_merged(self) -> bool:
-        DLL.ZkDaedalusSymbol_getIsMerged.restype = c_bool
         return DLL.ZkDaedalusSymbol_getIsMerged(self._handle)
 
     @property
     def is_generated(self) -> bool:
-        DLL.ZkDaedalusSymbol_getIsGenerated.restype = c_bool
         return DLL.ZkDaedalusSymbol_getIsGenerated(self._handle)
 
     @property
     def has_return(self) -> bool:
-        DLL.ZkDaedalusSymbol_getHasReturn.restype = c_bool
         return DLL.ZkDaedalusSymbol_getHasReturn(self._handle)
 
     @property
     def name(self) -> str:
-        DLL.ZkDaedalusSymbol_getName.restype = ZkString
         return DLL.ZkDaedalusSymbol_getName(self._handle).value
 
     @property
     def address(self) -> int:
-        DLL.ZkDaedalusSymbol_getAddress.restype = c_int32
         return DLL.ZkDaedalusSymbol_getAddress(self._handle)
 
     @property
     def parent(self) -> int:
-        DLL.ZkDaedalusSymbol_getParent.restype = c_int32
         return DLL.ZkDaedalusSymbol_getParent(self._handle)
 
     @property
     def size(self) -> int:
-        DLL.ZkDaedalusSymbol_getSize.restype = c_int32
         return DLL.ZkDaedalusSymbol_getSize(self._handle)
 
     @property
     def type(self) -> DaedalusDataType:
-        DLL.ZkDaedalusSymbol_getType.restype = c_int
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getType(self._handle))
 
     @property
     def index(self) -> int:
-        DLL.ZkDaedalusSymbol_getIndex.restype = c_uint32
         return DLL.ZkDaedalusSymbol_getIndex(self._handle)
 
     @property
     def return_type(self) -> DaedalusDataType:
-        DLL.ZkDaedalusSymbol_getReturnType.restype = c_int
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getReturnType(self._handle))
 
     def __repr__(self) -> str:
@@ -188,7 +191,7 @@ class DaedalusSymbol:
 
 
 class DaedalusInstruction(Structure):
-    _fields_ = [
+    _fields_: ClassVar[tuple[str, Any]] = [
         ("_op", c_int),
         ("_size", c_int32),
         ("_addr_sym_imm", c_int32),
@@ -220,6 +223,13 @@ class DaedalusInstruction(Structure):
         return self._index
 
 
+DLL.ZkDaedalusScript_getInstruction.restype = DaedalusInstruction
+DLL.ZkDaedalusScript_getSymbolCount.restype = c_uint32
+DLL.ZkDaedalusScript_getSymbolByIndex.restype = ZkPointer
+DLL.ZkDaedalusScript_getSymbolByAddress.restype = ZkPointer
+DLL.ZkDaedalusScript_getSymbolByName.restype = ZkPointer
+
+
 class DaedalusScript:
     __slots__ = ("_handle", "_delete", "_keepalive")
 
@@ -238,35 +248,25 @@ class DaedalusScript:
 
     @property
     def symbols(self) -> list[DaedalusSymbol]:
-        DLL.ZkDaedalusScript_getSymbolCount.restype = c_uint32
         count = DLL.ZkDaedalusScript_getSymbolCount(self._handle)
-        items = []
-
-        for i in range(count):
-            items.append(self.get_symbol_by_index(i))
-
-        return items
+        return [self.get_symbol_by_index(i) for i in range(count)]
 
     def get_instruction(self, address: int) -> DaedalusInstruction:
-        DLL.ZkDaedalusScript_getInstruction.restype = DaedalusInstruction
         return DLL.ZkDaedalusScript_getInstruction(self._handle, c_size_t(address))
 
     def get_symbol_by_index(self, i: int) -> DaedalusSymbol | None:
-        DLL.ZkDaedalusScript_getSymbolByIndex.restype = ZkPointer
         handle = DLL.ZkDaedalusScript_getSymbolByIndex(self._handle, c_uint32(i)).value
         if handle is None or handle.value is None:
             return None
         return DaedalusSymbol(_handle=handle, _keepalive=self)
 
     def get_symbol_by_address(self, i: int) -> DaedalusSymbol | None:
-        DLL.ZkDaedalusScript_getSymbolByAddress.restype = ZkPointer
         handle = DLL.ZkDaedalusScript_getSymbolByAddress(self._handle, c_size_t(i)).value
         if handle is None or handle.value is None:
             return None
         return DaedalusSymbol(_handle=handle, _keepalive=self)
 
     def get_symbol_by_name(self, name: str) -> DaedalusSymbol | None:
-        DLL.ZkDaedalusScript_getSymbolByName.restype = ZkPointer
         handle = DLL.ZkDaedalusScript_getSymbolByName(self._handle, name.encode("utf-8")).value
         if handle is None or handle.value is None:
             return None

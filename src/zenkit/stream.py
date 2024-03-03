@@ -18,7 +18,7 @@ class Read:
         self._handle = c_void_p(None)
         self._keepalive = DLL
 
-        if isinstance(source, (bytes, bytearray)):
+        if isinstance(source, (bytes, bytearray)):  # noqa: UP038 / X|Y would degrade performance
             self._native = source
             self._handle = c_void_p(DLL.ZkRead_newMem(c_char_p(source), len(source)))
         elif isinstance(source, c_void_p):
@@ -29,7 +29,8 @@ class Read:
             self._handle = c_void_p(DLL.ZkRead_newPath(self._native.encode("utf-8")))
 
         if self._handle.value is None or self._handle.value == 0:
-            raise ValueError("Failed to create input stream, see logs.")
+            error = "Failed to create input stream, see logs."
+            raise ValueError(error)
 
     @property
     def handle(self) -> c_void_p:
