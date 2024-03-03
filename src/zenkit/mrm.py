@@ -10,14 +10,13 @@ __all__ = [
 
 from ctypes import POINTER
 from ctypes import Structure
+from ctypes import byref
 from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_size_t
 from ctypes import c_uint16
 from ctypes import c_void_p
 from typing import Any
-
-from _ctypes import byref
 
 from zenkit import _native
 from zenkit._core import DLL

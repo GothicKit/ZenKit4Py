@@ -2,6 +2,7 @@ __all__ = ["SoftSkinMesh", "SoftSkinWeight", "SoftSkinWedgeNormal"]
 
 from ctypes import POINTER
 from ctypes import Structure
+from ctypes import byref
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_size_t
@@ -9,8 +10,6 @@ from ctypes import c_uint
 from ctypes import c_uint8
 from ctypes import c_void_p
 from typing import Any
-
-from _ctypes import byref
 
 from zenkit._core import DLL
 from zenkit._core import OrientedBoundingBox

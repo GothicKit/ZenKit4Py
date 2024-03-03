@@ -4,6 +4,7 @@ __all__ = [
     "TextureBuilder",
 ]
 
+from ctypes import byref
 from ctypes import c_bool
 from ctypes import c_char_p
 from ctypes import c_int
@@ -13,8 +14,6 @@ from ctypes import c_void_p
 from ctypes import string_at
 from enum import IntEnum
 from typing import Any
-
-from _ctypes import byref
 
 from zenkit import _native
 from zenkit._core import DLL
