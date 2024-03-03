@@ -6,7 +6,7 @@ from os import PathLike
 from zenkit._core import DLL
 
 DLL.ZkRead_newMem.restype = c_void_p
-DLL.ZkRead_newFile.restype = c_void_p
+DLL.ZkRead_newPath.restype = c_void_p
 DLL.ZkRead_getSize.restype = c_size_t
 DLL.ZkRead_getBytes.restype = c_size_t
 
@@ -25,10 +25,10 @@ class Read:
             self._native = None
             self._handle = source
         else:
-            self._native = source
-            self._handle = c_void_p(DLL.ZkRead_newFile(c_char_p(source.encode("utf-8"))))
+            self._native = str(source)
+            self._handle = c_void_p(DLL.ZkRead_newPath(self._native.encode("utf-8")))
 
-        if self._handle.value is None:
+        if self._handle.value is None or self._handle.value == 0:
             raise ValueError("Failed to create input stream, see logs.")
 
     @property
