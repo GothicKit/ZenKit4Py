@@ -93,6 +93,10 @@ class DaedalusSymbol:
             self._handle: c_void_p = kwargs.pop("_handle")
             self._keepalive = kwargs.pop("_keepalive", DLL)
 
+    @property
+    def handle(self) -> c_void_p:
+        return self._handle
+
     def get_string(self, i: int = 0, ctx: DaedalusInstance | None = None) -> str:
         DLL.ZkDaedalusSymbol_getString.restype = ZkString
         return DLL.ZkDaedalusSymbol_getString(self._handle, c_uint16(i), ctx.handle if ctx else None).value
@@ -147,7 +151,7 @@ class DaedalusSymbol:
     @property
     def name(self) -> str:
         DLL.ZkDaedalusSymbol_getName.restype = ZkString
-        return DLL.ZkDaedalusSymbol_getName(self._handle).name
+        return DLL.ZkDaedalusSymbol_getName(self._handle).value
 
     @property
     def address(self) -> int:
@@ -178,6 +182,9 @@ class DaedalusSymbol:
     def return_type(self) -> DaedalusDataType:
         DLL.ZkDaedalusSymbol_getReturnType.restype = c_int
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getReturnType(self._handle))
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r} type={self.type.name}>"
 
 
 class DaedalusInstruction(Structure):
@@ -271,3 +278,6 @@ class DaedalusScript:
     @abstractmethod
     def _deleter(self) -> None:
         DLL.ZkDaedalusScript_del(self._handle)
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} handle={self._handle}>"

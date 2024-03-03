@@ -46,6 +46,18 @@ class DaedalusInstance:
         if "_handle" in kwargs:
             self._handle = kwargs.pop("_handle")
 
+    @staticmethod
+    def from_native(handle: c_void_p) -> "DaedalusInstance":
+        from zenkit.daedalus import _INSTANCES
+
+        if handle is None or handle.value is None:
+            return None
+
+        DLL.ZkDaedalusInstance_getType.restype = c_int
+        type = DaedalusInstanceType(DLL.ZkDaedalusInstance_getType(handle))
+
+        return _INSTANCES.get(type, DaedalusInstance)(_handle=handle)
+
     @property
     def handle(self) -> c_void_p:
         return self._handle

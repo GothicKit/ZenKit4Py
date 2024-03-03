@@ -326,7 +326,7 @@ class NpcInstance(DaedalusInstance):
 
     def get_name(self, slot: NpcInstanceNameSlot) -> str:
         DLL.ZkNpcInstance_getName.restype = ZkString
-        return DLL.ZkNpcInstance_getName(self._handle, slot.value)
+        return DLL.ZkNpcInstance_getName(self._handle, slot.value).value
 
     def get_mission(self, slot: NpcInstanceMissionSlot) -> int:
         DLL.ZkNpcInstance_getMission.restype = c_int32

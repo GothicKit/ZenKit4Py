@@ -113,6 +113,8 @@ __all__ = [
     "DaedalusInstruction",
     "DaedalusDataType",
     "DaedalusOpcode",
+    "DaedalusVm",
+    "DaedalusType",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -127,6 +129,8 @@ from zenkit.daedalus_script import DaedalusInstruction
 from zenkit.daedalus_script import DaedalusOpcode
 from zenkit.daedalus_script import DaedalusScript
 from zenkit.daedalus_script import DaedalusSymbol
+from zenkit.daedalus_vm import DaedalusType
+from zenkit.daedalus_vm import DaedalusVm
 from zenkit.fnt import Font
 from zenkit.fnt import FontGlyph
 from zenkit.log import LogLevel
