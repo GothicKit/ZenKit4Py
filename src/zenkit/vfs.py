@@ -9,10 +9,15 @@ from ctypes import CFUNCTYPE
 from ctypes import c_bool
 from ctypes import c_char_p
 from ctypes import c_int
+from ctypes import c_long
+from ctypes import c_ulong
 from ctypes import c_void_p
+from datetime import datetime
+from datetime import timezone
 from enum import IntEnum
 from os import PathLike
 from typing import Any
+from typing import overload
 
 from zenkit._core import DLL
 from zenkit.stream import Read
@@ -44,6 +49,32 @@ class VfsNode:
             self._delete = kwargs.pop("_delete", False)
             self._keepalive = kwargs.pop("_keepalive", DLL)
 
+    @staticmethod
+    def new_file(
+        name: str, content: bytes | bytearray, *, timestamp: datetime | int | float | None = None
+    ) -> "VfsNode":
+        DLL.ZkVfsNode_newFile.restype = c_void_p
+
+        if timestamp is None:
+            timestamp = datetime.now(tz=timezone.utc)
+        if isinstance(timestamp, datetime):
+            timestamp = timestamp.timestamp()
+
+        handle = DLL.ZkVfsNode_newFile(name.encode("utf-8"), content, c_ulong(len(content)), c_long(int(timestamp)))
+        return VfsNode(_handle=c_void_p(handle), _delete=True)
+
+    @staticmethod
+    def new_dir(name: str, *, timestamp: datetime | int | float | None = None) -> "VfsNode":
+        DLL.ZkVfsNode_newDir.restype = c_void_p
+
+        if timestamp is None:
+            timestamp = datetime.now(tz=timezone.utc)
+        if isinstance(timestamp, datetime):
+            timestamp = timestamp.timestamp()
+
+        handle = DLL.ZkVfsNode_newDir(name.encode("utf-8"), c_long(int(timestamp)))
+        return VfsNode(_handle=c_void_p(handle), _delete=True)
+
     @property
     def name(self) -> str:
         return DLL.ZkVfsNode_getName(self._handle).decode("utf-8")
@@ -52,6 +83,10 @@ class VfsNode:
     def data(self) -> bytes:
         rd = self.open()
         return rd.data
+
+    @property
+    def handle(self) -> c_void_p:
+        return self._handle
 
     @property
     def children(self) -> list["VfsNode"]:
@@ -82,6 +117,47 @@ class VfsNode:
 
         handle = DLL.ZkVfsNode_open(self._handle)
         return Read(c_void_p(handle))
+
+    @overload
+    def create(
+        self, node_or_dir_name: "VfsNode | str", /, *, timestamp: datetime | int | float | None = None
+    ) -> "VfsNode":
+        ...
+
+    @overload
+    def create(
+        self, file_name: str, file_content: bytes | bytearray, /, *, timestamp: datetime | int | float | None = None
+    ) -> "VfsNode":
+        ...
+
+    def create(self, *args: Any, **kwargs: Any) -> "VfsNode":
+        DLL.ZkVfsNode_create.restype = c_void_p
+
+        if len(args) == 1:
+            if isinstance(args[0], VfsNode):
+                handle = DLL.ZkVfsNode_create(self._handle, args[0].handle)
+            elif isinstance(args[0], str):
+                dir = VfsNode.new_dir(args[0], timestamp=kwargs.pop("timestamp", None))
+                handle = DLL.ZkVfsNode_create(self._handle, dir.handle)
+            else:
+                raise TypeError(f"Expected VfsNode instance or directory name, got {type(args[0])}")
+        elif len(args) == 2:
+            if not isinstance(args[0], str):
+                raise TypeError(f"Expected file name (str) as the first parameter, got {type(args[0])}")
+            if not isinstance(args[1], bytes | bytearray):
+                raise TypeError(f"Expected content (bytes or bytearray) as the second parameter, got {type(args[0])}")
+            file = VfsNode.new_file(args[0], args[1], timestamp=kwargs.pop("timestamp", None))
+            handle = DLL.ZkVfsNode_create(self._handle, file.handle)
+        else:
+            raise ValueError(f"Expected 2 arguments, got {len(args)}")
+
+        if handle is None or handle == 0:
+            return None
+        return VfsNode(_handle=handle, _keepalive=self)
+
+    def remove(self, name: str) -> bool:
+        DLL.ZkVfsNode_remove.restype = c_bool
+        return DLL.ZkVfsNode_remove(self._handle, name.encode("utf-8"))
 
     def __iter__(self) -> Iterator["VfsNode"]:
         return iter(self.children)
@@ -142,6 +218,17 @@ class Vfs:
         DLL.ZkVfs_resolvePath.restype = c_void_p
         handle = DLL.ZkVfs_resolvePath(self._handle, str(path).encode("utf-8"))
         return VfsNode(_handle=c_void_p(handle), _keepalive=self) if handle is not None else None
+
+    def mkdir(self, path: str | PathLike) -> VfsNode:
+        DLL.ZkVfs_mkdir.restype = c_void_p
+        handle = DLL.ZkVfs_mkdir(self._handle, str(path).encode("utf-8"))
+        if handle is None or handle == 0:
+            return None
+        return VfsNode(_handle=c_void_p(handle), _keepalive=self)
+
+    def remove(self, path: str | PathLike) -> bool:
+        DLL.ZkVfs_remove.restype = c_bool
+        return DLL.ZkVfs_remove(self._handle, str(path).encode("utf-8"))
 
     @property
     def root(self) -> VfsNode:
