@@ -10,6 +10,7 @@ __all__ = [
     "Date",
     "PathOrFileLike",
     "Color",
+    "GameVersion",
 ]
 
 import platform
@@ -23,6 +24,7 @@ from ctypes import c_uint32
 from ctypes import c_void_p
 from datetime import datetime
 from datetime import timezone
+from enum import IntEnum
 from os import PathLike
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -47,6 +49,11 @@ DLL: Final[CDLL] = CDLL(str(_PATH))
 PathOrFileLike = Union[str, PathLike, "Read", bytes, bytearray, "VfsNode"]
 
 
+class GameVersion(IntEnum):
+    GOTHIC1 = 0
+    GOTHIC2 = 1
+
+
 class Date(Structure):
     _pack_ = 1
     _fields_: ClassVar[tuple[str, Any]] = [
@@ -66,12 +73,14 @@ class Date(Structure):
             hour=self.hour,
             minute=self.minute,
             second=self.second,
-            tzinfo=timezone.utc
+            tzinfo=timezone.utc,
         )
 
     def __repr__(self) -> str:
-        return (f"Date(year={self.year}, month={self.month}, day={self.day}, "
-                f"hour={self.hour}, minute={self.minute}, second={self.second})")
+        return (
+            f"Date(year={self.year}, month={self.month}, day={self.day}, "
+            f"hour={self.hour}, minute={self.minute}, second={self.second})"
+        )
 
 
 class Vec2f(Structure):

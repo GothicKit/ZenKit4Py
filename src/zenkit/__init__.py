@@ -115,9 +115,11 @@ __all__ = [
     "DaedalusOpcode",
     "DaedalusVm",
     "DaedalusType",
+    "GameVersion",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
+from zenkit._core import GameVersion
 from zenkit._core import Quat
 from zenkit._core import Vec2f
 from zenkit._core import Vec3f

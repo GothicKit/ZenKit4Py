@@ -20,6 +20,7 @@ from typing import Any
 from typing import overload
 
 from zenkit._core import DLL
+from zenkit._core import GameVersion
 from zenkit.stream import Read
 
 _VfsNodeEnumerator = CFUNCTYPE(c_bool, c_void_p, c_void_p)
@@ -229,6 +230,9 @@ class Vfs:
     def remove(self, path: str | PathLike) -> bool:
         DLL.ZkVfs_remove.restype = c_bool
         return DLL.ZkVfs_remove(self._handle, str(path).encode("utf-8"))
+
+    def save(self, path: str | PathLike, version: GameVersion) -> None:
+        DLL.ZkVfs_save(self._handle, str(path).encode("utf-8"), c_int(version.value))
 
     @property
     def root(self) -> VfsNode:
