@@ -95,8 +95,12 @@ class VfsNode:
             error = "Not a directory node"
             raise ValueError(error)
 
+        def _enumerate(_, node: int) -> bool:
+            nodes.append(VfsNode(_handle=c_void_p(node), _keepalive=self))
+            return False
+
         nodes = []
-        enum = _VfsNodeEnumerator(lambda _, node: nodes.append(VfsNode(_handle=c_void_p(node), _keepalive=self)))
+        enum = _VfsNodeEnumerator(_enumerate)
         DLL.ZkVfsNode_enumerateChildren(self._handle, enum, c_void_p(None))
 
         return nodes
