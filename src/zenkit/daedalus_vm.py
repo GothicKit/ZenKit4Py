@@ -142,10 +142,9 @@ class DaedalusVm(DaedalusScript):
         handle = DLL.ZkDaedalusVm_initInstance(self._handle, sym.handle, typ.value).value
         return DaedalusInstance.from_native(handle)
 
-    def init_instance_direct(self, sym: DaedalusInstance) -> DaedalusInstance:
-        DLL.ZkDaedalusVm_initInstanceDirect.restype = ZkPointer
-        handle = DLL.ZkDaedalusVm_initInstanceDirect(self._handle, sym.handle).value
-        return DaedalusInstance.from_native(handle)
+    def init_instance_direct(self, sym: DaedalusInstance) -> None:
+        DLL.ZkDaedalusVm_initInstanceDirect(self._handle, sym.handle)
+
 
     def print_stack_trace(self) -> None:
         DLL.ZkDaedalusVm_printStackTrace(self._handle)
