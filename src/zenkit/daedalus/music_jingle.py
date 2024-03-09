@@ -1,4 +1,6 @@
-__all__ = []
+__all__ = [
+    "MusicJingleInstance",
+]
 
 from ctypes import c_float
 from ctypes import c_int32

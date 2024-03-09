@@ -116,6 +116,30 @@ __all__ = [
     "DaedalusVm",
     "DaedalusType",
     "GameVersion",
+    "DaedalusInstance",
+    "DaedalusInstanceType",
+    "DaedalusInstanceType",
+    "CameraInstance",
+    "EffectBaseInstance",
+    "FightAiInstance",
+    "FocusInstance",
+    "GuildValuesInstance",
+    "InfoInstance",
+    "ItemInstance",
+    "ItemReactInstance",
+    "MenuInstance",
+    "MenuItemInstance",
+    "MissionInstance",
+    "MusicJingleInstance",
+    "MusicSystemInstance",
+    "MusicThemeInstance",
+    "NpcInstance",
+    "ParticleEffectInstance",
+    "ParticleEffectEmitKeyInstance",
+    "SoundEffectInstance",
+    "SoundSystemInstance",
+    "SpellInstance",
+    "SvmInstance",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -126,6 +150,29 @@ from zenkit._core import Vec3f
 from zenkit.cutscene_library import CutsceneBlock
 from zenkit.cutscene_library import CutsceneLibrary
 from zenkit.cutscene_library import CutsceneMessage
+from zenkit.daedalus.base import DaedalusInstance
+from zenkit.daedalus.base import DaedalusInstanceType
+from zenkit.daedalus.camera import CameraInstance
+from zenkit.daedalus.effect_base import EffectBaseInstance
+from zenkit.daedalus.fightai import FightAiInstance
+from zenkit.daedalus.focus import FocusInstance
+from zenkit.daedalus.guildvalues import GuildValuesInstance
+from zenkit.daedalus.info import InfoInstance
+from zenkit.daedalus.item import ItemInstance
+from zenkit.daedalus.item_react import ItemReactInstance
+from zenkit.daedalus.menu import MenuInstance
+from zenkit.daedalus.menu_item import MenuItemInstance
+from zenkit.daedalus.mission import MissionInstance
+from zenkit.daedalus.music_jingle import MusicJingleInstance
+from zenkit.daedalus.music_system import MusicSystemInstance
+from zenkit.daedalus.music_theme import MusicThemeInstance
+from zenkit.daedalus.npc import NpcInstance
+from zenkit.daedalus.particle_effect import ParticleEffectInstance
+from zenkit.daedalus.particle_effect_emit_key import ParticleEffectEmitKeyInstance
+from zenkit.daedalus.sound_effect import SoundEffectInstance
+from zenkit.daedalus.sound_system import SoundSystemInstance
+from zenkit.daedalus.spell_instance import SpellInstance
+from zenkit.daedalus.svm import SvmInstance
 from zenkit.daedalus_script import DaedalusDataType
 from zenkit.daedalus_script import DaedalusInstruction
 from zenkit.daedalus_script import DaedalusOpcode
