@@ -132,13 +132,21 @@ class DaedalusVm(DaedalusScript):
         handle = DLL.ZkDaedalusVm_popInstance(self._handle).value
         return DaedalusInstance.from_native(handle)
 
-    def alloc_instance(self, sym: DaedalusSymbol, typ: DaedalusInstanceType) -> DaedalusInstance:
+    def alloc_instance(self, sym: DaedalusSymbol | str, typ: DaedalusInstanceType) -> DaedalusInstance:
         DLL.ZkDaedalusVm_allocInstance.restype = ZkPointer
+
+        if isinstance(sym, str):
+            sym = self.get_symbol_by_name(sym)
+
         handle = DLL.ZkDaedalusVm_allocInstance(self._handle, sym.handle, typ.value).value
         return DaedalusInstance.from_native(handle)
 
-    def init_instance(self, sym: DaedalusSymbol, typ: DaedalusInstanceType) -> DaedalusInstance:
+    def init_instance(self, sym: DaedalusSymbol | str, typ: DaedalusInstanceType) -> DaedalusInstance:
         DLL.ZkDaedalusVm_initInstance.restype = ZkPointer
+
+        if isinstance(sym, str):
+            sym = self.get_symbol_by_name(sym)
+
         handle = DLL.ZkDaedalusVm_initInstance(self._handle, sym.handle, typ.value).value
         return DaedalusInstance.from_native(handle)
 
@@ -150,8 +158,11 @@ class DaedalusVm(DaedalusScript):
         DLL.ZkDaedalusVm_printStackTrace(self._handle)
 
     def call(
-            self, sym: DaedalusSymbol, *args: DaedalusType, rtype: type[DaedalusTypeGeneric] | None = None
+        self, sym: DaedalusSymbol | str, *args: DaedalusType, rtype: type[DaedalusTypeGeneric] | None = None
     ) -> DaedalusTypeGeneric:
+        if isinstance(sym, str):
+            sym = self.get_symbol_by_name(sym)
+
         for arg in args:
             self.push(arg)
         self._call_function(sym)
@@ -161,7 +172,7 @@ class DaedalusVm(DaedalusScript):
         return None
 
     def register_external(
-            self, sym: DaedalusSymbol, cb: Callable[..., DaedalusType | None], *args: type[DaedalusType]
+        self, sym: DaedalusSymbol | str, cb: Callable[..., DaedalusType | None], *args: type[DaedalusType]
     ) -> None:
         def _wrapper() -> None:
             vals = [self.pop(arg) for arg in reversed(args)][::-1]
@@ -169,6 +180,8 @@ class DaedalusVm(DaedalusScript):
             if res is not None:
                 self.push(res)
 
+        if isinstance(sym, str):
+            sym = self.get_symbol_by_name(sym)
         self._register_external(sym, _wrapper)
 
     def register_external_default(self, cb: Callable[[DaedalusSymbol], None]) -> None:
