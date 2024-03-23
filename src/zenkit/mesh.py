@@ -5,7 +5,7 @@ __all__ = [
 from ctypes import POINTER
 from ctypes import Structure
 from ctypes import byref
-from ctypes import c_bool
+from ctypes import c_int
 from ctypes import c_int16
 from ctypes import c_int32
 from ctypes import c_size_t
@@ -54,14 +54,14 @@ DLL.ZkPolygon_getMaterialIndex.restype = c_uint32
 DLL.ZkPolygon_getLightMapIndex.restype = c_int32
 DLL.ZkPolygon_getPositionIndices.restype = POINTER(c_uint32)
 DLL.ZkPolygon_getFeatureIndices.restype = POINTER(c_uint32)
-DLL.ZkPolygon_getIsPortal.restype = c_bool
-DLL.ZkPolygon_getIsOccluder.restype = c_bool
-DLL.ZkPolygon_getIsSector.restype = c_bool
-DLL.ZkPolygon_getShouldRelight.restype = c_bool
-DLL.ZkPolygon_getIsOutdoor.restype = c_bool
-DLL.ZkPolygon_getIsGhostOccluder.restype = c_bool
-DLL.ZkPolygon_getIsDynamicallyLit.restype = c_bool
-DLL.ZkPolygon_getIsLod.restype = c_bool
+DLL.ZkPolygon_getIsPortal.restype = c_int
+DLL.ZkPolygon_getIsOccluder.restype = c_int
+DLL.ZkPolygon_getIsSector.restype = c_int
+DLL.ZkPolygon_getShouldRelight.restype = c_int
+DLL.ZkPolygon_getIsOutdoor.restype = c_int
+DLL.ZkPolygon_getIsGhostOccluder.restype = c_int
+DLL.ZkPolygon_getIsDynamicallyLit.restype = c_int
+DLL.ZkPolygon_getIsLod.restype = c_int
 DLL.ZkPolygon_getNormalAxis.restype = c_uint8
 DLL.ZkPolygon_getSectorIndex.restype = c_int16
 
@@ -98,43 +98,43 @@ class Polygon:
 
     @property
     def is_portal(self) -> bool:
-        return DLL.ZkPolygon_getIsPortal(self._handle)
+        return DLL.ZkPolygon_getIsPortal(self._handle) != 0
 
     @property
     def is_occluder(self) -> bool:
-        return DLL.ZkPolygon_getIsOccluder(self._handle)
+        return DLL.ZkPolygon_getIsOccluder(self._handle) != 0
 
     @property
     def is_sector(self) -> bool:
-        return DLL.ZkPolygon_getIsSector(self._handle)
+        return DLL.ZkPolygon_getIsSector(self._handle) != 0
 
     @property
     def should_relight(self) -> bool:
-        return DLL.ZkPolygon_getShouldRelight(self._handle)
+        return DLL.ZkPolygon_getShouldRelight(self._handle) != 0
 
     @property
     def is_outdoor(self) -> bool:
-        return DLL.ZkPolygon_getIsOutdoor(self._handle)
+        return DLL.ZkPolygon_getIsOutdoor(self._handle) != 0
 
     @property
     def is_ghost_occluder(self) -> bool:
-        return DLL.ZkPolygon_getIsGhostOccluder(self._handle)
+        return DLL.ZkPolygon_getIsGhostOccluder(self._handle) != 0
 
     @property
     def is_dynamically_lit(self) -> bool:
-        return DLL.ZkPolygon_getIsDynamicallyLit(self._handle)
+        return DLL.ZkPolygon_getIsDynamicallyLit(self._handle) != 0
 
     @property
     def is_lod(self) -> bool:
-        return DLL.ZkPolygon_getIsLod(self._handle)
+        return DLL.ZkPolygon_getIsLod(self._handle) != 0
 
     @property
     def normal_axis(self) -> bool:
-        return DLL.ZkPolygon_getNormalAxis(self._handle)
+        return DLL.ZkPolygon_getNormalAxis(self._handle) != 0
 
     @property
     def sector_index(self) -> bool:
-        return DLL.ZkPolygon_getSectorIndex(self._handle)
+        return DLL.ZkPolygon_getSectorIndex(self._handle) != 0
 
     def __del__(self) -> None:
         self._keepalive = None

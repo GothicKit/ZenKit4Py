@@ -4,8 +4,8 @@ __all__ = [
     "ZoneFarPlane",
 ]
 
-from ctypes import c_bool
 from ctypes import c_float
+from ctypes import c_int
 from ctypes import c_int32
 from typing import Any
 
@@ -13,15 +13,15 @@ from zenkit._core import DLL
 from zenkit._core import Color
 from zenkit.vob.virtual_object import VirtualObject
 
-DLL.ZkZoneMusic_getIsEnabled.restype = c_bool
+DLL.ZkZoneMusic_getIsEnabled.restype = c_int
 DLL.ZkZoneMusic_getPriority.restype = c_int32
-DLL.ZkZoneMusic_getIsEllipsoid.restype = c_bool
+DLL.ZkZoneMusic_getIsEllipsoid.restype = c_int
 DLL.ZkZoneMusic_getReverb.restype = c_float
 DLL.ZkZoneMusic_getVolume.restype = c_float
-DLL.ZkZoneMusic_getIsLoop.restype = c_bool
-DLL.ZkZoneMusic_getLocalEnabled.restype = c_bool
-DLL.ZkZoneMusic_getDayEntranceDone.restype = c_bool
-DLL.ZkZoneMusic_getNightEntranceDone.restype = c_bool
+DLL.ZkZoneMusic_getIsLoop.restype = c_int
+DLL.ZkZoneMusic_getLocalEnabled.restype = c_int
+DLL.ZkZoneMusic_getDayEntranceDone.restype = c_int
+DLL.ZkZoneMusic_getNightEntranceDone.restype = c_int
 
 
 class ZoneMusic(VirtualObject):
@@ -34,7 +34,7 @@ class ZoneMusic(VirtualObject):
 
     @is_enabled.setter
     def is_enabled(self, value: bool) -> None:
-        DLL.ZkZoneMusic_setIsEnabled(self._handle, c_bool(value))
+        DLL.ZkZoneMusic_setIsEnabled(self._handle, c_int(value))
 
     @property
     def priority(self) -> int:
@@ -50,7 +50,7 @@ class ZoneMusic(VirtualObject):
 
     @is_ellipsoid.setter
     def is_ellipsoid(self, value: bool) -> None:
-        DLL.ZkZoneMusic_setIsEllipsoid(self._handle, c_bool(value))
+        DLL.ZkZoneMusic_setIsEllipsoid(self._handle, c_int(value))
 
     @property
     def reverb(self) -> float:
@@ -74,7 +74,7 @@ class ZoneMusic(VirtualObject):
 
     @is_loop.setter
     def is_loop(self, value: bool) -> None:
-        DLL.ZkZoneMusic_setIsLoop(self._handle, c_bool(value))
+        DLL.ZkZoneMusic_setIsLoop(self._handle, c_int(value))
 
     @property
     def local_enabled(self) -> bool:
@@ -90,15 +90,15 @@ class ZoneMusic(VirtualObject):
 
     @local_enabled.setter
     def local_enabled(self, value: bool) -> None:
-        DLL.ZkZoneMusic_setLocalEnabled(self._handle, c_bool(value))
+        DLL.ZkZoneMusic_setLocalEnabled(self._handle, c_int(value))
 
     @day_entrance_done.setter
     def day_entrance_done(self, value: bool) -> None:
-        DLL.ZkZoneMusic_setDayEntranceDone(self._handle, c_bool(value))
+        DLL.ZkZoneMusic_setDayEntranceDone(self._handle, c_int(value))
 
     @night_entrance_done.setter
     def night_entrance_done(self, value: bool) -> None:
-        DLL.ZkZoneMusic_setNightEntranceDone(self._handle, c_bool(value))
+        DLL.ZkZoneMusic_setNightEntranceDone(self._handle, c_int(value))
 
 
 DLL.ZkZoneFarPlane_getVobFarPlaneZ.restype = c_float
@@ -129,8 +129,8 @@ class ZoneFarPlane(VirtualObject):
 DLL.ZkZoneFog_getRangeCenter.restype = c_float
 DLL.ZkZoneFog_getInnerRangePercentage.restype = c_float
 DLL.ZkZoneFog_getColor.restype = Color
-DLL.ZkZoneFog_getFadeOutSky.restype = c_bool
-DLL.ZkZoneFog_getOverrideColor.restype = c_bool
+DLL.ZkZoneFog_getFadeOutSky.restype = c_int
+DLL.ZkZoneFog_getOverrideColor.restype = c_int
 
 
 class ZoneFog(VirtualObject):
@@ -163,16 +163,16 @@ class ZoneFog(VirtualObject):
 
     @property
     def fade_out_sky(self) -> bool:
-        return DLL.ZkZoneFog_getFadeOutSky(self._handle)
+        return DLL.ZkZoneFog_getFadeOutSky(self._handle) != 0
 
     @fade_out_sky.setter
     def fade_out_sky(self, value: bool) -> None:
-        DLL.ZkZoneFog_setFadeOutSky(self._handle, c_bool(value))
+        DLL.ZkZoneFog_setFadeOutSky(self._handle, c_int(value))
 
     @property
     def override_color(self) -> bool:
-        return DLL.ZkZoneFog_getOverrideColor(self._handle)
+        return DLL.ZkZoneFog_getOverrideColor(self._handle) != 0
 
     @override_color.setter
     def override_color(self, value: bool) -> None:
-        DLL.ZkZoneFog_setOverrideColor(self._handle, c_bool(value))
+        DLL.ZkZoneFog_setOverrideColor(self._handle, c_int(value))

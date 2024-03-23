@@ -1,7 +1,7 @@
 __all__ = ["ModelMesh"]
 
 from ctypes import CFUNCTYPE
-from ctypes import c_bool
+from ctypes import c_int
 from ctypes import c_size_t
 from ctypes import c_uint
 from ctypes import c_void_p
@@ -15,7 +15,7 @@ from zenkit._native import ZkString
 from zenkit.multi_resolution_mesh import MultiResolutionMesh
 from zenkit.soft_skin_mesh import SoftSkinMesh
 
-_ModelMeshAttachmentEnumerator = CFUNCTYPE(c_bool, c_void_p, ZkString, ZkPointer)
+_ModelMeshAttachmentEnumerator = CFUNCTYPE(c_int, c_void_p, ZkString, ZkPointer)
 
 DLL.ZkModelMesh_getChecksum.restype = c_uint
 DLL.ZkModelMesh_getMeshCount.restype = c_size_t
@@ -55,9 +55,9 @@ class ModelMesh:
 
     @property
     def attachments(self) -> dict[str, MultiResolutionMesh]:
-        def _enumerate(_ctx: int, name: ZkString, ptr: ZkPointer) -> bool:
+        def _enumerate(_ctx: int, name: ZkString, ptr: ZkPointer) -> int:
             attachments[name.value] = MultiResolutionMesh(_handle=ptr.value, _keepalive=self)
-            return False
+            return 0
 
         attachments = {}
         enumerator = _ModelMeshAttachmentEnumerator(_enumerate)

@@ -7,7 +7,6 @@ __all__ = [
     "CameraTrajectoryFrame",
 ]
 
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_int32
@@ -61,7 +60,7 @@ DLL.ZkCameraTrajectoryFrame_getTension.restype = c_float
 DLL.ZkCameraTrajectoryFrame_getCamBias.restype = c_float
 DLL.ZkCameraTrajectoryFrame_getContinuity.restype = c_float
 DLL.ZkCameraTrajectoryFrame_getTimeScale.restype = c_float
-DLL.ZkCameraTrajectoryFrame_getTimeFixed.restype = c_bool
+DLL.ZkCameraTrajectoryFrame_getTimeFixed.restype = c_int
 DLL.ZkCameraTrajectoryFrame_getOriginalPose.restype = Mat4x4
 
 
@@ -159,11 +158,11 @@ class CameraTrajectoryFrame(VirtualObject):
 
     @property
     def time_fixed(self) -> bool:
-        return DLL.ZkCameraTrajectoryFrame_getTimeFixed(self._handle)
+        return DLL.ZkCameraTrajectoryFrame_getTimeFixed(self._handle) != 0
 
     @time_fixed.setter
     def time_fixed(self, value: bool) -> None:
-        DLL.ZkCameraTrajectoryFrame_setTimeFixed(self._handle, c_bool(value))
+        DLL.ZkCameraTrajectoryFrame_setTimeFixed(self._handle, c_int(value))
 
     @property
     def original_pose(self) -> Mat4x4:
@@ -178,21 +177,21 @@ DLL.ZkCutsceneCamera_getTrajectoryFOR.restype = c_int
 DLL.ZkCutsceneCamera_getTargetTrajectoryFOR.restype = c_int
 DLL.ZkCutsceneCamera_getLoopMode.restype = c_int
 DLL.ZkCutsceneCamera_getLerpMode.restype = c_int
-DLL.ZkCutsceneCamera_getIgnoreFORVobRotation.restype = c_bool
-DLL.ZkCutsceneCamera_getIgnoreFORVobRotationTarget.restype = c_bool
-DLL.ZkCutsceneCamera_getAdapt.restype = c_bool
-DLL.ZkCutsceneCamera_getEaseFirst.restype = c_bool
-DLL.ZkCutsceneCamera_getEaseLast.restype = c_bool
+DLL.ZkCutsceneCamera_getIgnoreFORVobRotation.restype = c_int
+DLL.ZkCutsceneCamera_getIgnoreFORVobRotationTarget.restype = c_int
+DLL.ZkCutsceneCamera_getAdapt.restype = c_int
+DLL.ZkCutsceneCamera_getEaseFirst.restype = c_int
+DLL.ZkCutsceneCamera_getEaseLast.restype = c_int
 DLL.ZkCutsceneCamera_getTotalDuration.restype = c_float
 DLL.ZkCutsceneCamera_getAutoFocusVob.restype = ZkString
-DLL.ZkCutsceneCamera_getAutoPlayerMovable.restype = c_bool
-DLL.ZkCutsceneCamera_getAutoUntriggerLast.restype = c_bool
+DLL.ZkCutsceneCamera_getAutoPlayerMovable.restype = c_int
+DLL.ZkCutsceneCamera_getAutoUntriggerLast.restype = c_int
 DLL.ZkCutsceneCamera_getAutoUntriggerLastDelay.restype = c_float
 DLL.ZkCutsceneCamera_getPositionCount.restype = c_int32
 DLL.ZkCutsceneCamera_getTargetCount.restype = c_int32
-DLL.ZkCutsceneCamera_getIsPaused.restype = c_bool
-DLL.ZkCutsceneCamera_getIsStarted.restype = c_bool
-DLL.ZkCutsceneCamera_getGotoTimeMode.restype = c_bool
+DLL.ZkCutsceneCamera_getIsPaused.restype = c_int
+DLL.ZkCutsceneCamera_getIsStarted.restype = c_int
+DLL.ZkCutsceneCamera_getGotoTimeMode.restype = c_int
 DLL.ZkCutsceneCamera_getTime.restype = c_float
 DLL.ZkCutsceneCamera_getFrameCount.restype = c_size_t
 DLL.ZkCutsceneCamera_getFrame.restype = ZkPointer
@@ -236,43 +235,43 @@ class CutsceneCamera(VirtualObject):
 
     @property
     def ignore_for_vob_rotation(self) -> bool:
-        return DLL.ZkCutsceneCamera_getIgnoreFORVobRotation(self._handle)
+        return DLL.ZkCutsceneCamera_getIgnoreFORVobRotation(self._handle) != 0
 
     @ignore_for_vob_rotation.setter
     def ignore_for_vob_rotation(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setIgnoreFORVobRotation(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setIgnoreFORVobRotation(self._handle, c_int(value))
 
     @property
     def ignore_for_vob_rotation_target(self) -> bool:
-        return DLL.ZkCutsceneCamera_getIgnoreFORVobRotationTarget(self._handle)
+        return DLL.ZkCutsceneCamera_getIgnoreFORVobRotationTarget(self._handle) != 0
 
     @ignore_for_vob_rotation_target.setter
     def ignore_for_vob_rotation_target(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setIgnoreFORVobRotationTarget(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setIgnoreFORVobRotationTarget(self._handle, c_int(value))
 
     @property
     def adapt(self) -> bool:
-        return DLL.ZkCutsceneCamera_getAdapt(self._handle)
+        return DLL.ZkCutsceneCamera_getAdapt(self._handle) != 0
 
     @adapt.setter
     def adapt(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setAdapt(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setAdapt(self._handle, c_int(value))
 
     @property
     def ease_first(self) -> bool:
-        return DLL.ZkCutsceneCamera_getEaseFirst(self._handle)
+        return DLL.ZkCutsceneCamera_getEaseFirst(self._handle) != 0
 
     @ease_first.setter
     def ease_first(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setEaseFirst(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setEaseFirst(self._handle, c_int(value))
 
     @property
     def ease_last(self) -> bool:
-        return DLL.ZkCutsceneCamera_getEaseLast(self._handle)
+        return DLL.ZkCutsceneCamera_getEaseLast(self._handle) != 0
 
     @ease_last.setter
     def ease_last(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setEaseLast(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setEaseLast(self._handle, c_int(value))
 
     @property
     def total_duration(self) -> float:
@@ -292,19 +291,19 @@ class CutsceneCamera(VirtualObject):
 
     @property
     def auto_player_movable(self) -> bool:
-        return DLL.ZkCutsceneCamera_getAutoPlayerMovable(self._handle)
+        return DLL.ZkCutsceneCamera_getAutoPlayerMovable(self._handle) != 0
 
     @auto_player_movable.setter
     def auto_player_movable(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setAutoPlayerMovable(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setAutoPlayerMovable(self._handle, c_int(value))
 
     @property
     def auto_untrigger_last(self) -> bool:
-        return DLL.ZkCutsceneCamera_getAutoUntriggerLast(self._handle)
+        return DLL.ZkCutsceneCamera_getAutoUntriggerLast(self._handle) != 0
 
     @auto_untrigger_last.setter
     def auto_untrigger_last(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setAutoUntriggerLast(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setAutoUntriggerLast(self._handle, c_int(value))
 
     @property
     def auto_untrigger_last_delay(self) -> float:
@@ -324,27 +323,27 @@ class CutsceneCamera(VirtualObject):
 
     @property
     def is_paused(self) -> bool:
-        return DLL.ZkCutsceneCamera_getIsPaused(self._handle)
+        return DLL.ZkCutsceneCamera_getIsPaused(self._handle) != 0
 
     @is_paused.setter
     def is_paused(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setIsPaused(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setIsPaused(self._handle, c_int(value))
 
     @property
     def is_started(self) -> bool:
-        return DLL.ZkCutsceneCamera_getIsStarted(self._handle)
+        return DLL.ZkCutsceneCamera_getIsStarted(self._handle) != 0
 
     @is_started.setter
     def is_started(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setIsStarted(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setIsStarted(self._handle, c_int(value))
 
     @property
     def goto_time_mode(self) -> bool:
-        return DLL.ZkCutsceneCamera_getGotoTimeMode(self._handle)
+        return DLL.ZkCutsceneCamera_getGotoTimeMode(self._handle) != 0
 
     @goto_time_mode.setter
     def goto_time_mode(self, value: bool) -> None:
-        DLL.ZkCutsceneCamera_setGotoTimeMode(self._handle, c_bool(value))
+        DLL.ZkCutsceneCamera_setGotoTimeMode(self._handle, c_int(value))
 
     @property
     def time(self) -> float:

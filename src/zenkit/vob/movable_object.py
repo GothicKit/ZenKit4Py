@@ -7,7 +7,6 @@ __all__ = [
     "SoundMaterialType",
 ]
 
-from ctypes import c_bool
 from ctypes import c_int
 from ctypes import c_int32
 from ctypes import c_size_t
@@ -33,14 +32,14 @@ class SoundMaterialType(IntEnum):
 DLL.ZkMovableObject_getName.restype = ZkString
 DLL.ZkMovableObject_getHp.restype = c_int32
 DLL.ZkMovableObject_getDamage.restype = c_int32
-DLL.ZkMovableObject_getMovable.restype = c_bool
-DLL.ZkMovableObject_getTakable.restype = c_bool
-DLL.ZkMovableObject_getFocusOverride.restype = c_bool
+DLL.ZkMovableObject_getMovable.restype = c_int
+DLL.ZkMovableObject_getTakable.restype = c_int
+DLL.ZkMovableObject_getFocusOverride.restype = c_int
 DLL.ZkMovableObject_getMaterial.restype = c_int
 DLL.ZkMovableObject_getVisualDestroyed.restype = ZkString
 DLL.ZkMovableObject_getOwner.restype = ZkString
 DLL.ZkMovableObject_getOwnerGuild.restype = ZkString
-DLL.ZkMovableObject_getDestroyed.restype = c_bool
+DLL.ZkMovableObject_getDestroyed.restype = c_int
 
 
 class MovableObject(VirtualObject):
@@ -73,27 +72,27 @@ class MovableObject(VirtualObject):
 
     @property
     def movable(self) -> bool:
-        return DLL.ZkMovableObject_getMovable(self._handle)
+        return DLL.ZkMovableObject_getMovable(self._handle) != 0
 
     @movable.setter
     def movable(self, value: bool) -> None:
-        DLL.ZkMovableObject_setMovable(self._handle, c_bool(value))
+        DLL.ZkMovableObject_setMovable(self._handle, c_int(value))
 
     @property
     def takable(self) -> bool:
-        return DLL.ZkMovableObject_getTakable(self._handle)
+        return DLL.ZkMovableObject_getTakable(self._handle) != 0
 
     @takable.setter
     def takable(self, value: bool) -> None:
-        DLL.ZkMovableObject_setTakable(self._handle, c_bool(value))
+        DLL.ZkMovableObject_setTakable(self._handle, c_int(value))
 
     @property
     def focus_override(self) -> bool:
-        return DLL.ZkMovableObject_getFocusOverride(self._handle)
+        return DLL.ZkMovableObject_getFocusOverride(self._handle) != 0
 
     @focus_override.setter
     def focus_override(self, value: bool) -> None:
-        DLL.ZkMovableObject_setFocusOverride(self._handle, c_bool(value))
+        DLL.ZkMovableObject_setFocusOverride(self._handle, c_int(value))
 
     @property
     def material(self) -> SoundMaterialType:
@@ -129,11 +128,11 @@ class MovableObject(VirtualObject):
 
     @property
     def destroyed(self) -> bool:
-        return DLL.ZkMovableObject_getDestroyed(self._handle)
+        return DLL.ZkMovableObject_getDestroyed(self._handle) != 0
 
     @destroyed.setter
     def destroyed(self, value: bool) -> None:
-        DLL.ZkMovableObject_setDestroyed(self._handle, c_bool(value))
+        DLL.ZkMovableObject_setDestroyed(self._handle, c_int(value))
 
 
 DLL.ZkInteractiveObject_getState.restype = c_int32
@@ -141,7 +140,7 @@ DLL.ZkInteractiveObject_getTarget.restype = ZkString
 DLL.ZkInteractiveObject_getItem.restype = ZkString
 DLL.ZkInteractiveObject_getConditionFunction.restype = ZkString
 DLL.ZkInteractiveObject_getOnStateChangeFunction.restype = ZkString
-DLL.ZkInteractiveObject_getRewind.restype = c_bool
+DLL.ZkInteractiveObject_getRewind.restype = c_int
 
 
 class InteractiveObject(MovableObject):
@@ -190,11 +189,11 @@ class InteractiveObject(MovableObject):
 
     @property
     def rewind(self) -> bool:
-        return DLL.ZkInteractiveObject_getRewind(self._handle)
+        return DLL.ZkInteractiveObject_getRewind(self._handle) != 0
 
     @rewind.setter
     def rewind(self, value: bool) -> None:
-        DLL.ZkInteractiveObject_setRewind(self._handle, c_bool(value))
+        DLL.ZkInteractiveObject_setRewind(self._handle, c_int(value))
 
 
 DLL.ZkFire_getSlot.restype = ZkString
@@ -222,7 +221,7 @@ class Fire(InteractiveObject):
         DLL.ZkFire_setVobTree(self._handle, value.encode("utf-8"))
 
 
-DLL.ZkContainer_getIsLocked.restype = c_bool
+DLL.ZkContainer_getIsLocked.restype = c_int
 DLL.ZkContainer_getKey.restype = ZkString
 DLL.ZkContainer_getPickString.restype = ZkString
 DLL.ZkContainer_getContents.restype = ZkString
@@ -236,11 +235,11 @@ class Container(InteractiveObject):
 
     @property
     def is_locked(self) -> bool:
-        return DLL.ZkContainer_getIsLocked(self._handle)
+        return DLL.ZkContainer_getIsLocked(self._handle) != 0
 
     @is_locked.setter
     def is_locked(self, value: bool) -> None:
-        DLL.ZkContainer_setIsLocked(self._handle, c_bool(value))
+        DLL.ZkContainer_setIsLocked(self._handle, c_int(value))
 
     @property
     def key(self) -> str:
@@ -287,7 +286,7 @@ class Container(InteractiveObject):
             DLL.ZkContainer_addItem(self._handle, v.handle)
 
 
-DLL.ZkDoor_getIsLocked.restype = c_bool
+DLL.ZkDoor_getIsLocked.restype = c_int
 DLL.ZkDoor_getKey.restype = ZkString
 DLL.ZkDoor_getPickString.restype = ZkString
 
@@ -298,11 +297,11 @@ class Door(InteractiveObject):
 
     @property
     def is_locked(self) -> bool:
-        return DLL.ZkDoor_getIsLocked(self._handle)
+        return DLL.ZkDoor_getIsLocked(self._handle) != 0
 
     @is_locked.setter
     def is_locked(self, value: bool) -> None:
-        DLL.ZkDoor_setIsLocked(self._handle, c_bool(value))
+        DLL.ZkDoor_setIsLocked(self._handle, c_int(value))
 
     @property
     def key(self) -> str:

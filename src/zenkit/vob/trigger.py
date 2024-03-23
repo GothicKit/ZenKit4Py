@@ -13,7 +13,6 @@ __all__ = [
     "TriggerListTarget",
 ]
 
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_int32
@@ -62,14 +61,14 @@ class TriggerBatchMode(IntEnum):
 
 
 DLL.ZkTrigger_getTarget.restype = ZkString
-DLL.ZkTrigger_getStartEnabled.restype = c_bool
-DLL.ZkTrigger_getSendUntrigger.restype = c_bool
-DLL.ZkTrigger_getReactToOnTrigger.restype = c_bool
-DLL.ZkTrigger_getReactToOnTouch.restype = c_bool
-DLL.ZkTrigger_getReactToOnDamage.restype = c_bool
-DLL.ZkTrigger_getRespondToObject.restype = c_bool
-DLL.ZkTrigger_getRespondToPC.restype = c_bool
-DLL.ZkTrigger_getRespondToNPC.restype = c_bool
+DLL.ZkTrigger_getStartEnabled.restype = c_int
+DLL.ZkTrigger_getSendUntrigger.restype = c_int
+DLL.ZkTrigger_getReactToOnTrigger.restype = c_int
+DLL.ZkTrigger_getReactToOnTouch.restype = c_int
+DLL.ZkTrigger_getReactToOnDamage.restype = c_int
+DLL.ZkTrigger_getRespondToObject.restype = c_int
+DLL.ZkTrigger_getRespondToPC.restype = c_int
+DLL.ZkTrigger_getRespondToNPC.restype = c_int
 DLL.ZkTrigger_getVobTarget.restype = ZkString
 DLL.ZkTrigger_getMaxActivationCount.restype = c_int32
 DLL.ZkTrigger_getRetriggerDelaySeconds.restype = c_float
@@ -78,7 +77,7 @@ DLL.ZkTrigger_getFireDelaySeconds.restype = c_float
 DLL.ZkTrigger_getNextTimeTriggerable.restype = c_float
 DLL.ZkTrigger_getOtherVob.restype = ZkPointer
 DLL.ZkTrigger_getCountCanBeActivated.restype = c_int
-DLL.ZkTrigger_getIsEnabled.restype = c_bool
+DLL.ZkTrigger_getIsEnabled.restype = c_int
 
 
 class Trigger(VirtualObject):
@@ -95,67 +94,67 @@ class Trigger(VirtualObject):
 
     @property
     def start_enabled(self) -> bool:
-        return DLL.ZkTrigger_getStartEnabled(self._handle)
+        return DLL.ZkTrigger_getStartEnabled(self._handle) != 0
 
     @property
     def send_untrigger(self) -> bool:
-        return DLL.ZkTrigger_getSendUntrigger(self._handle)
+        return DLL.ZkTrigger_getSendUntrigger(self._handle) != 0
 
     @property
     def react_to_on_trigger(self) -> bool:
-        return DLL.ZkTrigger_getReactToOnTrigger(self._handle)
+        return DLL.ZkTrigger_getReactToOnTrigger(self._handle) != 0
 
     @property
     def react_to_on_touch(self) -> bool:
-        return DLL.ZkTrigger_getReactToOnTouch(self._handle)
+        return DLL.ZkTrigger_getReactToOnTouch(self._handle) != 0
 
     @property
     def react_to_on_damage(self) -> bool:
-        return DLL.ZkTrigger_getReactToOnDamage(self._handle)
+        return DLL.ZkTrigger_getReactToOnDamage(self._handle) != 0
 
     @property
     def respond_to_object(self) -> bool:
-        return DLL.ZkTrigger_getRespondToObject(self._handle)
+        return DLL.ZkTrigger_getRespondToObject(self._handle) != 0
 
     @property
     def respond_to_pc(self) -> bool:
-        return DLL.ZkTrigger_getRespondToPC(self._handle)
+        return DLL.ZkTrigger_getRespondToPC(self._handle) != 0
 
     @property
     def respond_to_npc(self) -> bool:
-        return DLL.ZkTrigger_getRespondToNPC(self._handle)
+        return DLL.ZkTrigger_getRespondToNPC(self._handle) != 0
 
     @start_enabled.setter
     def start_enabled(self, value: bool) -> None:
-        DLL.ZkTrigger_setStartEnabled(self._handle, c_bool(value))
+        DLL.ZkTrigger_setStartEnabled(self._handle, c_int(value))
 
     @send_untrigger.setter
     def send_untrigger(self, value: bool) -> None:
-        DLL.ZkTrigger_setSendUntrigger(self._handle, c_bool(value))
+        DLL.ZkTrigger_setSendUntrigger(self._handle, c_int(value))
 
     @react_to_on_trigger.setter
     def react_to_on_trigger(self, value: bool) -> None:
-        DLL.ZkTrigger_setReactToOnTrigger(self._handle, c_bool(value))
+        DLL.ZkTrigger_setReactToOnTrigger(self._handle, c_int(value))
 
     @react_to_on_touch.setter
     def react_to_on_touch(self, value: bool) -> None:
-        DLL.ZkTrigger_setReactToOnTouch(self._handle, c_bool(value))
+        DLL.ZkTrigger_setReactToOnTouch(self._handle, c_int(value))
 
     @react_to_on_damage.setter
     def react_to_on_damage(self, value: bool) -> None:
-        DLL.ZkTrigger_setReactToOnDamage(self._handle, c_bool(value))
+        DLL.ZkTrigger_setReactToOnDamage(self._handle, c_int(value))
 
     @respond_to_object.setter
     def respond_to_object(self, value: bool) -> None:
-        DLL.ZkTrigger_setRespondToObject(self._handle, c_bool(value))
+        DLL.ZkTrigger_setRespondToObject(self._handle, c_int(value))
 
     @respond_to_pc.setter
     def respond_to_pc(self, value: bool) -> None:
-        DLL.ZkTrigger_setRespondToPC(self._handle, c_bool(value))
+        DLL.ZkTrigger_setRespondToPC(self._handle, c_int(value))
 
     @respond_to_npc.setter
     def respond_to_npc(self, value: bool) -> None:
-        DLL.ZkTrigger_setRespondToNPC(self._handle, c_bool(value))
+        DLL.ZkTrigger_setRespondToNPC(self._handle, c_int(value))
 
     @property
     def vob_target(self) -> str:
@@ -227,15 +226,15 @@ class Trigger(VirtualObject):
 
     @is_enabled.setter
     def is_enabled(self, value: bool) -> None:
-        DLL.ZkTrigger_setIsEnabled(self._handle, c_bool(value))
+        DLL.ZkTrigger_setIsEnabled(self._handle, c_int(value))
 
 
 DLL.ZkMover_getBehavior.restype = c_int
 DLL.ZkMover_getTouchBlockerDamage.restype = c_float
 DLL.ZkMover_getStayOpenTimeSeconds.restype = c_float
-DLL.ZkMover_getIsLocked.restype = c_bool
-DLL.ZkMover_getAutoLink.restype = c_bool
-DLL.ZkMover_getAutoRotate.restype = c_bool
+DLL.ZkMover_getIsLocked.restype = c_int
+DLL.ZkMover_getAutoLink.restype = c_int
+DLL.ZkMover_getAutoRotate.restype = c_int
 DLL.ZkMover_getSpeed.restype = c_float
 DLL.ZkMover_getLerpType.restype = c_int
 DLL.ZkMover_getSpeedType.restype = c_int
@@ -290,27 +289,27 @@ class Mover(Trigger):
 
     @property
     def is_locked(self) -> bool:
-        return DLL.ZkMover_getIsLocked(self._handle)
+        return DLL.ZkMover_getIsLocked(self._handle) != 0
 
     @is_locked.setter
     def is_locked(self, value: bool) -> None:
-        DLL.ZkMover_setIsLocked(self._handle, c_bool(value))
+        DLL.ZkMover_setIsLocked(self._handle, c_int(value))
 
     @property
     def auto_link(self) -> bool:
-        return DLL.ZkMover_getAutoLink(self._handle)
+        return DLL.ZkMover_getAutoLink(self._handle) != 0
 
     @auto_link.setter
     def auto_link(self, value: bool) -> None:
-        DLL.ZkMover_setAutoLink(self._handle, c_bool(value))
+        DLL.ZkMover_setAutoLink(self._handle, c_int(value))
 
     @property
     def auto_rotate(self) -> bool:
-        return DLL.ZkMover_getAutoRotate(self._handle)
+        return DLL.ZkMover_getAutoRotate(self._handle) != 0
 
     @auto_rotate.setter
     def auto_rotate(self, value: bool) -> None:
-        DLL.ZkMover_setAutoRotate(self._handle, c_bool(value))
+        DLL.ZkMover_setAutoRotate(self._handle, c_int(value))
 
     @property
     def speed(self) -> float:
@@ -486,7 +485,7 @@ class TriggerListTarget:
 
 DLL.ZkTriggerList_getMode.restype = c_int
 DLL.ZkTriggerList_getActTarget.restype = c_uint8
-DLL.ZkTriggerList_getSendOnTrigger.restype = c_bool
+DLL.ZkTriggerList_getSendOnTrigger.restype = c_int
 DLL.ZkTriggerList_getTargetCount.restype = c_size_t
 DLL.ZkTriggerList_getTarget.restype = ZkPointer
 DLL.ZkTriggerListTarget_getName.restype = ZkString
@@ -511,7 +510,7 @@ class TriggerList(Trigger):
 
     @property
     def send_on_trigger(self) -> bool:
-        return DLL.ZkTriggerList_getSendOnTrigger(self._handle)
+        return DLL.ZkTriggerList_getSendOnTrigger(self._handle) != 0
 
     @act_target.setter
     def act_target(self, value: int) -> None:
@@ -519,7 +518,7 @@ class TriggerList(Trigger):
 
     @send_on_trigger.setter
     def send_on_trigger(self, value: bool) -> None:
-        DLL.ZkTriggerList_setSendOnTrigger(self._handle, c_bool(value))
+        DLL.ZkTriggerList_setSendOnTrigger(self._handle, c_int(value))
 
     @property
     def targets(self) -> list[TriggerListTarget]:
@@ -580,8 +579,8 @@ class TriggerChangeLevel(Trigger):
 
 
 DLL.ZkTriggerWorldStart_getTarget.restype = ZkString
-DLL.ZkTriggerWorldStart_getFireOnce.restype = c_bool
-DLL.ZkTriggerWorldStart_getHasFired.restype = c_bool
+DLL.ZkTriggerWorldStart_getFireOnce.restype = c_int
+DLL.ZkTriggerWorldStart_getHasFired.restype = c_int
 
 
 class TriggerWorldStart(VirtualObject):
@@ -598,19 +597,19 @@ class TriggerWorldStart(VirtualObject):
 
     @property
     def fire_once(self) -> bool:
-        return DLL.ZkTriggerWorldStart_getFireOnce(self._handle)
+        return DLL.ZkTriggerWorldStart_getFireOnce(self._handle) != 0
 
     @fire_once.setter
     def fire_once(self, value: bool) -> None:
-        DLL.ZkTriggerWorldStart_setFireOnce(self._handle, c_bool(value))
+        DLL.ZkTriggerWorldStart_setFireOnce(self._handle, c_int(value))
 
     @property
     def has_fired(self) -> bool:
-        return DLL.ZkTriggerWorldStart_getHasFired(self._handle)
+        return DLL.ZkTriggerWorldStart_getHasFired(self._handle) != 0
 
     @has_fired.setter
     def has_fired(self, value: bool) -> None:
-        DLL.ZkTriggerWorldStart_setHasFired(self._handle, c_bool(value))
+        DLL.ZkTriggerWorldStart_setHasFired(self._handle, c_int(value))
 
 
 DLL.ZkTriggerUntouch_getTarget.restype = ZkString

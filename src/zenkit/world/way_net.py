@@ -7,7 +7,6 @@ __all__ = [
 from ctypes import POINTER
 from ctypes import Structure
 from ctypes import byref
-from ctypes import c_bool
 from ctypes import c_int
 from ctypes import c_size_t
 from ctypes import c_uint32
@@ -41,10 +40,10 @@ class WayEdge(Structure):
 
 DLL.ZkWayPoint_getName.restype = ZkString
 DLL.ZkWayPoint_getWaterDepth.restype = c_int
-DLL.ZkWayPoint_getUnderWater.restype = c_bool
+DLL.ZkWayPoint_getUnderWater.restype = c_int
 DLL.ZkWayPoint_getPosition.restype = Vec3f
 DLL.ZkWayPoint_getDirection.restype = Vec3f
-DLL.ZkWayPoint_getFreePoint.restype = c_bool
+DLL.ZkWayPoint_getFreePoint.restype = c_int
 
 
 class WayPoint:
@@ -68,7 +67,7 @@ class WayPoint:
 
     @property
     def under_water(self) -> bool:
-        return DLL.ZkWayPoint_getUnderWater(self._handle)
+        return DLL.ZkWayPoint_getUnderWater(self._handle) != 0
 
     @property
     def position(self) -> Vec3f:
@@ -80,7 +79,7 @@ class WayPoint:
 
     @property
     def free_point(self) -> bool:
-        return DLL.ZkWayPoint_getFreePoint(self._handle)
+        return DLL.ZkWayPoint_getFreePoint(self._handle) != 0
 
     def __del__(self) -> None:
         self._handle = None

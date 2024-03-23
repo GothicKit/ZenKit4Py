@@ -5,7 +5,6 @@ __all__ = [
 ]
 
 from ctypes import byref
-from ctypes import c_bool
 from ctypes import c_char_p
 from ctypes import c_int
 from ctypes import c_size_t
@@ -138,7 +137,7 @@ class Texture:
 
 
 DLL.ZkTextureBuilder_new.restype = ZkPointer
-DLL.ZkTextureBuilder_addMipmap.restype = c_bool
+DLL.ZkTextureBuilder_addMipmap.restype = c_int
 DLL.ZkTextureBuilder_build.restype = ZkPointer
 
 

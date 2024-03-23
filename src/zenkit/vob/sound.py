@@ -5,7 +5,6 @@ __all__ = [
     "SoundMode",
 ]
 
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from enum import IntEnum
@@ -31,15 +30,15 @@ DLL.ZkSound_getVolume.restype = c_float
 DLL.ZkSound_getMode.restype = c_int
 DLL.ZkSound_getRandomDelay.restype = c_float
 DLL.ZkSound_getRandomDelayVar.restype = c_float
-DLL.ZkSound_getInitiallyPlaying.restype = c_bool
-DLL.ZkSound_getAmbient3d.restype = c_bool
-DLL.ZkSound_getObstruction.restype = c_bool
+DLL.ZkSound_getInitiallyPlaying.restype = c_int
+DLL.ZkSound_getAmbient3d.restype = c_int
+DLL.ZkSound_getObstruction.restype = c_int
 DLL.ZkSound_getConeAngle.restype = c_float
 DLL.ZkSound_getVolumeType.restype = c_int
 DLL.ZkSound_getRadius.restype = c_float
 DLL.ZkSound_getSoundName.restype = ZkString
-DLL.ZkSound_getIsRunning.restype = c_bool
-DLL.ZkSound_getIsAllowedToRun.restype = c_bool
+DLL.ZkSound_getIsRunning.restype = c_int
+DLL.ZkSound_getIsAllowedToRun.restype = c_int
 
 
 class Sound(VirtualObject):
@@ -80,27 +79,27 @@ class Sound(VirtualObject):
 
     @property
     def initially_playing(self) -> bool:
-        return DLL.ZkSound_getInitiallyPlaying(self._handle)
+        return DLL.ZkSound_getInitiallyPlaying(self._handle) != 0
 
     @initially_playing.setter
     def initially_playing(self, value: bool) -> None:
-        DLL.ZkSound_setInitiallyPlaying(self._handle, c_bool(value))
+        DLL.ZkSound_setInitiallyPlaying(self._handle, c_int(value))
 
     @property
     def ambient3d(self) -> bool:
-        return DLL.ZkSound_getAmbient3d(self._handle)
+        return DLL.ZkSound_getAmbient3d(self._handle) != 0
 
     @ambient3d.setter
     def ambient3d(self, value: bool) -> None:
-        DLL.ZkSound_setAmbient3d(self._handle, c_bool(value))
+        DLL.ZkSound_setAmbient3d(self._handle, c_int(value))
 
     @property
     def obstruction(self) -> bool:
-        return DLL.ZkSound_getObstruction(self._handle)
+        return DLL.ZkSound_getObstruction(self._handle) != 0
 
     @obstruction.setter
     def obstruction(self, value: bool) -> None:
-        DLL.ZkSound_setObstruction(self._handle, c_bool(value))
+        DLL.ZkSound_setObstruction(self._handle, c_int(value))
 
     @property
     def cone_angle(self) -> float:
@@ -136,19 +135,19 @@ class Sound(VirtualObject):
 
     @property
     def is_running(self) -> bool:
-        return DLL.ZkSound_getIsRunning(self._handle)
+        return DLL.ZkSound_getIsRunning(self._handle) != 0
 
     @is_running.setter
     def is_running(self, value: bool) -> None:
-        DLL.ZkSound_setIsRunning(self._handle, c_bool(value))
+        DLL.ZkSound_setIsRunning(self._handle, c_int(value))
 
     @property
     def is_allowed_to_run(self) -> bool:
-        return DLL.ZkSound_getIsAllowedToRun(self._handle)
+        return DLL.ZkSound_getIsAllowedToRun(self._handle) != 0
 
     @is_allowed_to_run.setter
     def is_allowed_to_run(self, value: bool) -> None:
-        DLL.ZkSound_setIsAllowedToRun(self._handle, c_bool(value))
+        DLL.ZkSound_setIsAllowedToRun(self._handle, c_int(value))
 
 
 DLL.ZkSoundDaytime_getStartTime.restype = c_float

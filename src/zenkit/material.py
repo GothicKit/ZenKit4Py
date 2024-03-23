@@ -7,7 +7,6 @@ __all__ = [
     "WaveMode",
 ]
 
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_uint
@@ -72,18 +71,18 @@ DLL.ZkMaterial_getTextureScale.restype = Vec2f
 DLL.ZkMaterial_getTextureAnimationFps.restype = c_float
 DLL.ZkMaterial_getTextureAnimationMapping.restype = c_int
 DLL.ZkMaterial_getTextureAnimationMappingDirection.restype = Vec2f
-DLL.ZkMaterial_getDisableCollision.restype = c_bool
-DLL.ZkMaterial_getDisableLightmap.restype = c_bool
-DLL.ZkMaterial_getDontCollapse.restype = c_bool
+DLL.ZkMaterial_getDisableCollision.restype = c_int
+DLL.ZkMaterial_getDisableLightmap.restype = c_int
+DLL.ZkMaterial_getDontCollapse.restype = c_int
 DLL.ZkMaterial_getDetailObject.restype = ZkString
-DLL.ZkMaterial_getForceOccluder.restype = c_bool
-DLL.ZkMaterial_getEnvironmentMapping.restype = c_bool
+DLL.ZkMaterial_getForceOccluder.restype = c_int
+DLL.ZkMaterial_getEnvironmentMapping.restype = c_int
 DLL.ZkMaterial_getEnvironmentMappingStrength.restype = c_float
 DLL.ZkMaterial_getWaveMode.restype = c_int
 DLL.ZkMaterial_getWaveSpeed.restype = c_int
 DLL.ZkMaterial_getWaveAmplitude.restype = c_float
 DLL.ZkMaterial_getWaveGridSize.restype = c_float
-DLL.ZkMaterial_getIgnoreSun.restype = c_bool
+DLL.ZkMaterial_getIgnoreSun.restype = c_int
 DLL.ZkMaterial_getAlphaFunction.restype = c_int
 DLL.ZkMaterial_getDefaultMapping.restype = Vec2f
 
@@ -136,15 +135,15 @@ class Material:
 
     @property
     def disable_collision(self) -> bool:
-        return DLL.ZkMaterial_getDisableCollision(self._handle)
+        return DLL.ZkMaterial_getDisableCollision(self._handle) != 0
 
     @property
     def disable_lightmap(self) -> bool:
-        return DLL.ZkMaterial_getDisableLightmap(self._handle)
+        return DLL.ZkMaterial_getDisableLightmap(self._handle) != 0
 
     @property
     def dont_collapse(self) -> bool:
-        return DLL.ZkMaterial_getDontCollapse(self._handle)
+        return DLL.ZkMaterial_getDontCollapse(self._handle) != 0
 
     @property
     def detail_object(self) -> str:
@@ -152,11 +151,11 @@ class Material:
 
     @property
     def force_occluder(self) -> bool:
-        return DLL.ZkMaterial_getForceOccluder(self._handle)
+        return DLL.ZkMaterial_getForceOccluder(self._handle) != 0
 
     @property
     def environment_mapping(self) -> bool:
-        return DLL.ZkMaterial_getEnvironmentMapping(self._handle)
+        return DLL.ZkMaterial_getEnvironmentMapping(self._handle) != 0
 
     @property
     def environment_mapping_strength(self) -> float:
@@ -180,7 +179,7 @@ class Material:
 
     @property
     def ignore_sun(self) -> bool:
-        return DLL.ZkMaterial_getIgnoreSun(self._handle)
+        return DLL.ZkMaterial_getIgnoreSun(self._handle) != 0
 
     @property
     def alpha_function(self) -> AlphaFunction:

@@ -8,10 +8,9 @@ __all__ = [
     "MeshTriangleEdge",
 ]
 
-from ctypes import POINTER
+from ctypes import POINTER, c_int
 from ctypes import Structure
 from ctypes import byref
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_size_t
 from ctypes import c_uint16
@@ -199,7 +198,7 @@ DLL.ZkMultiResolutionMesh_getSubMeshCount.restype = c_size_t
 DLL.ZkMultiResolutionMesh_getSubMesh.restype = ZkPointer
 DLL.ZkMultiResolutionMesh_getMaterialCount.restype = c_size_t
 DLL.ZkMultiResolutionMesh_getMaterial.restype = ZkPointer
-DLL.ZkMultiResolutionMesh_getAlphaTest.restype = c_bool
+DLL.ZkMultiResolutionMesh_getAlphaTest.restype = c_int
 DLL.ZkMultiResolutionMesh_getBbox.restype = AxisAlignedBoundingBox
 DLL.ZkMultiResolutionMesh_getOrientedBbox.restype = ZkPointer
 
@@ -254,11 +253,11 @@ class MultiResolutionMesh:
 
     @property
     def alpha_test(self) -> bool:
-        return DLL.ZkMultiResolutionMesh_getAlphaTest(self._handle)
+        return DLL.ZkMultiResolutionMesh_getAlphaTest(self._handle) != 0
 
     @property
     def bbox(self) -> bool:
-        return DLL.ZkMultiResolutionMesh_getBbox(self._handle)
+        return DLL.ZkMultiResolutionMesh_getBbox(self._handle) != 0
 
     @property
     def oriented_bbox(self) -> OrientedBoundingBox:

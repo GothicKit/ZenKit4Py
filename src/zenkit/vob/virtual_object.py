@@ -15,7 +15,6 @@ __all__ = [
 ]
 
 from collections.abc import Iterator
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_int32
@@ -180,11 +179,11 @@ class Visual:
 DLL.ZkVisualDecal_getName.restype = ZkString
 DLL.ZkVisualDecal_getDimension.restype = Vec2f
 DLL.ZkVisualDecal_getOffset.restype = Vec2f
-DLL.ZkVisualDecal_getTwoSided.restype = c_bool
+DLL.ZkVisualDecal_getTwoSided.restype = c_int
 DLL.ZkVisualDecal_getAlphaFunc.restype = c_int
 DLL.ZkVisualDecal_getTextureAnimFps.restype = c_float
 DLL.ZkVisualDecal_getAlphaWeight.restype = c_uint8
-DLL.ZkVisualDecal_getIgnoreDaylight.restype = c_bool
+DLL.ZkVisualDecal_getIgnoreDaylight.restype = c_int
 
 
 class VisualDecal(Visual):
@@ -221,11 +220,11 @@ class VisualDecal(Visual):
 
     @property
     def two_sided(self) -> bool:
-        return DLL.ZkVisualDecal_getTwoSided(self._handle)
+        return DLL.ZkVisualDecal_getTwoSided(self._handle) != 0
 
     @two_sided.setter
     def two_sided(self, value: bool) -> None:
-        DLL.ZkVisualDecal_setTwoSided(self._handle, c_bool(value))
+        DLL.ZkVisualDecal_setTwoSided(self._handle, c_int(value))
 
     @property
     def alpha_func(self) -> AlphaFunction:
@@ -253,11 +252,11 @@ class VisualDecal(Visual):
 
     @property
     def ignore_daylight(self) -> bool:
-        return DLL.ZkVisualDecal_getIgnoreDaylight(self._handle)
+        return DLL.ZkVisualDecal_getIgnoreDaylight(self._handle) != 0
 
     @ignore_daylight.setter
     def ignore_daylight(self, value: bool) -> None:
-        DLL.ZkVisualDecal_setIgnoreDaylight(self._handle, c_bool(value))
+        DLL.ZkVisualDecal_setIgnoreDaylight(self._handle, c_int(value))
 
 
 _VISUALS: Final[dict[VisualType, type[Visual]]] = {
@@ -332,7 +331,7 @@ DLL.ZkAiHuman_getWalkMode.restype = int
 DLL.ZkAiHuman_getWeaponMode.restype = int
 DLL.ZkAiHuman_getWmodeAst.restype = int
 DLL.ZkAiHuman_getWmodeSelect.restype = int
-DLL.ZkAiHuman_getChangeWeapon.restype = c_bool
+DLL.ZkAiHuman_getChangeWeapon.restype = c_int
 DLL.ZkAiHuman_getActionMode.restype = int
 
 
@@ -399,7 +398,7 @@ class AiHuman(Ai):
 
     @property
     def change_weapon(self) -> bool:
-        return DLL.ZkAiHuman_getChangeWeapon(self._handle)
+        return DLL.ZkAiHuman_getChangeWeapon(self._handle) != 0
 
     @property
     def action_mode(self) -> int:
@@ -462,7 +461,7 @@ class AiHuman(Ai):
 
     @change_weapon.setter
     def change_weapon(self, value: bool) -> None:
-        DLL.ZkAiHuman_setChangeWeapon(self._handle, c_bool(value))
+        DLL.ZkAiHuman_setChangeWeapon(self._handle, c_int(value))
 
     @action_mode.setter
     def action_mode(self, value: int) -> None:
@@ -505,8 +504,8 @@ class AiMove(Ai):
 _AIS: Final[dict[AiType, type[Ai]]] = {AiType.HUMAN: AiHuman, AiType.MOVE: AiMove}
 
 
-DLL.ZkEventManager_getCleared.restype = c_bool
-DLL.ZkEventManager_getActive.restype = c_bool
+DLL.ZkEventManager_getCleared.restype = c_int
+DLL.ZkEventManager_getActive.restype = c_int
 
 
 class EventManager:
@@ -534,19 +533,19 @@ class EventManager:
 
     @property
     def cleared(self) -> bool:
-        return DLL.ZkEventManager_getCleared(self._handle)
+        return DLL.ZkEventManager_getCleared(self._handle) != 0
 
     @cleared.setter
     def cleared(self, value: bool) -> None:
-        DLL.ZkEventManager_setCleared(self._handle, c_bool(value))
+        DLL.ZkEventManager_setCleared(self._handle, c_int(value))
 
     @property
     def active(self) -> bool:
-        return DLL.ZkEventManager_getActive(self._handle)
+        return DLL.ZkEventManager_getActive(self._handle) != 0
 
     @active.setter
     def active(self, value: bool) -> None:
-        DLL.ZkEventManager_setActive(self._handle, c_bool(value))
+        DLL.ZkEventManager_setActive(self._handle, c_int(value))
 
     def __del__(self) -> None:
         if self._delete:
@@ -563,16 +562,16 @@ DLL.ZkVirtualObject_getId.restype = c_uint32
 DLL.ZkVirtualObject_getBbox.restype = AxisAlignedBoundingBox
 DLL.ZkVirtualObject_getPosition.restype = Vec3f
 DLL.ZkVirtualObject_getRotation.restype = Mat3x3
-DLL.ZkVirtualObject_getShowVisual.restype = c_bool
+DLL.ZkVirtualObject_getShowVisual.restype = c_int
 DLL.ZkVirtualObject_getSpriteCameraFacingMode.restype = c_int
-DLL.ZkVirtualObject_getCdStatic.restype = c_bool
-DLL.ZkVirtualObject_getCdDynamic.restype = c_bool
-DLL.ZkVirtualObject_getVobStatic.restype = c_bool
+DLL.ZkVirtualObject_getCdStatic.restype = c_int
+DLL.ZkVirtualObject_getCdDynamic.restype = c_int
+DLL.ZkVirtualObject_getVobStatic.restype = c_int
 DLL.ZkVirtualObject_getDynamicShadows.restype = c_int
-DLL.ZkVirtualObject_getPhysicsEnabled.restype = c_bool
+DLL.ZkVirtualObject_getPhysicsEnabled.restype = c_int
 DLL.ZkVirtualObject_getAnimMode.restype = c_int
 DLL.ZkVirtualObject_getBias.restype = c_int32
-DLL.ZkVirtualObject_getAmbient.restype = c_bool
+DLL.ZkVirtualObject_getAmbient.restype = c_int
 DLL.ZkVirtualObject_getAnimStrength.restype = c_float
 DLL.ZkVirtualObject_getFarClipScale.restype = c_float
 DLL.ZkVirtualObject_getPresetName.restype = ZkString
@@ -658,11 +657,11 @@ class VirtualObject:
 
     @property
     def show_visual(self) -> bool:
-        return DLL.ZkVirtualObject_getShowVisual(self._handle)
+        return DLL.ZkVirtualObject_getShowVisual(self._handle) != 0
 
     @show_visual.setter
     def show_visual(self, value: bool) -> None:
-        DLL.ZkVirtualObject_setShowVisual(self._handle, c_bool(value))
+        DLL.ZkVirtualObject_setShowVisual(self._handle, c_int(value))
 
     @property
     def sprite_camera_facing_mode(self) -> SpriteAlignment:
@@ -674,27 +673,27 @@ class VirtualObject:
 
     @property
     def cd_static(self) -> bool:
-        return DLL.ZkVirtualObject_getCdStatic(self._handle)
+        return DLL.ZkVirtualObject_getCdStatic(self._handle) != 0
 
     @cd_static.setter
     def cd_static(self, value: bool) -> None:
-        DLL.ZkVirtualObject_setCdStatic(self._handle, c_bool(value))
+        DLL.ZkVirtualObject_setCdStatic(self._handle, c_int(value))
 
     @property
     def cd_dynamic(self) -> bool:
-        return DLL.ZkVirtualObject_getCdDynamic(self._handle)
+        return DLL.ZkVirtualObject_getCdDynamic(self._handle) != 0
 
     @cd_dynamic.setter
     def cd_dynamic(self, value: bool) -> None:
-        DLL.ZkVirtualObject_setCdDynamic(self._handle, c_bool(value))
+        DLL.ZkVirtualObject_setCdDynamic(self._handle, c_int(value))
 
     @property
     def vob_static(self) -> bool:
-        return DLL.ZkVirtualObject_getVobStatic(self._handle)
+        return DLL.ZkVirtualObject_getVobStatic(self._handle) != 0
 
     @vob_static.setter
     def vob_static(self, value: bool) -> None:
-        DLL.ZkVirtualObject_setVobStatic(self._handle, c_bool(value))
+        DLL.ZkVirtualObject_setVobStatic(self._handle, c_int(value))
 
     @property
     def dynamic_shadows(self) -> ShadowType:
@@ -706,11 +705,11 @@ class VirtualObject:
 
     @property
     def physics_enabled(self) -> bool:
-        return DLL.ZkVirtualObject_getPhysicsEnabled(self._handle)
+        return DLL.ZkVirtualObject_getPhysicsEnabled(self._handle) != 0
 
     @physics_enabled.setter
     def physics_enabled(self, value: bool) -> None:
-        DLL.ZkVirtualObject_setPhysicsEnabled(self._handle, c_bool(value))
+        DLL.ZkVirtualObject_setPhysicsEnabled(self._handle, c_int(value))
 
     @property
     def anim_mode(self) -> AnimationType:
@@ -730,11 +729,11 @@ class VirtualObject:
 
     @property
     def ambient(self) -> bool:
-        return DLL.ZkVirtualObject_getAmbient(self._handle)
+        return DLL.ZkVirtualObject_getAmbient(self._handle) != 0
 
     @ambient.setter
     def ambient(self, value: bool) -> None:
-        DLL.ZkVirtualObject_setAmbient(self._handle, c_bool(value))
+        DLL.ZkVirtualObject_setAmbient(self._handle, c_int(value))
 
     @property
     def anim_strength(self) -> float:

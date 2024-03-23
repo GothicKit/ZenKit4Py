@@ -153,7 +153,6 @@ class DaedalusVm(DaedalusScript):
     def init_instance_direct(self, sym: DaedalusInstance) -> None:
         DLL.ZkDaedalusVm_initInstanceDirect(self._handle, sym.handle)
 
-
     def print_stack_trace(self) -> None:
         DLL.ZkDaedalusVm_printStackTrace(self._handle)
 

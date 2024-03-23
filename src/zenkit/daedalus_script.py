@@ -8,7 +8,6 @@ __all__ = [
 
 from abc import abstractmethod
 from ctypes import Structure
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_int32
@@ -87,12 +86,12 @@ class DaedalusDataType(IntEnum):
 DLL.ZkDaedalusSymbol_getString.restype = ZkString
 DLL.ZkDaedalusSymbol_getInt.restype = c_int32
 DLL.ZkDaedalusSymbol_getFloat.restype = c_float
-DLL.ZkDaedalusSymbol_getIsConst.restype = c_bool
-DLL.ZkDaedalusSymbol_getIsMember.restype = c_bool
-DLL.ZkDaedalusSymbol_getIsExternal.restype = c_bool
-DLL.ZkDaedalusSymbol_getIsMerged.restype = c_bool
-DLL.ZkDaedalusSymbol_getIsGenerated.restype = c_bool
-DLL.ZkDaedalusSymbol_getHasReturn.restype = c_bool
+DLL.ZkDaedalusSymbol_getIsConst.restype = c_int
+DLL.ZkDaedalusSymbol_getIsMember.restype = c_int
+DLL.ZkDaedalusSymbol_getIsExternal.restype = c_int
+DLL.ZkDaedalusSymbol_getIsMerged.restype = c_int
+DLL.ZkDaedalusSymbol_getIsGenerated.restype = c_int
+DLL.ZkDaedalusSymbol_getHasReturn.restype = c_int
 DLL.ZkDaedalusSymbol_getName.restype = ZkString
 DLL.ZkDaedalusSymbol_getAddress.restype = c_int32
 DLL.ZkDaedalusSymbol_getParent.restype = c_int32
@@ -136,27 +135,27 @@ class DaedalusSymbol:
 
     @property
     def is_const(self) -> bool:
-        return DLL.ZkDaedalusSymbol_getIsConst(self._handle)
+        return DLL.ZkDaedalusSymbol_getIsConst(self._handle) != 0
 
     @property
     def is_member(self) -> bool:
-        return DLL.ZkDaedalusSymbol_getIsMember(self._handle)
+        return DLL.ZkDaedalusSymbol_getIsMember(self._handle) != 0
 
     @property
     def is_external(self) -> bool:
-        return DLL.ZkDaedalusSymbol_getIsExternal(self._handle)
+        return DLL.ZkDaedalusSymbol_getIsExternal(self._handle) != 0
 
     @property
     def is_merged(self) -> bool:
-        return DLL.ZkDaedalusSymbol_getIsMerged(self._handle)
+        return DLL.ZkDaedalusSymbol_getIsMerged(self._handle) != 0
 
     @property
     def is_generated(self) -> bool:
-        return DLL.ZkDaedalusSymbol_getIsGenerated(self._handle)
+        return DLL.ZkDaedalusSymbol_getIsGenerated(self._handle) != 0
 
     @property
     def has_return(self) -> bool:
-        return DLL.ZkDaedalusSymbol_getHasReturn(self._handle)
+        return DLL.ZkDaedalusSymbol_getHasReturn(self._handle) != 0
 
     @property
     def name(self) -> str:

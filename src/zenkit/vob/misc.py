@@ -13,7 +13,6 @@ __all__ = [
     "MoverMessageType",
 ]
 
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_int32
@@ -49,8 +48,8 @@ class TouchCollisionType(IntEnum):
     POINT = 2
 
 
-DLL.ZkAnimate_getStartOn.restype = c_bool
-DLL.ZkAnimate_getIsRunning.restype = c_bool
+DLL.ZkAnimate_getStartOn.restype = c_int
+DLL.ZkAnimate_getIsRunning.restype = c_int
 
 
 class Animate(VirtualObject):
@@ -59,19 +58,19 @@ class Animate(VirtualObject):
 
     @property
     def start_on(self) -> bool:
-        return DLL.ZkAnimate_getStartOn(self._handle)
+        return DLL.ZkAnimate_getStartOn(self._handle) != 0
 
     @start_on.setter
     def start_on(self, value: bool) -> None:
-        DLL.ZkAnimate_setStartOn(self._handle, c_bool(value))
+        DLL.ZkAnimate_setStartOn(self._handle, c_int(value))
 
     @property
     def is_running(self) -> bool:
-        return DLL.ZkAnimate_getIsRunning(self._handle)
+        return DLL.ZkAnimate_getIsRunning(self._handle) != 0
 
     @is_running.setter
     def is_running(self, value: bool) -> None:
-        DLL.ZkAnimate_setIsRunning(self._handle, c_bool(value))
+        DLL.ZkAnimate_setIsRunning(self._handle, c_int(value))
 
 
 DLL.ZkItem_getInstance.restype = ZkString
@@ -125,8 +124,8 @@ class LensFlare(VirtualObject):
 
 
 DLL.ZkParticleEffectController_getEffectName.restype = ZkString
-DLL.ZkParticleEffectController_getKillWhenDone.restype = c_bool
-DLL.ZkParticleEffectController_getInitiallyRunning.restype = c_bool
+DLL.ZkParticleEffectController_getKillWhenDone.restype = c_int
+DLL.ZkParticleEffectController_getInitiallyRunning.restype = c_int
 
 
 class ParticleEffectController(VirtualObject):
@@ -143,19 +142,19 @@ class ParticleEffectController(VirtualObject):
 
     @property
     def kill_when_done(self) -> bool:
-        return DLL.ZkParticleEffectController_getKillWhenDone(self._handle)
+        return DLL.ZkParticleEffectController_getKillWhenDone(self._handle) != 0
 
     @kill_when_done.setter
     def kill_when_done(self, value: bool) -> None:
-        DLL.ZkParticleEffectController_setKillWhenDone(self._handle, c_bool(value))
+        DLL.ZkParticleEffectController_setKillWhenDone(self._handle, c_int(value))
 
     @property
     def initially_running(self) -> bool:
-        return DLL.ZkParticleEffectController_getInitiallyRunning(self._handle)
+        return DLL.ZkParticleEffectController_getInitiallyRunning(self._handle) != 0
 
     @initially_running.setter
     def initially_running(self, value: bool) -> None:
-        DLL.ZkParticleEffectController_setInitiallyRunning(self._handle, c_bool(value))
+        DLL.ZkParticleEffectController_setInitiallyRunning(self._handle, c_int(value))
 
 
 DLL.ZkMessageFilter_getTarget.restype = ZkString
@@ -193,10 +192,10 @@ class MessageFilter(VirtualObject):
 
 
 DLL.ZkCodeMaster_getTarget.restype = ZkString
-DLL.ZkCodeMaster_getOrdered.restype = c_bool
-DLL.ZkCodeMaster_getFirstFalseIsFailure.restype = c_bool
+DLL.ZkCodeMaster_getOrdered.restype = c_int
+DLL.ZkCodeMaster_getFirstFalseIsFailure.restype = c_int
 DLL.ZkCodeMaster_getFailureTarget.restype = ZkString
-DLL.ZkCodeMaster_getUntriggeredCancels.restype = c_bool
+DLL.ZkCodeMaster_getUntriggeredCancels.restype = c_int
 DLL.ZkCodeMaster_getSlaveCount.restype = c_size_t
 DLL.ZkCodeMaster_getSlave.restype = ZkString
 
@@ -215,19 +214,19 @@ class CodeMaster(VirtualObject):
 
     @property
     def ordered(self) -> bool:
-        return DLL.ZkCodeMaster_getOrdered(self._handle)
+        return DLL.ZkCodeMaster_getOrdered(self._handle) != 0
 
     @ordered.setter
     def ordered(self, value: bool) -> None:
-        DLL.ZkCodeMaster_setOrdered(self._handle, c_bool(value))
+        DLL.ZkCodeMaster_setOrdered(self._handle, c_int(value))
 
     @property
     def first_false_is_failure(self) -> bool:
-        return DLL.ZkCodeMaster_getFirstFalseIsFailure(self._handle)
+        return DLL.ZkCodeMaster_getFirstFalseIsFailure(self._handle) != 0
 
     @first_false_is_failure.setter
     def first_false_is_failure(self, value: bool) -> None:
-        DLL.ZkCodeMaster_setFirstFalseIsFailure(self._handle, c_bool(value))
+        DLL.ZkCodeMaster_setFirstFalseIsFailure(self._handle, c_int(value))
 
     @property
     def failure_target(self) -> str:
@@ -239,11 +238,11 @@ class CodeMaster(VirtualObject):
 
     @property
     def untriggered_cancels(self) -> bool:
-        return DLL.ZkCodeMaster_getUntriggeredCancels(self._handle)
+        return DLL.ZkCodeMaster_getUntriggeredCancels(self._handle) != 0
 
     @untriggered_cancels.setter
     def untriggered_cancels(self, value: bool) -> None:
-        DLL.ZkCodeMaster_setUntriggeredCancels(self._handle, c_bool(value))
+        DLL.ZkCodeMaster_setUntriggeredCancels(self._handle, c_int(value))
 
     @property
     def slaves(self) -> list[str]:
@@ -295,14 +294,14 @@ class MoverController(VirtualObject):
 
 
 DLL.ZkTouchDamage_getDamage.restype = c_float
-DLL.ZkTouchDamage_getIsBarrier.restype = c_bool
-DLL.ZkTouchDamage_getIsBlunt.restype = c_bool
-DLL.ZkTouchDamage_getIsEdge.restype = c_bool
-DLL.ZkTouchDamage_getIsFire.restype = c_bool
-DLL.ZkTouchDamage_getIsFly.restype = c_bool
-DLL.ZkTouchDamage_getIsMagic.restype = c_bool
-DLL.ZkTouchDamage_getIsPoint.restype = c_bool
-DLL.ZkTouchDamage_getIsFall.restype = c_bool
+DLL.ZkTouchDamage_getIsBarrier.restype = c_int
+DLL.ZkTouchDamage_getIsBlunt.restype = c_int
+DLL.ZkTouchDamage_getIsEdge.restype = c_int
+DLL.ZkTouchDamage_getIsFire.restype = c_int
+DLL.ZkTouchDamage_getIsFly.restype = c_int
+DLL.ZkTouchDamage_getIsMagic.restype = c_int
+DLL.ZkTouchDamage_getIsPoint.restype = c_int
+DLL.ZkTouchDamage_getIsFall.restype = c_int
 DLL.ZkTouchDamage_getRepeatDelaySeconds.restype = c_float
 DLL.ZkTouchDamage_getVolumeScale.restype = c_float
 DLL.ZkTouchDamage_getCollisionType.restype = c_int
@@ -322,67 +321,67 @@ class TouchDamage(VirtualObject):
 
     @property
     def is_barrier(self) -> bool:
-        return DLL.ZkTouchDamage_getIsBarrier(self._handle)
+        return DLL.ZkTouchDamage_getIsBarrier(self._handle) != 0
 
     @is_barrier.setter
     def is_barrier(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsBarrier(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsBarrier(self._handle, c_int(value))
 
     @property
     def is_blunt(self) -> bool:
-        return DLL.ZkTouchDamage_getIsBlunt(self._handle)
+        return DLL.ZkTouchDamage_getIsBlunt(self._handle) != 0
 
     @is_blunt.setter
     def is_blunt(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsBlunt(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsBlunt(self._handle, c_int(value))
 
     @property
     def is_edge(self) -> bool:
-        return DLL.ZkTouchDamage_getIsEdge(self._handle)
+        return DLL.ZkTouchDamage_getIsEdge(self._handle) != 0
 
     @is_edge.setter
     def is_edge(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsEdge(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsEdge(self._handle, c_int(value))
 
     @property
     def is_fire(self) -> bool:
-        return DLL.ZkTouchDamage_getIsFire(self._handle)
+        return DLL.ZkTouchDamage_getIsFire(self._handle) != 0
 
     @is_fire.setter
     def is_fire(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsFire(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsFire(self._handle, c_int(value))
 
     @property
     def is_fly(self) -> bool:
-        return DLL.ZkTouchDamage_getIsFly(self._handle)
+        return DLL.ZkTouchDamage_getIsFly(self._handle) != 0
 
     @is_fly.setter
     def is_fly(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsFly(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsFly(self._handle, c_int(value))
 
     @property
     def is_magic(self) -> bool:
-        return DLL.ZkTouchDamage_getIsMagic(self._handle)
+        return DLL.ZkTouchDamage_getIsMagic(self._handle) != 0
 
     @is_magic.setter
     def is_magic(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsMagic(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsMagic(self._handle, c_int(value))
 
     @property
     def is_point(self) -> bool:
-        return DLL.ZkTouchDamage_getIsPoint(self._handle)
+        return DLL.ZkTouchDamage_getIsPoint(self._handle) != 0
 
     @is_point.setter
     def is_point(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsPoint(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsPoint(self._handle, c_int(value))
 
     @property
     def is_fall(self) -> bool:
-        return DLL.ZkTouchDamage_getIsFall(self._handle)
+        return DLL.ZkTouchDamage_getIsFall(self._handle) != 0
 
     @is_fall.setter
     def is_fall(self, value: bool) -> None:
-        DLL.ZkTouchDamage_setIsFall(self._handle, c_bool(value))
+        DLL.ZkTouchDamage_setIsFall(self._handle, c_int(value))
 
     @property
     def repeat_delay_seconds(self) -> float:

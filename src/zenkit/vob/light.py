@@ -6,7 +6,6 @@ __all__ = [
 
 from ctypes import POINTER
 from ctypes import byref
-from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int
 from ctypes import c_size_t
@@ -37,16 +36,16 @@ DLL.ZkLight_getLightType.restype = c_int
 DLL.ZkLight_getRange.restype = c_float
 DLL.ZkLight_getColor.restype = Color
 DLL.ZkLight_getConeAngle.restype = c_float
-DLL.ZkLight_getIsStatic.restype = c_bool
+DLL.ZkLight_getIsStatic.restype = c_int
 DLL.ZkLight_getQuality.restype = c_int
 DLL.ZkLight_getLensflareFx.restype = ZkString
-DLL.ZkLight_getOn.restype = c_bool
+DLL.ZkLight_getOn.restype = c_int
 DLL.ZkLight_getRangeAnimationScale.restype = POINTER(c_float)
 DLL.ZkLight_getRangeAnimationFps.restype = c_float
-DLL.ZkLight_getRangeAnimationSmooth.restype = c_bool
+DLL.ZkLight_getRangeAnimationSmooth.restype = c_int
 DLL.ZkLight_getColorAnimationFps.restype = c_float
-DLL.ZkLight_getColorAnimationSmooth.restype = c_bool
-DLL.ZkLight_getCanMove.restype = c_bool
+DLL.ZkLight_getColorAnimationSmooth.restype = c_int
+DLL.ZkLight_getCanMove.restype = c_int
 DLL.ZkLight_getColorAnimationCount.restype = c_int
 DLL.ZkLight_getColorAnimationItem.restype = Color
 
@@ -97,11 +96,11 @@ class Light(VirtualObject):
 
     @property
     def is_static(self) -> bool:
-        return DLL.ZkLight_getIsStatic(self._handle)
+        return DLL.ZkLight_getIsStatic(self._handle) != 0
 
     @is_static.setter
     def is_static(self, value: bool) -> None:
-        DLL.ZkLight_setIsStatic(self._handle, c_bool(value))
+        DLL.ZkLight_setIsStatic(self._handle, c_int(value))
 
     @property
     def quality(self) -> LightQuality:
@@ -121,11 +120,11 @@ class Light(VirtualObject):
 
     @property
     def on(self) -> bool:
-        return DLL.ZkLight_getOn(self._handle)
+        return DLL.ZkLight_getOn(self._handle) != 0
 
     @on.setter
     def on(self, value: bool) -> None:
-        DLL.ZkLight_setOn(self._handle, c_bool(value))
+        DLL.ZkLight_setOn(self._handle, c_int(value))
 
     @property
     def range_animation_scale(self) -> list[float]:
@@ -147,11 +146,11 @@ class Light(VirtualObject):
 
     @property
     def range_animation_smooth(self) -> bool:
-        return DLL.ZkLight_getRangeAnimationSmooth(self._handle)
+        return DLL.ZkLight_getRangeAnimationSmooth(self._handle) != 0
 
     @range_animation_smooth.setter
     def range_animation_smooth(self, value: bool) -> None:
-        DLL.ZkLight_setRangeAnimationSmooth(self._handle, c_bool(value))
+        DLL.ZkLight_setRangeAnimationSmooth(self._handle, c_int(value))
 
     @property
     def color_animation(self) -> list[Color]:
@@ -168,16 +167,16 @@ class Light(VirtualObject):
 
     @property
     def color_animation_smooth(self) -> bool:
-        return DLL.ZkLight_getColorAnimationSmooth(self._handle)
+        return DLL.ZkLight_getColorAnimationSmooth(self._handle) != 0
 
     @color_animation_smooth.setter
     def color_animation_smooth(self, value: bool) -> None:
-        DLL.ZkLight_setColorAnimationSmooth(self._handle, c_bool(value))
+        DLL.ZkLight_setColorAnimationSmooth(self._handle, c_int(value))
 
     @property
     def can_move(self) -> bool:
-        return DLL.ZkLight_getCanMove(self._handle)
+        return DLL.ZkLight_getCanMove(self._handle) != 0
 
     @can_move.setter
     def can_move(self, value: bool) -> None:
-        DLL.ZkLight_setCanMove(self._handle, c_bool(value))
+        DLL.ZkLight_setCanMove(self._handle, c_int(value))
