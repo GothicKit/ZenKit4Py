@@ -155,7 +155,7 @@ class VfsNode:
 
         if handle is None or handle == 0:
             return None
-        return VfsNode(_handle=handle, _keepalive=self)
+        return VfsNode(_handle=c_void_p(handle), _keepalive=self)
 
     def remove(self, name: str) -> bool:
         DLL.ZkVfsNode_remove.restype = c_int
