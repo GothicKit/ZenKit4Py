@@ -119,7 +119,7 @@ class DaedalusSymbol:
         return DLL.ZkDaedalusSymbol_getString(self._handle, c_uint16(i), ctx.handle if ctx else None).value
 
     def set_string(self, val: str, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
-        DLL.ZkDaedalusSymbol_setString(self._handle, val.encode("utf-8"), c_uint16(i), ctx.handle if ctx else None)
+        DLL.ZkDaedalusSymbol_setString(self._handle, val.encode("windows-1252"), c_uint16(i), ctx.handle if ctx else None)
 
     def get_int(self, i: int = 0, ctx: DaedalusInstance | None = None) -> int:
         return DLL.ZkDaedalusSymbol_getInt(self._handle, c_uint16(i), ctx.handle if ctx else None).value
@@ -266,7 +266,7 @@ class DaedalusScript:
         return DaedalusSymbol(_handle=handle, _keepalive=self)
 
     def get_symbol_by_name(self, name: str) -> DaedalusSymbol | None:
-        handle = DLL.ZkDaedalusScript_getSymbolByName(self._handle, name.encode("utf-8")).value
+        handle = DLL.ZkDaedalusScript_getSymbolByName(self._handle, name.encode("windows-1252")).value
         if handle is None or handle.value is None:
             return None
         return DaedalusSymbol(_handle=handle, _keepalive=self)

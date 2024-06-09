@@ -23,7 +23,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @vis_name_s.setter
     def vis_name_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setVisNameS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setVisNameS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_size_s(self) -> str:
@@ -32,7 +32,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @vis_size_s.setter
     def vis_size_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setVisSizeS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setVisSizeS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_alpha(self) -> float:
@@ -50,7 +50,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @vis_alpha_blend_func_s.setter
     def vis_alpha_blend_func_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setVisAlphaBlendFuncS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setVisAlphaBlendFuncS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_tex_ani_fps(self) -> float:
@@ -77,7 +77,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_trj_mode_s.setter
     def em_trj_mode_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmTrjModeS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmTrjModeS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_trj_origin_node(self) -> str:
@@ -86,7 +86,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_trj_origin_node.setter
     def em_trj_origin_node(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmTrjOriginNode(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmTrjOriginNode(self._handle, value.encode("windows-1252"))
 
     @property
     def em_trj_target_node(self) -> str:
@@ -95,7 +95,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_trj_target_node.setter
     def em_trj_target_node(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmTrjTargetNode(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmTrjTargetNode(self._handle, value.encode("windows-1252"))
 
     @property
     def em_trj_target_range(self) -> float:
@@ -176,7 +176,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_trj_loop_mode_s.setter
     def em_trj_loop_mode_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmTrjLoopModeS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmTrjLoopModeS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_trj_ease_func_s(self) -> str:
@@ -185,7 +185,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_trj_ease_func_s.setter
     def em_trj_ease_func_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmTrjEaseFuncS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmTrjEaseFuncS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_trj_ease_vel(self) -> float:
@@ -221,7 +221,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_create_s.setter
     def em_fx_create_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxCreateS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxCreateS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_invest_origin_s(self) -> str:
@@ -230,7 +230,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_invest_origin_s.setter
     def em_fx_invest_origin_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxInvestOriginS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxInvestOriginS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_invest_target_s(self) -> str:
@@ -239,7 +239,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_invest_target_s.setter
     def em_fx_invest_target_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxInvestTargetS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxInvestTargetS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_trigger_delay(self) -> float:
@@ -266,7 +266,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_action_coll_dyn_s.setter
     def em_action_coll_dyn_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmActionCollDynS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmActionCollDynS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_action_coll_stat_s(self) -> str:
@@ -275,7 +275,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_action_coll_stat_s.setter
     def em_action_coll_stat_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmActionCollStatS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmActionCollStatS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_coll_stat_s(self) -> str:
@@ -284,7 +284,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_coll_stat_s.setter
     def em_fx_coll_stat_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxCollStatS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxCollStatS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_coll_dyn_s(self) -> str:
@@ -293,7 +293,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_coll_dyn_s.setter
     def em_fx_coll_dyn_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxCollDynS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxCollDynS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_coll_stat_align_s(self) -> str:
@@ -302,7 +302,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_coll_stat_align_s.setter
     def em_fx_coll_stat_align_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxCollStatAlignS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxCollStatAlignS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_coll_dyn_align_s(self) -> str:
@@ -311,7 +311,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_coll_dyn_align_s.setter
     def em_fx_coll_dyn_align_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxCollDynAlignS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxCollDynAlignS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fx_lifespan(self) -> float:
@@ -365,7 +365,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_self_rot_vel_s.setter
     def em_self_rot_vel_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmSelfRotVelS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmSelfRotVelS(self._handle, value.encode("windows-1252"))
 
     @property
     def light_preset_name(self) -> str:
@@ -374,7 +374,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @light_preset_name.setter
     def light_preset_name(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setLightPresetName(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setLightPresetName(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_id(self) -> str:
@@ -383,7 +383,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @sfx_id.setter
     def sfx_id(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setSfxId(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setSfxId(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_is_ambient(self) -> int:
@@ -419,7 +419,7 @@ class EffectBaseInstance(DaedalusInstance):
 
     @em_fx_coll_dyn_perc_s.setter
     def em_fx_coll_dyn_perc_s(self, value: str) -> None:
-        DLL.ZkEffectBaseInstance_setEmFxCollDynPercS(self._handle, value.encode("utf-8"))
+        DLL.ZkEffectBaseInstance_setEmFxCollDynPercS(self._handle, value.encode("windows-1252"))
 
     def get_user_string(self, i: int) -> str:
         if i < 0 or i >= _USER_STRING_COUNT:
@@ -431,4 +431,4 @@ class EffectBaseInstance(DaedalusInstance):
     def set_user_string(self, i: int, val: str) -> None:
         if i < 0 or i >= _USER_STRING_COUNT:
             raise IndexError(i)
-        return DLL.ZkEffectBaseInstance_setUserString(self._handle, c_size_t(i), val.encode("utf-8"))
+        return DLL.ZkEffectBaseInstance_setUserString(self._handle, c_size_t(i), val.encode("windows-1252"))

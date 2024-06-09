@@ -29,7 +29,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @pps_scale_keys_s.setter
     def pps_scale_keys_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setPpsScaleKeysS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setPpsScaleKeysS(self._handle, value.encode("windows-1252"))
 
     @property
     def pps_is_looping(self) -> int:
@@ -65,7 +65,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @pps_create_em_s.setter
     def pps_create_em_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setPpsCreateEmS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setPpsCreateEmS(self._handle, value.encode("windows-1252"))
 
     @property
     def pps_create_em_delay(self) -> float:
@@ -83,7 +83,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @shp_type_s.setter
     def shp_type_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setShpTypeS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setShpTypeS(self._handle, value.encode("windows-1252"))
 
     @property
     def shp_for_s(self) -> str:
@@ -92,7 +92,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @shp_for_s.setter
     def shp_for_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setShpForS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setShpForS(self._handle, value.encode("windows-1252"))
 
     @property
     def shp_offset_vec_s(self) -> str:
@@ -101,7 +101,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @shp_offset_vec_s.setter
     def shp_offset_vec_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setShpOffsetVecS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setShpOffsetVecS(self._handle, value.encode("windows-1252"))
 
     @property
     def shp_distrib_type_s(self) -> str:
@@ -110,7 +110,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @shp_distrib_type_s.setter
     def shp_distrib_type_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setShpDistribTypeS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setShpDistribTypeS(self._handle, value.encode("windows-1252"))
 
     @property
     def shp_distrib_walk_speed(self) -> float:
@@ -137,7 +137,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @shp_dim_s.setter
     def shp_dim_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setShpDimS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setShpDimS(self._handle, value.encode("windows-1252"))
 
     @property
     def shp_mesh_s(self) -> str:
@@ -146,7 +146,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @shp_mesh_s.setter
     def shp_mesh_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setShpMeshS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setShpMeshS(self._handle, value.encode("windows-1252"))
 
     @property
     def shp_mesh_render_b(self) -> int:
@@ -164,7 +164,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @shp_scale_keys_s.setter
     def shp_scale_keys_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setShpScaleKeysS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setShpScaleKeysS(self._handle, value.encode("windows-1252"))
 
     @property
     def shp_scale_is_looping(self) -> int:
@@ -200,7 +200,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @dir_mode_s.setter
     def dir_mode_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setDirModeS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setDirModeS(self._handle, value.encode("windows-1252"))
 
     @property
     def dir_for_s(self) -> str:
@@ -209,7 +209,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @dir_for_s.setter
     def dir_for_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setDirForS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setDirForS(self._handle, value.encode("windows-1252"))
 
     @property
     def dir_mode_target_for_s(self) -> str:
@@ -218,7 +218,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @dir_mode_target_for_s.setter
     def dir_mode_target_for_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setDirModeTargetForS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setDirModeTargetForS(self._handle, value.encode("windows-1252"))
 
     @property
     def dir_mode_target_pos_s(self) -> str:
@@ -227,7 +227,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @dir_mode_target_pos_s.setter
     def dir_mode_target_pos_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setDirModeTargetPosS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setDirModeTargetPosS(self._handle, value.encode("windows-1252"))
 
     @property
     def dir_angle_head(self) -> float:
@@ -308,7 +308,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @fly_gravity_s.setter
     def fly_gravity_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setFlyGravityS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setFlyGravityS(self._handle, value.encode("windows-1252"))
 
     @property
     def fly_colldet_b(self) -> int:
@@ -326,7 +326,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @vis_name_s.setter
     def vis_name_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setVisNameS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setVisNameS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_orientation_s(self) -> str:
@@ -335,7 +335,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @vis_orientation_s.setter
     def vis_orientation_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setVisOrientationS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setVisOrientationS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_tex_is_quadpoly(self) -> int:
@@ -371,7 +371,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @vis_tex_color_start_s.setter
     def vis_tex_color_start_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setVisTexColorStartS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setVisTexColorStartS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_tex_color_end_s(self) -> str:
@@ -380,7 +380,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @vis_tex_color_end_s.setter
     def vis_tex_color_end_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setVisTexColorEndS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setVisTexColorEndS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_size_start_s(self) -> str:
@@ -389,7 +389,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @vis_size_start_s.setter
     def vis_size_start_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setVisSizeStartS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setVisSizeStartS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_size_end_scale(self) -> float:
@@ -407,7 +407,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @vis_alpha_func_s.setter
     def vis_alpha_func_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setVisAlphaFuncS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setVisAlphaFuncS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_alpha_start(self) -> float:
@@ -443,7 +443,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @trl_texture_s.setter
     def trl_texture_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setTrlTextureS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setTrlTextureS(self._handle, value.encode("windows-1252"))
 
     @property
     def trl_width(self) -> float:
@@ -470,7 +470,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @mrkt_exture_s.setter
     def mrkt_exture_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setMrktExtureS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setMrktExtureS(self._handle, value.encode("windows-1252"))
 
     @property
     def mrk_size(self) -> float:
@@ -488,7 +488,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @flock_mode.setter
     def flock_mode(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setFlockMode(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setFlockMode(self._handle, value.encode("windows-1252"))
 
     @property
     def flock_strength(self) -> float:
@@ -515,7 +515,7 @@ class ParticleEffectInstance(DaedalusInstance):
 
     @time_start_end_s.setter
     def time_start_end_s(self, value: str) -> None:
-        DLL.ZkParticleEffectInstance_setTimeStartEndS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectInstance_setTimeStartEndS(self._handle, value.encode("windows-1252"))
 
     @property
     def m_bias_ambient_pfx(self) -> int:

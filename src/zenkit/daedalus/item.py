@@ -72,7 +72,7 @@ class ItemInstance(DaedalusInstance):
 
     @name.setter
     def name(self, value: str) -> None:
-        DLL.ZkItemInstance_setName(self._handle, value.encode("utf-8"))
+        DLL.ZkItemInstance_setName(self._handle, value.encode("windows-1252"))
 
     @property
     def name_id(self) -> str:
@@ -81,7 +81,7 @@ class ItemInstance(DaedalusInstance):
 
     @name_id.setter
     def name_id(self, value: str) -> None:
-        DLL.ZkItemInstance_setNameId(self._handle, value.encode("utf-8"))
+        DLL.ZkItemInstance_setNameId(self._handle, value.encode("windows-1252"))
 
     @property
     def hp(self) -> int:
@@ -234,7 +234,7 @@ class ItemInstance(DaedalusInstance):
 
     @visual.setter
     def visual(self, value: str) -> None:
-        DLL.ZkItemInstance_setVisual(self._handle, value.encode("utf-8"))
+        DLL.ZkItemInstance_setVisual(self._handle, value.encode("windows-1252"))
 
     @property
     def visual_change(self) -> str:
@@ -243,7 +243,7 @@ class ItemInstance(DaedalusInstance):
 
     @visual_change.setter
     def visual_change(self, value: str) -> None:
-        DLL.ZkItemInstance_setVisualChange(self._handle, value.encode("utf-8"))
+        DLL.ZkItemInstance_setVisualChange(self._handle, value.encode("windows-1252"))
 
     @property
     def effect(self) -> str:
@@ -252,7 +252,7 @@ class ItemInstance(DaedalusInstance):
 
     @effect.setter
     def effect(self, value: str) -> None:
-        DLL.ZkItemInstance_setEffect(self._handle, value.encode("utf-8"))
+        DLL.ZkItemInstance_setEffect(self._handle, value.encode("windows-1252"))
 
     @property
     def visual_skin(self) -> int:
@@ -270,7 +270,7 @@ class ItemInstance(DaedalusInstance):
 
     @scheme_name.setter
     def scheme_name(self, value: str) -> None:
-        DLL.ZkItemInstance_setSchemeName(self._handle, value.encode("utf-8"))
+        DLL.ZkItemInstance_setSchemeName(self._handle, value.encode("windows-1252"))
 
     @property
     def material(self) -> int:
@@ -324,7 +324,7 @@ class ItemInstance(DaedalusInstance):
 
     @description.setter
     def description(self, value: str) -> None:
-        DLL.ZkItemInstance_setDescription(self._handle, value.encode("utf-8"))
+        DLL.ZkItemInstance_setDescription(self._handle, value.encode("windows-1252"))
 
     @property
     def inv_z_bias(self) -> int:
@@ -432,4 +432,4 @@ class ItemInstance(DaedalusInstance):
         DLL.ZkItemInstance_setCount(self._handle, slot.value, c_int32(val))
 
     def set_text(self, slot: ItemInstanceTextSlot, val: str) -> None:
-        DLL.ZkItemInstance_setText(self._handle, slot.value, val.encode("utf-8"))
+        DLL.ZkItemInstance_setText(self._handle, slot.value, val.encode("windows-1252"))

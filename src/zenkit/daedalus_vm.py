@@ -100,7 +100,7 @@ class DaedalusVm(DaedalusScript):
         elif isinstance(val, float):
             DLL.ZkDaedalusVm_pushFloat(self._handle, c_float(val))
         elif isinstance(val, str):
-            DLL.ZkDaedalusVm_pushString(self._handle, val.encode("utf-8"))
+            DLL.ZkDaedalusVm_pushString(self._handle, val.encode("windows-1252"))
         else:
             raise TypeError("Unsupported type: " + type(val))
 

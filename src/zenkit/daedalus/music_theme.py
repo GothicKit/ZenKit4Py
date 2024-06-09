@@ -44,7 +44,7 @@ class MusicThemeInstance(DaedalusInstance):
 
     @file.setter
     def file(self, value: str) -> None:
-        DLL.ZkMusicThemeInstance_setFile(self._handle, value.encode("utf-8"))
+        DLL.ZkMusicThemeInstance_setFile(self._handle, value.encode("windows-1252"))
 
     @property
     def vol(self) -> float:

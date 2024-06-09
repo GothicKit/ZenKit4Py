@@ -52,7 +52,7 @@ class MovableObject(VirtualObject):
 
     @name.setter
     def name(self, value: str) -> None:
-        DLL.ZkMovableObject_setName(self._handle, value.encode("utf-8"))
+        DLL.ZkMovableObject_setName(self._handle, value.encode("windows-1252"))
 
     @property
     def hp(self) -> int:
@@ -108,7 +108,7 @@ class MovableObject(VirtualObject):
 
     @visual_destroyed.setter
     def visual_destroyed(self, value: str) -> None:
-        DLL.ZkMovableObject_setVisualDestroyed(self._handle, value.encode("utf-8"))
+        DLL.ZkMovableObject_setVisualDestroyed(self._handle, value.encode("windows-1252"))
 
     @property
     def owner(self) -> str:
@@ -116,7 +116,7 @@ class MovableObject(VirtualObject):
 
     @owner.setter
     def owner(self, value: str) -> None:
-        DLL.ZkMovableObject_setOwner(self._handle, value.encode("utf-8"))
+        DLL.ZkMovableObject_setOwner(self._handle, value.encode("windows-1252"))
 
     @property
     def owner_guild(self) -> str:
@@ -124,7 +124,7 @@ class MovableObject(VirtualObject):
 
     @owner_guild.setter
     def owner_guild(self, value: str) -> None:
-        DLL.ZkMovableObject_setOwnerGuild(self._handle, value.encode("utf-8"))
+        DLL.ZkMovableObject_setOwnerGuild(self._handle, value.encode("windows-1252"))
 
     @property
     def destroyed(self) -> bool:
@@ -161,7 +161,7 @@ class InteractiveObject(MovableObject):
 
     @target.setter
     def target(self, value: str) -> None:
-        DLL.ZkInteractiveObject_setTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkInteractiveObject_setTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def item(self) -> str:
@@ -169,7 +169,7 @@ class InteractiveObject(MovableObject):
 
     @item.setter
     def item(self, value: str) -> None:
-        DLL.ZkInteractiveObject_setItem(self._handle, value.encode("utf-8"))
+        DLL.ZkInteractiveObject_setItem(self._handle, value.encode("windows-1252"))
 
     @property
     def condition_function(self) -> str:
@@ -177,7 +177,7 @@ class InteractiveObject(MovableObject):
 
     @condition_function.setter
     def condition_function(self, value: str) -> None:
-        DLL.ZkInteractiveObject_setConditionFunction(self._handle, value.encode("utf-8"))
+        DLL.ZkInteractiveObject_setConditionFunction(self._handle, value.encode("windows-1252"))
 
     @property
     def on_state_change_function(self) -> str:
@@ -185,7 +185,7 @@ class InteractiveObject(MovableObject):
 
     @on_state_change_function.setter
     def on_state_change_function(self, value: str) -> None:
-        DLL.ZkInteractiveObject_setOnStateChangeFunction(self._handle, value.encode("utf-8"))
+        DLL.ZkInteractiveObject_setOnStateChangeFunction(self._handle, value.encode("windows-1252"))
 
     @property
     def rewind(self) -> bool:
@@ -210,7 +210,7 @@ class Fire(InteractiveObject):
 
     @slot.setter
     def slot(self, value: str) -> None:
-        DLL.ZkFire_setSlot(self._handle, value.encode("utf-8"))
+        DLL.ZkFire_setSlot(self._handle, value.encode("windows-1252"))
 
     @property
     def vob_tree(self) -> str:
@@ -218,7 +218,7 @@ class Fire(InteractiveObject):
 
     @vob_tree.setter
     def vob_tree(self, value: str) -> None:
-        DLL.ZkFire_setVobTree(self._handle, value.encode("utf-8"))
+        DLL.ZkFire_setVobTree(self._handle, value.encode("windows-1252"))
 
 
 DLL.ZkContainer_getIsLocked.restype = c_int
@@ -247,7 +247,7 @@ class Container(InteractiveObject):
 
     @key.setter
     def key(self, value: str) -> None:
-        DLL.ZkContainer_setKey(self._handle, value.encode("utf-8"))
+        DLL.ZkContainer_setKey(self._handle, value.encode("windows-1252"))
 
     @property
     def pick_string(self) -> str:
@@ -255,7 +255,7 @@ class Container(InteractiveObject):
 
     @pick_string.setter
     def pick_string(self, value: str) -> None:
-        DLL.ZkContainer_setPickString(self._handle, value.encode("utf-8"))
+        DLL.ZkContainer_setPickString(self._handle, value.encode("windows-1252"))
 
     @property
     def contents(self) -> str:
@@ -263,7 +263,7 @@ class Container(InteractiveObject):
 
     @contents.setter
     def contents(self, value: str) -> None:
-        DLL.ZkContainer_setContents(self._handle, value.encode("utf-8"))
+        DLL.ZkContainer_setContents(self._handle, value.encode("windows-1252"))
 
     @property
     def items(self) -> list[Item]:
@@ -309,7 +309,7 @@ class Door(InteractiveObject):
 
     @key.setter
     def key(self, value: str) -> None:
-        DLL.ZkDoor_setKey(self._handle, value.encode("utf-8"))
+        DLL.ZkDoor_setKey(self._handle, value.encode("windows-1252"))
 
     @property
     def pick_string(self) -> str:
@@ -317,4 +317,4 @@ class Door(InteractiveObject):
 
     @pick_string.setter
     def pick_string(self, value: str) -> None:
-        DLL.ZkDoor_setPickString(self._handle, value.encode("utf-8"))
+        DLL.ZkDoor_setPickString(self._handle, value.encode("windows-1252"))

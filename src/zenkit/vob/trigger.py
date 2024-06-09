@@ -90,7 +90,7 @@ class Trigger(VirtualObject):
 
     @target.setter
     def target(self, value: str) -> None:
-        DLL.ZkTrigger_setTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkTrigger_setTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def start_enabled(self) -> bool:
@@ -162,7 +162,7 @@ class Trigger(VirtualObject):
 
     @vob_target.setter
     def vob_target(self, value: str) -> None:
-        DLL.ZkTrigger_setVobTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkTrigger_setVobTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def max_activation_count(self) -> int:
@@ -413,7 +413,7 @@ class Mover(Trigger):
 
     @sfx_open_start.setter
     def sfx_open_start(self, value: str) -> None:
-        DLL.ZkMover_setSfxOpenStart(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxOpenStart(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_open_end(self) -> str:
@@ -421,7 +421,7 @@ class Mover(Trigger):
 
     @sfx_open_end.setter
     def sfx_open_end(self, value: str) -> None:
-        DLL.ZkMover_setSfxOpenEnd(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxOpenEnd(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_transitioning(self) -> str:
@@ -429,7 +429,7 @@ class Mover(Trigger):
 
     @sfx_transitioning.setter
     def sfx_transitioning(self, value: str) -> None:
-        DLL.ZkMover_setSfxTransitioning(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxTransitioning(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_close_start(self) -> str:
@@ -437,7 +437,7 @@ class Mover(Trigger):
 
     @sfx_close_start.setter
     def sfx_close_start(self, value: str) -> None:
-        DLL.ZkMover_setSfxCloseStart(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxCloseStart(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_close_end(self) -> str:
@@ -445,7 +445,7 @@ class Mover(Trigger):
 
     @sfx_close_end.setter
     def sfx_close_end(self, value: str) -> None:
-        DLL.ZkMover_setSfxCloseEnd(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxCloseEnd(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_lock(self) -> str:
@@ -453,7 +453,7 @@ class Mover(Trigger):
 
     @sfx_lock.setter
     def sfx_lock(self, value: str) -> None:
-        DLL.ZkMover_setSfxLock(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxLock(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_unlock(self) -> str:
@@ -461,7 +461,7 @@ class Mover(Trigger):
 
     @sfx_unlock.setter
     def sfx_unlock(self, value: str) -> None:
-        DLL.ZkMover_setSfxUnlock(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxUnlock(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_use_locked(self) -> str:
@@ -469,7 +469,7 @@ class Mover(Trigger):
 
     @sfx_use_locked.setter
     def sfx_use_locked(self, value: str) -> None:
-        DLL.ZkMover_setSfxUseLocked(self._handle, value.encode("utf-8"))
+        DLL.ZkMover_setSfxUseLocked(self._handle, value.encode("windows-1252"))
 
     @property
     def keyframes(self) -> list[AnimationSample]:
@@ -550,7 +550,7 @@ class TriggerScript(Trigger):
 
     @function.setter
     def function(self, value: str) -> None:
-        DLL.ZkTriggerScript_setFunction(self._handle, value.encode("utf-8"))
+        DLL.ZkTriggerScript_setFunction(self._handle, value.encode("windows-1252"))
 
 
 DLL.ZkTriggerChangeLevel_getLevelName.restype = ZkString
@@ -567,7 +567,7 @@ class TriggerChangeLevel(Trigger):
 
     @level_name.setter
     def level_name(self, value: str) -> None:
-        DLL.ZkTriggerChangeLevel_setLevelName(self._handle, value.encode("utf-8"))
+        DLL.ZkTriggerChangeLevel_setLevelName(self._handle, value.encode("windows-1252"))
 
     @property
     def start_vob(self) -> str:
@@ -575,7 +575,7 @@ class TriggerChangeLevel(Trigger):
 
     @start_vob.setter
     def start_vob(self, value: str) -> None:
-        DLL.ZkTriggerChangeLevel_setStartVob(self._handle, value.encode("utf-8"))
+        DLL.ZkTriggerChangeLevel_setStartVob(self._handle, value.encode("windows-1252"))
 
 
 DLL.ZkTriggerWorldStart_getTarget.restype = ZkString
@@ -593,7 +593,7 @@ class TriggerWorldStart(VirtualObject):
 
     @target.setter
     def target(self, value: str) -> None:
-        DLL.ZkTriggerWorldStart_setTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkTriggerWorldStart_setTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def fire_once(self) -> bool:
@@ -625,4 +625,4 @@ class TriggerUntouch(VirtualObject):
 
     @target.setter
     def target(self, value: str) -> None:
-        DLL.ZkTriggerUntouch_setTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkTriggerUntouch_setTarget(self._handle, value.encode("windows-1252"))

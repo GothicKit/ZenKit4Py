@@ -62,7 +62,7 @@ class MenuItemInstance(DaedalusInstance):
 
     @font_name.setter
     def font_name(self, value: str) -> None:
-        DLL.ZkMenuItemInstance_setFontName(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setFontName(self._handle, value.encode("windows-1252"))
 
     @property
     def backpic(self) -> str:
@@ -71,7 +71,7 @@ class MenuItemInstance(DaedalusInstance):
 
     @backpic.setter
     def backpic(self, value: str) -> None:
-        DLL.ZkMenuItemInstance_setBackpic(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setBackpic(self._handle, value.encode("windows-1252"))
 
     @property
     def alpha_mode(self) -> str:
@@ -80,7 +80,7 @@ class MenuItemInstance(DaedalusInstance):
 
     @alpha_mode.setter
     def alpha_mode(self, value: str) -> None:
-        DLL.ZkMenuItemInstance_setAlphaMode(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setAlphaMode(self._handle, value.encode("windows-1252"))
 
     @property
     def alpha(self) -> int:
@@ -107,7 +107,7 @@ class MenuItemInstance(DaedalusInstance):
 
     @on_chg_set_option.setter
     def on_chg_set_option(self, value: str) -> None:
-        DLL.ZkMenuItemInstance_setOnChgSetOption(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setOnChgSetOption(self._handle, value.encode("windows-1252"))
 
     @property
     def on_chg_set_option_section(self) -> str:
@@ -116,7 +116,7 @@ class MenuItemInstance(DaedalusInstance):
 
     @on_chg_set_option_section.setter
     def on_chg_set_option_section(self, value: str) -> None:
-        DLL.ZkMenuItemInstance_setOnChgSetOptionSection(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setOnChgSetOptionSection(self._handle, value.encode("windows-1252"))
 
     @property
     def pos_x(self) -> int:
@@ -233,7 +233,7 @@ class MenuItemInstance(DaedalusInstance):
 
     @hide_if_option_section_set.setter
     def hide_if_option_section_set(self, value: str) -> None:
-        DLL.ZkMenuItemInstance_setHideIfOptionSectionSet(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setHideIfOptionSectionSet(self._handle, value.encode("windows-1252"))
 
     @property
     def hide_if_option_set(self) -> str:
@@ -242,7 +242,7 @@ class MenuItemInstance(DaedalusInstance):
 
     @hide_if_option_set.setter
     def hide_if_option_set(self, value: str) -> None:
-        DLL.ZkMenuItemInstance_setHideIfOptionSet(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setHideIfOptionSet(self._handle, value.encode("windows-1252"))
 
     @property
     def hide_on_value(self) -> int:
@@ -307,14 +307,14 @@ class MenuItemInstance(DaedalusInstance):
     def set_text(self, i: int, val: str) -> None:
         if i < 0 or i >= _MENU_ITEM_TEXT_COUNT:
             raise IndexError(i)
-        DLL.ZkMenuItemInstance_setText(self._handle, c_size_t(i), val.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setText(self._handle, c_size_t(i), val.encode("windows-1252"))
 
     def set_on_sel_action_s(self, i: int, val: str) -> None:
         if i < 0 or i >= _MENU_ITEM_SELECT_ACTION_COUNT:
             raise IndexError(i)
-        DLL.ZkMenuItemInstance_setOnSelActionS(self._handle, c_size_t(i), val.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setOnSelActionS(self._handle, c_size_t(i), val.encode("windows-1252"))
 
     def set_user_string(self, i: int, val: str) -> None:
         if i < 0 or i >= _MENU_ITEM_USER_COUNT:
             raise IndexError(i)
-        DLL.ZkMenuItemInstance_setUserString(self._handle, c_size_t(i), val.encode("utf-8"))
+        DLL.ZkMenuItemInstance_setUserString(self._handle, c_size_t(i), val.encode("windows-1252"))

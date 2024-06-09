@@ -22,7 +22,7 @@ class MusicJingleInstance(DaedalusInstance):
 
     @name.setter
     def name(self, value: str) -> None:
-        DLL.ZkMusicJingleInstance_setName(self._handle, value.encode("utf-8"))
+        DLL.ZkMusicJingleInstance_setName(self._handle, value.encode("windows-1252"))
 
     @property
     def loop(self) -> int:

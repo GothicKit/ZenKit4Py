@@ -20,7 +20,7 @@ class SoundEffectInstance(DaedalusInstance):
 
     @file.setter
     def file(self, value: str) -> None:
-        DLL.ZkSoundEffectInstance_setFile(self._handle, value.encode("utf-8"))
+        DLL.ZkSoundEffectInstance_setFile(self._handle, value.encode("windows-1252"))
 
     @property
     def pitch_off(self) -> int:
@@ -92,4 +92,4 @@ class SoundEffectInstance(DaedalusInstance):
 
     @pfx_name.setter
     def pfx_name(self, value: str) -> None:
-        DLL.ZkSoundEffectInstance_setPfxName(self._handle, value.encode("utf-8"))
+        DLL.ZkSoundEffectInstance_setPfxName(self._handle, value.encode("windows-1252"))

@@ -19,7 +19,7 @@ class MissionInstance(DaedalusInstance):
 
     @name.setter
     def name(self, value: str) -> None:
-        DLL.ZkMissionInstance_setName(self._handle, value.encode("utf-8"))
+        DLL.ZkMissionInstance_setName(self._handle, value.encode("windows-1252"))
 
     @property
     def description(self) -> str:
@@ -28,7 +28,7 @@ class MissionInstance(DaedalusInstance):
 
     @description.setter
     def description(self, value: str) -> None:
-        DLL.ZkMissionInstance_setDescription(self._handle, value.encode("utf-8"))
+        DLL.ZkMissionInstance_setDescription(self._handle, value.encode("windows-1252"))
 
     @property
     def duration(self) -> int:

@@ -160,7 +160,7 @@ class Visual:
 
     @name.setter
     def name(self, value: str) -> None:
-        DLL.ZkVisual_setName(self._handle, value.encode("utf-8"))
+        DLL.ZkVisual_setName(self._handle, value.encode("windows-1252"))
 
     @property
     def type(self) -> VisualType:
@@ -200,7 +200,7 @@ class VisualDecal(Visual):
 
     @name.setter
     def name(self, value: str) -> None:
-        DLL.ZkVisualDecal_setName(self._handle, value.encode("utf-8"))
+        DLL.ZkVisualDecal_setName(self._handle, value.encode("windows-1252"))
 
     @property
     def dimension(self) -> Vec2f:
@@ -757,7 +757,7 @@ class VirtualObject:
 
     @preset_name.setter
     def preset_name(self, value: str) -> None:
-        DLL.ZkVirtualObject_setPresetName(self._handle, value.encode("utf-8"))
+        DLL.ZkVirtualObject_setPresetName(self._handle, value.encode("windows-1252"))
 
     @property
     def name(self) -> str:
@@ -765,7 +765,7 @@ class VirtualObject:
 
     @name.setter
     def name(self, value: str) -> None:
-        DLL.ZkVirtualObject_setName(self._handle, value.encode("utf-8"))
+        DLL.ZkVirtualObject_setName(self._handle, value.encode("windows-1252"))
 
     @property
     def visual(self) -> Visual | None:

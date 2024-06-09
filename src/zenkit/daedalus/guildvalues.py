@@ -350,9 +350,9 @@ class GuildValuesInstance(DaedalusInstance):
     def set_blood_emitter(self, i: int, val: str) -> None:
         if i < 0 or i >= _GUILD_VALUE_COUNT:
             raise IndexError(i)
-        DLL.ZkGuildValuesInstance_setBloodEmitter(self._handle, i, val.encode("utf-8"))
+        DLL.ZkGuildValuesInstance_setBloodEmitter(self._handle, i, val.encode("windows-1252"))
 
     def set_blood_texture(self, i: int, val: str) -> None:
         if i < 0 or i >= _GUILD_VALUE_COUNT:
             raise IndexError(i)
-        DLL.ZkGuildValuesInstance_setBloodTexture(self._handle, i, val.encode("utf-8"))
+        DLL.ZkGuildValuesInstance_setBloodTexture(self._handle, i, val.encode("windows-1252"))

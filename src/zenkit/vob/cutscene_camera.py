@@ -287,7 +287,7 @@ class CutsceneCamera(VirtualObject):
 
     @auto_focus_vob.setter
     def auto_focus_vob(self, value: str) -> None:
-        DLL.ZkCutsceneCamera_setAutoFocusVob(self._handle, value.encode("utf-8"))
+        DLL.ZkCutsceneCamera_setAutoFocusVob(self._handle, value.encode("windows-1252"))
 
     @property
     def auto_player_movable(self) -> bool:

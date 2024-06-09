@@ -60,7 +60,7 @@ class Light(VirtualObject):
 
     @preset.setter
     def preset(self, value: str) -> None:
-        DLL.ZkLight_setPreset(self._handle, value.encode("utf-8"))
+        DLL.ZkLight_setPreset(self._handle, value.encode("windows-1252"))
 
     @property
     def light_type(self) -> LightType:
@@ -116,7 +116,7 @@ class Light(VirtualObject):
 
     @lensflare_fx.setter
     def lensflare_fx(self, value: str) -> None:
-        DLL.ZkLight_setLensflareFx(self._handle, value.encode("utf-8"))
+        DLL.ZkLight_setLensflareFx(self._handle, value.encode("windows-1252"))
 
     @property
     def on(self) -> bool:

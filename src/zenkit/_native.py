@@ -18,7 +18,7 @@ class ZkString(c_char_p):
             error = "Failed to load native string"
             raise ValueError(error)
 
-        return value.decode("utf-8")
+        return value.decode("windows-1252")
 
 
 class ZkPointer(c_void_p):

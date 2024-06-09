@@ -111,7 +111,7 @@ class CutsceneLibrary:
         return items
 
     def get(self, name: str) -> "CutsceneBlock | None":
-        handle = DLL.ZkCutsceneLibrary_getBlock(self._handle, name.encode("utf-8")).value
+        handle = DLL.ZkCutsceneLibrary_getBlock(self._handle, name.encode("windows-1252")).value
         if handle is None:
             return None
         return CutsceneBlock(_handle=handle, _keepalive=self)

@@ -117,7 +117,7 @@ class NpcInstance(DaedalusInstance):
 
     @slot.setter
     def slot(self, value: str) -> None:
-        DLL.ZkNpcInstance_setSlot(self._handle, value.encode("utf-8"))
+        DLL.ZkNpcInstance_setSlot(self._handle, value.encode("windows-1252"))
 
     @property
     def effect(self) -> str:
@@ -126,7 +126,7 @@ class NpcInstance(DaedalusInstance):
 
     @effect.setter
     def effect(self, value: str) -> None:
-        DLL.ZkNpcInstance_setEffect(self._handle, value.encode("utf-8"))
+        DLL.ZkNpcInstance_setEffect(self._handle, value.encode("windows-1252"))
 
     @property
     def type(self) -> NpcInstanceType:
@@ -243,7 +243,7 @@ class NpcInstance(DaedalusInstance):
 
     @spawn_point.setter
     def spawn_point(self, value: str) -> None:
-        DLL.ZkNpcInstance_setSpawnPoint(self._handle, value.encode("utf-8"))
+        DLL.ZkNpcInstance_setSpawnPoint(self._handle, value.encode("windows-1252"))
 
     @property
     def spawn_delay(self) -> int:
@@ -279,7 +279,7 @@ class NpcInstance(DaedalusInstance):
 
     @wp.setter
     def wp(self, value: str) -> None:
-        DLL.ZkNpcInstance_setWp(self._handle, value.encode("utf-8"))
+        DLL.ZkNpcInstance_setWp(self._handle, value.encode("windows-1252"))
 
     @property
     def exp(self) -> int:
@@ -357,7 +357,7 @@ class NpcInstance(DaedalusInstance):
         return DLL.ZkNpcInstance_getAiVar(self._handle, c_size_t(i))
 
     def set_name(self, slot: NpcInstanceNameSlot, val: str) -> None:
-        DLL.ZkNpcInstance_setName(self._handle, slot.value, val.encode("utf-8"))
+        DLL.ZkNpcInstance_setName(self._handle, slot.value, val.encode("windows-1252"))
 
     def set_mission(self, slot: NpcInstanceMissionSlot, val: int) -> None:
         DLL.ZkNpcInstance_setMission(self._handle, slot.value, val)

@@ -88,7 +88,7 @@ class Item(VirtualObject):
 
     @instance.setter
     def instance(self, value: str) -> None:
-        DLL.ZkItem_setInstance(self._handle, value.encode("utf-8"))
+        DLL.ZkItem_setInstance(self._handle, value.encode("windows-1252"))
 
     @property
     def amount(self) -> int:
@@ -120,7 +120,7 @@ class LensFlare(VirtualObject):
 
     @effect.setter
     def effect(self, value: str) -> None:
-        DLL.ZkLensFlare_setEffect(self._handle, value.encode("utf-8"))
+        DLL.ZkLensFlare_setEffect(self._handle, value.encode("windows-1252"))
 
 
 DLL.ZkParticleEffectController_getEffectName.restype = ZkString
@@ -138,7 +138,7 @@ class ParticleEffectController(VirtualObject):
 
     @effect_name.setter
     def effect_name(self, value: str) -> None:
-        DLL.ZkParticleEffectController_setEffectName(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectController_setEffectName(self._handle, value.encode("windows-1252"))
 
     @property
     def kill_when_done(self) -> bool:
@@ -172,7 +172,7 @@ class MessageFilter(VirtualObject):
 
     @target.setter
     def target(self, value: str) -> None:
-        DLL.ZkMessageFilter_setTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkMessageFilter_setTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def on_trigger(self) -> MessageFilterAction:
@@ -210,7 +210,7 @@ class CodeMaster(VirtualObject):
 
     @target.setter
     def target(self, value: str) -> None:
-        DLL.ZkCodeMaster_setTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkCodeMaster_setTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def ordered(self) -> bool:
@@ -234,7 +234,7 @@ class CodeMaster(VirtualObject):
 
     @failure_target.setter
     def failure_target(self, value: str) -> None:
-        DLL.ZkCodeMaster_setFailureTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkCodeMaster_setFailureTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def untriggered_cancels(self) -> bool:
@@ -256,7 +256,7 @@ class CodeMaster(VirtualObject):
             DLL.ZkCodeMaster_removeSlave(self._handle, 0)
 
         for v in value:
-            DLL.ZkCodeMaster_addSlave(self._handle, v.encode("utf-8"))
+            DLL.ZkCodeMaster_addSlave(self._handle, v.encode("windows-1252"))
 
 
 DLL.ZkMoverController_getTarget.restype = ZkString
@@ -274,7 +274,7 @@ class MoverController(VirtualObject):
 
     @target.setter
     def target(self, value: str) -> None:
-        DLL.ZkMoverController_setTarget(self._handle, value.encode("utf-8"))
+        DLL.ZkMoverController_setTarget(self._handle, value.encode("windows-1252"))
 
     @property
     def message(self) -> MoverMessageType:

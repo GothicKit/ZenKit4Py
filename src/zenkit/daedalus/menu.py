@@ -22,7 +22,7 @@ class MenuInstance(DaedalusInstance):
 
     @back_pic.setter
     def back_pic(self, value: str) -> None:
-        DLL.ZkMenuInstance_setBackPic(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuInstance_setBackPic(self._handle, value.encode("windows-1252"))
 
     @property
     def back_world(self) -> str:
@@ -31,7 +31,7 @@ class MenuInstance(DaedalusInstance):
 
     @back_world.setter
     def back_world(self, value: str) -> None:
-        DLL.ZkMenuInstance_setBackWorld(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuInstance_setBackWorld(self._handle, value.encode("windows-1252"))
 
     @property
     def pos_x(self) -> int:
@@ -85,7 +85,7 @@ class MenuInstance(DaedalusInstance):
 
     @music_theme.setter
     def music_theme(self, value: str) -> None:
-        DLL.ZkMenuInstance_setMusicTheme(self._handle, value.encode("utf-8"))
+        DLL.ZkMenuInstance_setMusicTheme(self._handle, value.encode("windows-1252"))
 
     @property
     def event_timer_msec(self) -> int:
@@ -132,4 +132,4 @@ class MenuInstance(DaedalusInstance):
     def set_item(self, i: int, val: str) -> None:
         if i < 0 or i >= _MENU_ITEM_COUNT:
             raise IndexError(i)
-        DLL.ZkMenuInstance_setItem(self._handle, c_size_t(i), val.encode("utf-8"))
+        DLL.ZkMenuInstance_setItem(self._handle, c_size_t(i), val.encode("windows-1252"))

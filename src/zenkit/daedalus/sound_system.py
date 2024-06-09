@@ -65,4 +65,4 @@ class SoundSystemInstance(DaedalusInstance):
 
     @used_3d_provider_name.setter
     def used_3d_provider_name(self, value: str) -> None:
-        DLL.ZkSoundSystemInstance_setUsed3DProviderName(self._handle, value.encode("utf-8"))
+        DLL.ZkSoundSystemInstance_setUsed3DProviderName(self._handle, value.encode("windows-1252"))

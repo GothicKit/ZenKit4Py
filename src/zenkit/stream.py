@@ -26,7 +26,7 @@ class Read:
             self._handle = source
         else:
             self._native = str(source)
-            self._handle = c_void_p(DLL.ZkRead_newPath(self._native.encode("utf-8")))
+            self._handle = c_void_p(DLL.ZkRead_newPath(self._native.encode("windows-1252")))
 
         if self._handle.value is None or self._handle.value == 0:
             error = "Failed to create input stream, see logs."

@@ -66,7 +66,7 @@ class InfoInstance(DaedalusInstance):
 
     @description.setter
     def description(self, value: str) -> None:
-        DLL.ZkInfoInstance_setDescription(self._handle, value.encode("utf-8"))
+        DLL.ZkInfoInstance_setDescription(self._handle, value.encode("windows-1252"))
 
     @property
     def trade(self) -> int:

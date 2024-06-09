@@ -58,7 +58,7 @@ class VfsNode:
         if isinstance(timestamp, datetime):
             timestamp = timestamp.timestamp()
 
-        handle = DLL.ZkVfsNode_newFile(name.encode("utf-8"), content, c_ulong(len(content)), c_long(int(timestamp)))
+        handle = DLL.ZkVfsNode_newFile(name.encode("windows-1252"), content, c_ulong(len(content)), c_long(int(timestamp)))
         return VfsNode(_handle=c_void_p(handle), _delete=True)
 
     @staticmethod
@@ -70,12 +70,12 @@ class VfsNode:
         if isinstance(timestamp, datetime):
             timestamp = timestamp.timestamp()
 
-        handle = DLL.ZkVfsNode_newDir(name.encode("utf-8"), c_long(int(timestamp)))
+        handle = DLL.ZkVfsNode_newDir(name.encode("windows-1252"), c_long(int(timestamp)))
         return VfsNode(_handle=c_void_p(handle), _delete=True)
 
     @property
     def name(self) -> str:
-        return DLL.ZkVfsNode_getName(self._handle).decode("utf-8")
+        return DLL.ZkVfsNode_getName(self._handle).decode("windows-1252")
 
     @property
     def data(self) -> bytes:
@@ -103,7 +103,7 @@ class VfsNode:
         return nodes
 
     def get_child(self, name: str) -> "VfsNode | None":
-        handle = DLL.ZkVfsNode_getChild(self._handle, name.encode("utf-8"))
+        handle = DLL.ZkVfsNode_getChild(self._handle, name.encode("windows-1252"))
         return VfsNode(_handle=c_void_p(handle), _keepalive=self)
 
     def is_file(self) -> bool:
@@ -159,7 +159,7 @@ class VfsNode:
 
     def remove(self, name: str) -> bool:
         DLL.ZkVfsNode_remove.restype = c_int
-        return DLL.ZkVfsNode_remove(self._handle, name.encode("utf-8")) != 0
+        return DLL.ZkVfsNode_remove(self._handle, name.encode("windows-1252")) != 0
 
     def __iter__(self) -> Iterator["VfsNode"]:
         return iter(self.children)
@@ -197,8 +197,8 @@ class Vfs:
         DLL.ZkVfs_mountHost.restype = None
         DLL.ZkVfs_mountHost(
             self._handle,
-            str(path).encode("utf-8"),
-            str(parent).encode("utf-8"),
+            str(path).encode("windows-1252"),
+            str(parent).encode("windows-1252"),
             c_int(clobber.value),
         )
 
@@ -209,31 +209,31 @@ class Vfs:
         clobber: VfsOverwriteBehavior = VfsOverwriteBehavior.OLDER,
     ) -> None:
         DLL.ZkVfs_mountDiskHost.restype = None
-        DLL.ZkVfs_mountDiskHost(self._handle, str(path).encode("utf-8"), c_int(clobber.value))
+        DLL.ZkVfs_mountDiskHost(self._handle, str(path).encode("windows-1252"), c_int(clobber.value))
 
     def find(self, name: str | PathLike) -> "VfsNode | None":
         DLL.ZkVfs_findNode.restype = c_void_p
-        handle = DLL.ZkVfs_findNode(self._handle, str(name).encode("utf-8"))
+        handle = DLL.ZkVfs_findNode(self._handle, str(name).encode("windows-1252"))
         return VfsNode(_handle=c_void_p(handle), _keepalive=self) if handle is not None else None
 
     def resolve(self, path: str | PathLike) -> "VfsNode | None":
         DLL.ZkVfs_resolvePath.restype = c_void_p
-        handle = DLL.ZkVfs_resolvePath(self._handle, str(path).encode("utf-8"))
+        handle = DLL.ZkVfs_resolvePath(self._handle, str(path).encode("windows-1252"))
         return VfsNode(_handle=c_void_p(handle), _keepalive=self) if handle is not None else None
 
     def mkdir(self, path: str | PathLike) -> VfsNode:
         DLL.ZkVfs_mkdir.restype = c_void_p
-        handle = DLL.ZkVfs_mkdir(self._handle, str(path).encode("utf-8"))
+        handle = DLL.ZkVfs_mkdir(self._handle, str(path).encode("windows-1252"))
         if handle is None or handle == 0:
             return None
         return VfsNode(_handle=c_void_p(handle), _keepalive=self)
 
     def remove(self, path: str | PathLike) -> bool:
         DLL.ZkVfs_remove.restype = c_int
-        return DLL.ZkVfs_remove(self._handle, str(path).encode("utf-8")) != 0
+        return DLL.ZkVfs_remove(self._handle, str(path).encode("windows-1252")) != 0
 
     def save(self, path: str | PathLike, version: GameVersion) -> None:
-        DLL.ZkVfs_save(self._handle, str(path).encode("utf-8"), c_int(version.value))
+        DLL.ZkVfs_save(self._handle, str(path).encode("windows-1252"), c_int(version.value))
 
     @property
     def root(self) -> VfsNode:

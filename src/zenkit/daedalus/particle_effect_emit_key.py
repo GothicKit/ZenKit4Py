@@ -22,7 +22,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @vis_name_s.setter
     def vis_name_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setVisNameS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setVisNameS(self._handle, value.encode("windows-1252"))
 
     @property
     def vis_size_scale(self) -> float:
@@ -85,7 +85,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_fly_gravity_s.setter
     def pfx_fly_gravity_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxFlyGravityS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxFlyGravityS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_shp_dim_s(self) -> str:
@@ -94,7 +94,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_shp_dim_s.setter
     def pfx_shp_dim_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxShpDimS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxShpDimS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_shp_is_volume_chg(self) -> int:
@@ -130,7 +130,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_shp_offset_vec_s.setter
     def pfx_shp_offset_vec_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxShpOffsetVecS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxShpOffsetVecS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_shp_distrib_type_s(self) -> str:
@@ -139,7 +139,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_shp_distrib_type_s.setter
     def pfx_shp_distrib_type_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxShpDistribTypeS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxShpDistribTypeS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_dir_mode_s(self) -> str:
@@ -148,7 +148,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_dir_mode_s.setter
     def pfx_dir_mode_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirModeS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirModeS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_dir_for_s(self) -> str:
@@ -157,7 +157,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_dir_for_s.setter
     def pfx_dir_for_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirForS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirForS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_dir_mode_target_for_s(self) -> str:
@@ -166,7 +166,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_dir_mode_target_for_s.setter
     def pfx_dir_mode_target_for_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirModeTargetForS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirModeTargetForS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_dir_mode_target_pos_s(self) -> str:
@@ -175,7 +175,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @pfx_dir_mode_target_pos_s.setter
     def pfx_dir_mode_target_pos_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirModeTargetPosS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setPfxDirModeTargetPosS(self._handle, value.encode("windows-1252"))
 
     @property
     def pfx_vel_avg(self) -> float:
@@ -211,7 +211,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @light_preset_name.setter
     def light_preset_name(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setLightPresetName(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setLightPresetName(self._handle, value.encode("windows-1252"))
 
     @property
     def light_range(self) -> float:
@@ -229,7 +229,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @sfx_id.setter
     def sfx_id(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setSfxId(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setSfxId(self._handle, value.encode("windows-1252"))
 
     @property
     def sfx_is_ambient(self) -> int:
@@ -247,7 +247,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @em_create_fx_id.setter
     def em_create_fx_id(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setEmCreateFxId(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setEmCreateFxId(self._handle, value.encode("windows-1252"))
 
     @property
     def em_fly_gravity(self) -> float:
@@ -265,7 +265,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @em_self_rot_vel_s.setter
     def em_self_rot_vel_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setEmSelfRotVelS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setEmSelfRotVelS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_trj_mode_s(self) -> str:
@@ -274,7 +274,7 @@ class ParticleEffectEmitKeyInstance(DaedalusInstance):
 
     @em_trj_mode_s.setter
     def em_trj_mode_s(self, value: str) -> None:
-        DLL.ZkParticleEffectEmitKeyInstance_setEmTrjModeS(self._handle, value.encode("utf-8"))
+        DLL.ZkParticleEffectEmitKeyInstance_setEmTrjModeS(self._handle, value.encode("windows-1252"))
 
     @property
     def em_trj_ease_vel(self) -> float:

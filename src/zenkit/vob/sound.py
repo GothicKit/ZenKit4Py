@@ -131,7 +131,7 @@ class Sound(VirtualObject):
 
     @sound_name.setter
     def sound_name(self, value: str) -> None:
-        DLL.ZkSound_setSoundName(self._handle, value.encode("utf-8"))
+        DLL.ZkSound_setSoundName(self._handle, value.encode("windows-1252"))
 
     @property
     def is_running(self) -> bool:
@@ -181,4 +181,4 @@ class SoundDaytime(Sound):
 
     @sound_name_daytime.setter
     def sound_name_daytime(self, value: str) -> None:
-        DLL.ZkSoundDaytime_setSoundNameDaytime(self._handle, value.encode("utf-8"))
+        DLL.ZkSoundDaytime_setSoundNameDaytime(self._handle, value.encode("windows-1252"))
