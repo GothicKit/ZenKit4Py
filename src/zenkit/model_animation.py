@@ -3,10 +3,13 @@ __all__ = [
     "AnimationSample",
 ]
 
+from ctypes import POINTER
 from ctypes import Structure
+from ctypes import byref
 from ctypes import c_float
 from ctypes import c_size_t
 from ctypes import c_uint
+from ctypes import c_uint32
 from ctypes import c_void_p
 from datetime import datetime
 from typing import Any
@@ -54,6 +57,7 @@ DLL.ZkModelAnimation_getSourceDate.restype = Date
 DLL.ZkModelAnimation_getSourceScript.restype = ZkString
 DLL.ZkModelAnimation_getSampleCount.restype = c_size_t
 DLL.ZkModelAnimation_getSample.restype = AnimationSample
+DLL.ZkModelAnimation_getNodeIndices.restype = POINTER(c_uint32)
 
 
 class ModelAnimation:
@@ -124,6 +128,12 @@ class ModelAnimation:
     def samples(self) -> list[AnimationSample]:
         count = DLL.ZkModelAnimation_getSampleCount(self._handle)
         return [DLL.ZkModelAnimation_getSample(self._handle, i) for i in range(count)]
+
+    @property
+    def node_indices(self) -> list[int]:
+        count = c_size_t(0)
+        handle = DLL.ZkModelAnimation_getNodeIndices(self._handle, byref(count))
+        return [handle[i] for i in range(count.value)]
 
     def __del__(self) -> None:
         if self._delete:
