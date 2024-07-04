@@ -140,6 +140,22 @@ __all__ = [
     "SoundSystemInstance",
     "SpellInstance",
     "SvmInstance",
+    "AnimationCombine",
+    "AnimationBlend",
+    "AnimationAlias",
+    "Animation",
+    "AnimationFlags",
+    "AnimationDirection",
+    "EventCameraTremor",
+    "EventMorphAnimation",
+    "EventParticleEffect",
+    "EventParticleEffectStop",
+    "EventSoundEffect",
+    "EventSoundEffectGround",
+    "EventTag",
+    "EventType",
+    "FightMode",
+    "ModelScript",
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
@@ -198,6 +214,22 @@ from zenkit.model_animation import ModelAnimation
 from zenkit.model_hierarchy import ModelHierarchy
 from zenkit.model_hierarchy import ModelHierarchyNode
 from zenkit.model_mesh import ModelMesh
+from zenkit.model_script import Animation
+from zenkit.model_script import AnimationAlias
+from zenkit.model_script import AnimationBlend
+from zenkit.model_script import AnimationCombine
+from zenkit.model_script import AnimationDirection
+from zenkit.model_script import AnimationFlags
+from zenkit.model_script import EventCameraTremor
+from zenkit.model_script import EventMorphAnimation
+from zenkit.model_script import EventParticleEffect
+from zenkit.model_script import EventParticleEffectStop
+from zenkit.model_script import EventSoundEffect
+from zenkit.model_script import EventSoundEffectGround
+from zenkit.model_script import EventTag
+from zenkit.model_script import EventType
+from zenkit.model_script import FightMode
+from zenkit.model_script import ModelScript
 from zenkit.morph_mesh import MorphAnimation
 from zenkit.morph_mesh import MorphMesh
 from zenkit.morph_mesh import MorphSource
