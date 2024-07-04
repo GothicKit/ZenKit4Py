@@ -13,7 +13,7 @@ authors = [
 maintainers = [
     {name = "Luis Michaelis", email="publishing@lmichaelis.de"}
 ]
-version = "1.2.0"
+version = "1.2.3"
 keywords = [
     "game",
     "library",
@@ -50,6 +50,7 @@ Repository = "https://github.com/GothicKit/ZenKit4Py.git"
 
 [project.optional-dependencies]
 dev = [
+    "ruff",
     "build",
     "twine"
 ]
