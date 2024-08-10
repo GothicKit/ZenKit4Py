@@ -2,11 +2,14 @@ __all__ = [
     "World",
 ]
 
+from collections.abc import Sequence
 from ctypes import c_size_t
 from ctypes import c_void_p
+from os import PathLike
 from typing import Any
 
 from zenkit import Mesh
+from zenkit import Write
 from zenkit import _native
 from zenkit._core import DLL
 from zenkit._core import GameVersion
@@ -63,6 +66,20 @@ class World:
             items.append(VirtualObject.from_native(handle=handle, takeref=True))
 
         return items
+
+    @root_objects.setter
+    def root_objects(self, objs: Sequence[VirtualObject]) -> None:
+        DLL.ZkWorld_clearRootObjects(self._handle)
+
+        for obj in objs:
+            self.add_root_object(obj)
+
+    def add_root_object(self, obj: VirtualObject) -> None:
+        DLL.ZkWorld_addRootObject(self._handle, obj.handle)
+
+    def save(self, path: str | PathLike, version: GameVersion | None = None) -> None:
+        w = Write(path)
+        DLL.ZkWorld_save(self._handle, w.handle, version)
 
     def __del__(self) -> None:
         if self._delete:
