@@ -87,13 +87,13 @@ class Polygon:
     @property
     def position_indices(self) -> list[int]:
         count = c_size_t(0)
-        handle = DLL.ZkPolygon_getPositionIndices(self._handle, byref(count))
+        handle = DLL.ZkPolygon_getPositionIndices(self._handle, self._keepalive.handle, byref(count))
         return [handle[i] for i in range(count.value)]
 
     @property
     def feature_indices(self) -> list[int]:
         count = c_size_t(0)
-        handle = DLL.ZkPolygon_getFeatureIndices(self._handle, byref(count))
+        handle = DLL.ZkPolygon_getFeatureIndices(self._handle, self._keepalive.handle, byref(count))
         return [handle[i] for i in range(count.value)]
 
     @property
@@ -202,6 +202,10 @@ class Mesh:
     def load(path_or_file_like: PathOrFileLike) -> "Mesh":
         handle = _native.load("ZkMesh_load", path_or_file_like)
         return Mesh(_handle=handle, _delete=True)
+
+    @property
+    def handle(self) -> c_void_p:
+        return self._handle
 
     @property
     def name(self) -> str:
