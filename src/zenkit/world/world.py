@@ -9,6 +9,7 @@ from typing import Any
 from zenkit import Mesh
 from zenkit import _native
 from zenkit._core import DLL
+from zenkit._core import GameVersion
 from zenkit._core import PathOrFileLike
 from zenkit._native import ZkPointer
 from zenkit.vob.virtual_object import VirtualObject
@@ -33,8 +34,11 @@ class World:
             self._delete: bool = kwargs.pop("_delete", False)
 
     @staticmethod
-    def load(path_or_file_like: PathOrFileLike) -> "World":
-        handle = _native.load("ZkWorld_load", path_or_file_like)
+    def load(path_or_file_like: PathOrFileLike, version: GameVersion | None = None) -> "World":
+        if version is None:
+            handle = _native.load("ZkWorld_load", path_or_file_like)
+        else:
+            handle = _native.load("ZkWorld_loadVersioned", path_or_file_like, version.value)
         return World(_handle=handle, _delete=True)
 
     @property

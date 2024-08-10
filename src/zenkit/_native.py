@@ -2,6 +2,7 @@ __all__ = ["ZkString", "ZkPointer", "load"]
 
 from ctypes import c_char_p
 from ctypes import c_void_p
+from typing import Any
 
 from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
@@ -27,7 +28,7 @@ class ZkPointer(c_void_p):
         return c_void_p(super().value)
 
 
-def load(load: str, src: PathOrFileLike) -> c_void_p:
+def load(load: str, src: PathOrFileLike, *args: Any) -> c_void_p:
     if src is None:
         return c_void_p(None)
 
@@ -41,4 +42,4 @@ def load(load: str, src: PathOrFileLike) -> c_void_p:
 
     fn = getattr(DLL, load)
     fn.restype = c_void_p
-    return c_void_p(fn(rd.handle))
+    return c_void_p(fn(rd.handle, *args))
