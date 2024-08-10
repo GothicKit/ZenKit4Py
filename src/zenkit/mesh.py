@@ -49,6 +49,9 @@ class Feature(Structure):
     def normal(self) -> Vec3f:
         return self._normal
 
+    def __repr__(self) -> str:
+        return f"Feature(texture={self.texture!r}, light={self.light!r}, normal={self.normal!r})"
+
 
 DLL.ZkPolygon_getMaterialIndex.restype = c_uint32
 DLL.ZkPolygon_getLightMapIndex.restype = c_int32
@@ -138,6 +141,9 @@ class Polygon:
 
     def __del__(self) -> None:
         self._keepalive = None
+
+    def __repr__(self) -> str:
+        return f"Polygon(position_indices={self.position_indices!r}, feature_indices={self.feature_indices!r}, material_index={self.material_index!r})"
 
 
 DLL.ZkLightMap_getImage.restype = ZkPointer
