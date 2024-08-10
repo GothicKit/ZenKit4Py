@@ -220,3 +220,12 @@ class Vec2f(Structure):
         if l > 0:
             return self / l
         return Vec2f()
+
+    def __hash__(self) -> int:
+        """
+        Return a hash value for this vector based on its components.
+
+        Returns:
+            int: The hash value of the vector.
+        """
+        return hash((self.x, self.y))

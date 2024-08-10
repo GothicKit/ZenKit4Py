@@ -243,3 +243,12 @@ class Vec3f(Structure):
                 self.x * other.y - self.y * other.x
             )
         raise TypeError("Cross product is only supported between two Vec3f objects")
+    
+    def __hash__(self) -> int:
+        """
+        Return a hash value for this vector based on its components.
+
+        Returns:
+            int: The hash value of the vector.
+        """
+        return hash((self.x, self.y, self.z))

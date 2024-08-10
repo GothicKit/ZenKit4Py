@@ -200,3 +200,12 @@ class Color(Structure):
                 int(self._a * (1 - alpha) + other._a * alpha)
             )
         raise TypeError("Operand must be of type Color")
+    
+    def __hash__(self) -> int:
+        """
+        Return a hash value for this vector based on its components.
+
+        Returns:
+            int: The hash value of the vector.
+        """
+        return hash((self._r, self._g, self._b, self._a))

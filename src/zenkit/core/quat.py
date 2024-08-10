@@ -137,3 +137,12 @@ class Quat(Structure):
                 raise ValueError("Cannot divide by zero")
             return Quat(self.w / other, self.x / other, self.y / other, self.z / other)
         raise TypeError("Operand must be a number")
+    
+    def __hash__(self) -> int:
+        """
+        Return a hash value for this vector based on its components.
+
+        Returns:
+            int: The hash value of the vector.
+        """
+        return hash((self.x, self.y, self.z, self.w))
