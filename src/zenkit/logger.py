@@ -26,7 +26,9 @@ class LogLevel(IntEnum):
 
 
 def set_logger(level: LogLevel, cb: Callable[[LogLevel, str, str], None]) -> None:
-    logger = _Logger(lambda _, lvl, name, message: cb(LogLevel(lvl), name.decode("windows-1252"), message.decode("windows-1252")))
+    logger = _Logger(
+        lambda _, lvl, name, message: cb(LogLevel(lvl), name.decode("windows-1252"), message.decode("windows-1252"))
+    )
 
     global _LOGGER  # noqa: PLW0603 / We need to keep a global reference to logger callbacks.
     _LOGGER = logger

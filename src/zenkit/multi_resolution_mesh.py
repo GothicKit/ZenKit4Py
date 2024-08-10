@@ -8,10 +8,11 @@ __all__ = [
     "MeshTriangleEdge",
 ]
 
-from ctypes import POINTER, c_int
+from ctypes import POINTER
 from ctypes import Structure
 from ctypes import byref
 from ctypes import c_float
+from ctypes import c_int
 from ctypes import c_size_t
 from ctypes import c_uint16
 from ctypes import c_void_p

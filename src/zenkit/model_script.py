@@ -689,8 +689,10 @@ class EventMorphAnimation:
             self._keepalive = kwargs.pop("_keepalive", DLL)
 
     def __repr__(self) -> str:
-        return (f"<EventMorphAnimation handle={self._handle} frame={self.frame} "
-                f"animation={self.animation!r} node={self.node!r}>")
+        return (
+            f"<EventMorphAnimation handle={self._handle} frame={self.frame} "
+            f"animation={self.animation!r} node={self.node!r}>"
+        )
 
     @property
     def frame(self) -> int:

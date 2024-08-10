@@ -58,7 +58,9 @@ class VfsNode:
         if isinstance(timestamp, datetime):
             timestamp = timestamp.timestamp()
 
-        handle = DLL.ZkVfsNode_newFile(name.encode("windows-1252"), content, c_ulong(len(content)), c_long(int(timestamp)))
+        handle = DLL.ZkVfsNode_newFile(
+            name.encode("windows-1252"), content, c_ulong(len(content)), c_long(int(timestamp))
+        )
         return VfsNode(_handle=c_void_p(handle), _delete=True)
 
     @staticmethod
@@ -123,14 +125,12 @@ class VfsNode:
     @overload
     def create(
         self, node_or_dir_name: "VfsNode | str", /, *, timestamp: datetime | float | None = None
-    ) -> "VfsNode":
-        ...
+    ) -> "VfsNode": ...
 
     @overload
     def create(
         self, file_name: str, file_content: bytes | bytearray, /, *, timestamp: datetime | float | None = None
-    ) -> "VfsNode":
-        ...
+    ) -> "VfsNode": ...
 
     def create(self, *args: Any, **kwargs: Any) -> "VfsNode":
         DLL.ZkVfsNode_create.restype = c_void_p
