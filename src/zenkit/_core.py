@@ -1,10 +1,11 @@
 __all__ = [
     "DLL",
+    "Quat",
     "Vec2f",
     "Vec3f",
-    "Quat",
-    "Mat4x4",
+    "Vec4f",
     "Mat3x3",
+    "Mat4x4",
     "AxisAlignedBoundingBox",
     "OrientedBoundingBox",
     "Date",
@@ -32,6 +33,12 @@ from typing import Any
 from typing import ClassVar
 from typing import Final
 from typing import Union
+
+from .core import Color
+from .core import Quat
+from .core import Vec2f
+from .core import Vec3f
+from .core import Vec4f
 
 if TYPE_CHECKING:
     from zenkit.stream import Read
@@ -81,52 +88,6 @@ class Date(Structure):
             f"Date(year={self.year}, month={self.month}, day={self.day}, "
             f"hour={self.hour}, minute={self.minute}, second={self.second})"
         )
-
-
-class Vec2f(Structure):
-    _fields_: ClassVar[tuple[str, Any]] = [
-        ("x", c_float),
-        ("y", c_float),
-    ]
-
-    def __repr__(self) -> str:
-        return f"Vec2f(x={self.x}, y={self.y})"
-
-
-class Vec3f(Structure):
-    _fields_: ClassVar[tuple[str, Any]] = [
-        ("x", c_float),
-        ("y", c_float),
-        ("z", c_float),
-    ]
-
-    def __repr__(self) -> str:
-        return f"Vec3f(x={self.x}, y={self.y}, z={self.z})"
-
-
-class Vec4f(Structure):
-    _fields_: ClassVar[tuple[str, Any]] = [
-        ("x", c_float),
-        ("y", c_float),
-        ("z", c_float),
-        ("w", c_float),
-    ]
-
-    def __repr__(self) -> str:
-        return f"Vec4f(x={self.x}, y={self.y}, z={self.z}, w={self.w})"
-
-
-class Quat(Structure):
-    _fields_: ClassVar[tuple[str, Any]] = [
-        ("x", c_float),
-        ("y", c_float),
-        ("z", c_float),
-        ("w", c_float),
-    ]
-
-    def __repr__(self) -> str:
-        return f"Quat(x={self.x}, y={self.y}, z={self.z}, w={self.w})"
-
 
 class Mat3x3(Structure):
     _fields_: ClassVar[tuple[str, Any]] = [
@@ -200,31 +161,3 @@ class OrientedBoundingBox:
     def to_aabb(self) -> AxisAlignedBoundingBox:
         DLL.ZkOrientedBoundingBox_toAabb.restype = AxisAlignedBoundingBox
         return DLL.ZkOrientedBoundingBox_toAabb(self._handle)
-
-
-class Color(Structure):
-    _fields_: ClassVar[tuple[str, Any]] = [
-        ("_r", c_uint8),
-        ("_g", c_uint8),
-        ("_b", c_uint8),
-        ("_a", c_uint8),
-    ]
-
-    @property
-    def r(self) -> int:
-        return self._r
-
-    @property
-    def g(self) -> int:
-        return self._g
-
-    @property
-    def b(self) -> int:
-        return self._b
-
-    @property
-    def a(self) -> int:
-        return self._a
-
-    def __repr__(self) -> str:
-        return f"<Color r={self._r} g={self._g} b={self._b} a={self._a}>"
