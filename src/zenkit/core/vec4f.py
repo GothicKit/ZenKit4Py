@@ -1,16 +1,16 @@
 import math
 from ctypes import Structure, c_float
-from typing import ClassVar, Any
+from typing import ClassVar, Any, Union
 
 class Vec4f(Structure):
     """
-    A class to represent a 4D vector using floats, supporting various vector operations.
+    A class to represent a 4D Vector using floats, supporting various Vector operations.
     
     Attributes:
-        x (float): The x-component of the vector.
-        y (float): The y-component of the vector.
-        z (float): The z-component of the vector.
-        w (float): The w-component of the vector.
+        x: The x-component of the Vector.
+        y: The y-component of the Vector.
+        z: The z-component of the Vector.
+        w: The w-component of the Vector.
     """
 
     _fields_: ClassVar[tuple[str, Any]] = [
@@ -22,116 +22,116 @@ class Vec4f(Structure):
 
     def __repr__(self) -> str:
         """
-        Return a string representation of the vector.
+        Return a string representation of the Vector.
 
         Returns:
-            str: A string in the format 'Vec4f(x, y, z, w)'.
+            A string in the format 'Vec4f(x, y, z, w)'.
         """
         return f"Vec4f(x={self.x}, y={self.y}, z={self.z}, w={self.w})"
     
-    def __neg__(self):
+    def __neg__(self) -> "Vec4f":
         """
-        Negate the vector (reverse the direction of the vector).
+        Negate the Vector (reverse the direction of the Vector).
 
         Returns:
-            Vec4f: A new Vec4f instance with negated components.
+            A new Vec4f instance with negated components.
         """
         return Vec4f(-self.x, -self.y, -self.z, -self.w)
     
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
-        Check if two vectors are equal component-wise.
+        Check if two Vectors are equal component-wise.
 
         Args:
-            other (Vec4f): The vector to compare with this vector.
+            other: The Vector to compare with this Vector.
 
         Returns:
-            bool: True if the vectors are equal, False otherwise.
+            True if the Vectors are equal, False otherwise.
 
         Raises:
             TypeError: If the comparison is not between two Vec4f objects.
         """
         if isinstance(other, Vec4f):
             return self.x == other.x and self.y == other.y and self.z == other.z and self.w == other.w
-        raise TypeError("Comparison is only supported between two Vec4f objects")
+        return False
     
-    def __lt__(self, other):
+    def __lt__(self, other: "Vec4f") -> bool:
         """
-        Check if this vector is less than another based on magnitude.
+        Check if this Vector is less than another based on magnitude.
 
         Args:
-            other (Vec4f): The vector to compare with this vector.
+            other: The Vector to compare with this Vector.
 
         Returns:
-            bool: True if this vector's magnitude is less, False otherwise.
+            True if this Vector's magnitude is less, False otherwise.
 
         Raises:
             TypeError: If the comparison is not between two Vec4f objects.
         """
         if isinstance(other, Vec4f):
             return self.length() < other.length()
-        raise TypeError("Comparison is only supported between two Vec4f objects")
+        return False
 
-    def __le__(self, other):
+    def __le__(self, other: "Vec4f") -> bool:
         """
-        Check if this vector is less than or equal to another based on magnitude.
+        Check if this Vector is less than or equal to another based on magnitude.
 
         Args:
-            other (Vec4f): The vector to compare with this vector.
+            other: The Vector to compare with this Vector.
 
         Returns:
-            bool: True if this vector's magnitude is less or equal, False otherwise.
+            True if this Vector's magnitude is less or equal, False otherwise.
 
         Raises:
             TypeError: If the comparison is not between two Vec4f objects.
         """
         if isinstance(other, Vec4f):
             return self.length() <= other.length()
-        raise TypeError("Comparison is only supported between two Vec4f objects")
+        return False
 
-    def __gt__(self, other):
+    def __gt__(self, other: "Vec4f") -> bool:
         """
-        Check if this vector is greater than another based on magnitude.
+        Check if this Vector is greater than another based on magnitude.
 
         Args:
-            other (Vec4f): The vector to compare with this vector.
+            other: The Vector to compare with this Vector.
 
         Returns:
-            bool: True if this vector's magnitude is greater, False otherwise.
+            True if this Vector's magnitude is greater, False otherwise.
 
         Raises:
             TypeError: If the comparison is not between two Vec4f objects.
         """
         if isinstance(other, Vec4f):
             return self.length() > other.length()
-        raise TypeError("Comparison is only supported between two Vec4f objects")
+        return False
 
-    def __ge__(self, other):
+    def __ge__(self, other: "Vec4f") -> bool:
         """
-        Check if this vector is greater than or equal to another based on magnitude.
+        Check if this Vector is greater than or equal to another based on magnitude.
 
         Args:
-            other (Vec4f): The vector to compare with this vector.
+            other: The Vector to compare with this Vector.
 
         Returns:
-            bool: True if this vector's magnitude is greater or equal, False otherwise.
+            True if this Vector's magnitude is greater or equal, False otherwise.
 
         Raises:
             TypeError: If the comparison is not between two Vec4f objects.
         """
         if isinstance(other, Vec4f):
             return self.length() >= other.length()
-        raise TypeError("Comparison is only supported between two Vec4f objects")
+        return False
     
-    def __add__(self, other):
+    def __add__(self, other: Union["Vec4f", float, int]) -> "Vec4f":
         """
-        Add this vector to another vector or a scalar component-wise.
+        Add this Vector to another Vector or a scalar component-wise.
 
         Args:
-            other (Vec4f or float): The vector to add to this vector, or a scalar to add to each component.
+            other: The Vector to add to this Vector, or a scalar to add to each component.
 
         Returns:
-            Vec4f: A new Vec4f instance representing the sum.
+            A new Vec4f instance representing the sum.
 
         Raises:
             TypeError: If the operand is not a Vec4f object or a number.
@@ -142,15 +142,15 @@ class Vec4f(Structure):
             return Vec4f(self.x + other, self.y + other, self.z + other, self.w + other)
         raise TypeError("Operand must be of type Vec4f, or Number")
 
-    def __sub__(self, other):
+    def __sub__(self, other: Union["Vec4f", float, int]) -> "Vec4f":
         """
-        Subtract another vector or a scalar from this vector component-wise.
+        Subtract another Vector or a scalar from this Vector component-wise.
 
         Args:
-            other (Vec4f or float): The vector to subtract from this vector, or a scalar to subtract from each component.
+            other: The Vector to subtract from this Vector, or a scalar to subtract from each component.
 
         Returns:
-            Vec4f: A new Vec4f instance representing the difference.
+            A new Vec4f instance representing the difference.
 
         Raises:
             TypeError: If the operand is not a Vec4f object or a number.
@@ -161,15 +161,15 @@ class Vec4f(Structure):
             return Vec4f(self.x - other, self.y - other, self.z - other, self.w - other)
         raise TypeError("Operand must be of type Vec4f, or Number")
 
-    def __mul__(self, other):
+    def __mul__(self, other: Union["Vec4f", float, int]) -> "Vec4f":
         """
-        Multiply this vector by another vector component-wise or by a scalar.
+        Multiply this Vector by another Vector component-wise or by a scalar.
 
         Args:
-            other (Vec4f or float): The vector to multiply with this vector, or a scalar to multiply each component by.
+            other: The Vector to multiply with this Vector, or a scalar to multiply each component by.
 
         Returns:
-            Vec4f: A new Vec4f instance representing the product.
+            A new Vec4f instance representing the product.
 
         Raises:
             TypeError: If the operand is not a Vec4f object or a number.
@@ -180,15 +180,15 @@ class Vec4f(Structure):
             return Vec4f(self.x * other, self.y * other, self.z * other, self.w * other)
         raise TypeError("Operand must be of type Vec4f, or Number")
     
-    def __truediv__(self, other):
+    def __truediv__(self, other: Union["Vec4f", float, int]) -> "Vec4f":
         """
-        Divide this vector by another vector component-wise or by a scalar.
+        Divide this Vector by another Vector component-wise or by a scalar.
 
         Args:
-            other (Vec4f or float): The vector to divide this vector by, or a scalar to divide each component by.
+            other: The Vector to divide this Vector by, or a scalar to divide each component by.
 
         Returns:
-            Vec4f: A new Vec4f instance representing the quotient.
+            A new Vec4f instance representing the quotient.
 
         Raises:
             TypeError: If the operand is not a Vec4f object or a number.
@@ -196,7 +196,7 @@ class Vec4f(Structure):
         """
         if isinstance(other, Vec4f):
             if other.x == 0 or other.y == 0 or other.z == 0 or other.w == 0:
-                raise ValueError("Cannot divide by a vector with zero components")
+                raise ValueError("Cannot divide by a Vector with zero components")
             return Vec4f(self.x / other.x, self.y / other.y, self.z / other.z, self.w / other.w)
         elif isinstance(other, (int, float)):
             if other == 0:
@@ -204,32 +204,32 @@ class Vec4f(Structure):
             return Vec4f(self.x / other, self.y / other, self.z / other, self.w / other)
         raise TypeError("Operand must be of type Vec4f, or Number")
     
-    def length(self):
+    def length(self) -> float:
         """
-        Calculate the magnitude (length) of the vector.
+        Calculate the magnitude (length) of the Vector.
 
         Returns:
-            float: The length of the vector.
+            The length of the Vector.
         """
         return math.sqrt(self.x**2 + self.y**2 + self.z**2 + self.w**2)
 
-    def normalize(self):
+    def normalize(self) -> "Vec4f":
         """
-        Normalize the vector to a unit vector (length of 1).
+        Normalize the Vector to a unit Vector (length of 1).
 
         Returns:
-            Vec4f: A new Vec4f instance representing the normalized vector.
+            A new Vec4f instance representing the normalized Vector.
         """
         l = self.length()
         if l > 0:
             return self / l
         return Vec4f()
-    
+
     def __hash__(self) -> int:
         """
-        Return a hash value for this vector based on its components.
+        Return a hash value for this Vector based on its components.
 
         Returns:
-            int: The hash value of the vector.
+            The hash value of the Vector.
         """
         return hash((self.x, self.y, self.z, self.w))

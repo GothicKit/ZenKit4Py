@@ -1,16 +1,16 @@
 import math
 from ctypes import Structure, c_float
-from typing import ClassVar, Any
+from typing import ClassVar, Any, Union
 
 class Quat(Structure):
     """
-    A class to represent a quaternion using four components: w, x, y, z.
+    A class to represent a Quaternion using four components: w, x, y, z.
 
     Attributes:
-        w (float): The scalar part of the quaternion.
-        x (float): The x-component of the imaginary part.
-        y (float): The y-component of the imaginary part.
-        z (float): The z-component of the imaginary part.
+        w: The scalar part of the Quaternion.
+        x: The x-component of the imaginary part.
+        y: The y-component of the imaginary part.
+        z: The z-component of the imaginary part.
     """
 
     _fields_: ClassVar[tuple[str, Any]] = [
@@ -22,90 +22,139 @@ class Quat(Structure):
 
     def __repr__(self) -> str:
         """
-        Return a string representation of the quaternion.
+        Return a string representation of the Quaternion.
 
         Returns:
-            str: A string in the format 'Quaternion(w, x, y, z)'.
+            A string in the format 'Quat(w, x, y, z)'.
         """
-        return f"Quaternion(w={self.w}, x={self.x}, y={self.y}, z={self.z})"
+        return f"Quat(w={self.w}, x={self.x}, y={self.y}, z={self.z})"
 
-    def conjugate(self):
+    def __neg__(self) -> "Quat":
         """
-        Calculate the conjugate of the quaternion.
-
-        Returns:
-            Quaternion: The conjugate of the quaternion.
-        """
-        return Quat(self.w, -self.x, -self.y, -self.z)
-
-    def length(self) -> float:
-        """
-        Calculate the magnitude (length) of the quaternion.
+        Negate the Quaternion (reverse the direction of the Quaternion).
 
         Returns:
-            float: The length of the quaternion.
+            A new Quat instance with negated components.
         """
-        return math.sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
+        return Quat(-self.w, -self.x, -self.y, -self.z)
 
-    def normalize(self):
+    def __eq__(self, other: Any) -> bool:
         """
-        Normalize the quaternion to a unit quaternion (length of 1).
-
-        Returns:
-            Quaternion: A new quaternion representing the normalized quaternion.
-        """
-        l = self.length()
-        if l > 0:
-            return self / l
-        return Quat(1.0, 0.0, 0.0, 0.0)  # Default to identity quaternion
-
-    def __add__(self, other):
-        """
-        Add this quaternion to another quaternion component-wise.
+        Check if two Quaternions are equal component-wise.
 
         Args:
-            other (Quaternion): The quaternion to add to this quaternion.
+            other: The Quaternion to compare with this Quaternion.
 
         Returns:
-            Quaternion: A new quaternion representing the sum.
+            True if the Quaternions are equal, False otherwise.
+        """
+        if isinstance(other, Quat):
+            return self.w == other.w and self.x == other.x and self.y == other.y and self.z == other.z
+        return False
+
+    def __lt__(self, other: "Quat") -> bool:
+        """
+        Check if this Quaternion is less than another based on magnitude.
+
+        Args:
+            other: The Quaternion to compare with this Quaternion.
+
+        Returns:
+            True if this Quaternion's magnitude is less, False otherwise.
+        """
+        if isinstance(other, Quat):
+            return self.length() < other.length()
+        return False
+
+    def __le__(self, other: "Quat") -> bool:
+        """
+        Check if this Quaternion is less than or equal to another based on magnitude.
+
+        Args:
+            other: The Quaternion to compare with this Quaternion.
+
+        Returns:
+            True if this Quaternion's magnitude is less or equal, False otherwise.
+        """
+        if isinstance(other, Quat):
+            return self.length() <= other.length()
+        return False
+
+    def __gt__(self, other: "Quat") -> bool:
+        """
+        Check if this Quaternion is greater than another based on magnitude.
+
+        Args:
+            other: The Quaternion to compare with this Quaternion.
+
+        Returns:
+            True if this Quaternion's magnitude is greater, False otherwise.
+        """
+        if isinstance(other, Quat):
+            return self.length() > other.length()
+        return False
+
+    def __ge__(self, other: "Quat") -> bool:
+        """
+        Check if this Quaternion is greater than or equal to another based on magnitude.
+
+        Args:
+            other: The Quaternion to compare with this Quaternion.
+
+        Returns:
+            True if this Quaternion's magnitude is greater or equal, False otherwise.
+        """
+        if isinstance(other, Quat):
+            return self.length() >= other.length()
+        return False
+
+    def __add__(self, other: "Quat") -> "Quat":
+        """
+        Add this Quaternion to another Quaternion component-wise.
+
+        Args:
+            other: The Quaternion to add to this Quaternion.
+
+        Returns:
+            A new Quat instance representing the sum.
 
         Raises:
-            TypeError: If the operand is not a Quaternion object.
+            TypeError: If the operand is not a Quat object.
         """
         if isinstance(other, Quat):
             return Quat(self.w + other.w, self.x + other.x, self.y + other.y, self.z + other.z)
-        raise TypeError("Operand must be of type Quaternion")
+        raise TypeError("Operand must be of type Quat")
 
-    def __sub__(self, other):
+    def __sub__(self, other: "Quat") -> "Quat":
         """
-        Subtract another quaternion from this quaternion component-wise.
+        Subtract another Quaternion from this Quaternion component-wise.
 
         Args:
-            other (Quaternion): The quaternion to subtract from this quaternion.
+            other: The Quaternion to subtract from this Quaternion.
 
         Returns:
-            Quaternion: A new quaternion representing the difference.
+            A new Quat instance representing the difference.
 
         Raises:
-            TypeError: If the operand is not a Quaternion object.
+            TypeError: If the operand is not a Quat object.
         """
         if isinstance(other, Quat):
             return Quat(self.w - other.w, self.x - other.x, self.y - other.y, self.z - other.z)
-        raise TypeError("Operand must be of type Quaternion")
+        raise TypeError("Operand must be of type Quat")
 
-    def __mul__(self, other):
+    def __mul__(self, other: Union["Quat", float, int]) -> "Quat":
         """
-        Multiply this quaternion by another quaternion or a scalar.
+        Multiply this Quaternion by another Quaternion or a scalar.
 
         Args:
-            other (Quaternion or float): The quaternion to multiply with this quaternion,
-                                         or a scalar to multiply each component by.
+            other: The Quaternion to multiply with this Quaternion,
+                   or a scalar to multiply each component by.
 
         Returns:
-            Quaternion: A new quaternion representing the product.
+            A new Quat instance representing the product.
 
         Raises:
-            TypeError: If the operand is not a Quaternion object or a number.
+            TypeError: If the operand is not a Quat object or a number.
         """
         if isinstance(other, Quat):
             # Quaternion multiplication
@@ -116,17 +165,17 @@ class Quat(Structure):
             return Quat(w, x, y, z)
         elif isinstance(other, (int, float)):
             return Quat(self.w * other, self.x * other, self.y * other, self.z * other)
-        raise TypeError("Operand must be of type Quaternion or Number")
+        raise TypeError("Operand must be of type Quat or Number")
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: Union[float, int]) -> "Quat":
         """
-        Divide this quaternion by a scalar.
+        Divide this Quaternion by a scalar.
 
         Args:
-            other (float): The scalar to divide each component by.
+            other: The scalar to divide each component by.
 
         Returns:
-            Quaternion: A new quaternion representing the quotient.
+            A new Quat instance representing the quotient.
 
         Raises:
             TypeError: If the operand is not a number.
@@ -137,12 +186,42 @@ class Quat(Structure):
                 raise ValueError("Cannot divide by zero")
             return Quat(self.w / other, self.x / other, self.y / other, self.z / other)
         raise TypeError("Operand must be a number")
-    
-    def __hash__(self) -> int:
+
+    def conjugate(self) -> "Quat":
         """
-        Return a hash value for this vector based on its components.
+        Calculate the conjugate of the Quaternion.
 
         Returns:
-            int: The hash value of the vector.
+            The conjugate of the Quaternion.
         """
-        return hash((self.x, self.y, self.z, self.w))
+        return Quat(self.w, -self.x, -self.y, -self.z)
+
+    def length(self) -> float:
+        """
+        Calculate the magnitude (length) of the Quaternion.
+
+        Returns:
+            The length of the Quaternion.
+        """
+        return math.sqrt(self.w**2 + self.x**2 + self.y**2 + self.z**2)
+
+    def normalize(self) -> "Quat":
+        """
+        Normalize the Quaternion to a unit Quaternion (length of 1).
+
+        Returns:
+            A new Quat instance representing the normalized Quaternion.
+        """
+        l = self.length()
+        if l > 0:
+            return self / l
+        return Quat(1.0, 0.0, 0.0, 0.0)  # Default to identity Quaternion
+
+    def __hash__(self) -> int:
+        """
+        Return a hash value for this Quaternion based on its components.
+
+        Returns:
+            The hash value of the Quaternion.
+        """
+        return hash((self.w, self.x, self.y, self.z))
