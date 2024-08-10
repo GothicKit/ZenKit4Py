@@ -600,7 +600,7 @@ class VirtualObject:
 
     @staticmethod
     def new(typ: VobType) -> "VirtualObject":
-        return VirtualObject.from_native(DLL.ZkVirtualObject_new(typ.value).value, takeref=False)
+        return VirtualObject.from_native(DLL.ZkVirtualObject_new(typ.value).value, delete=True, takeref=False)
 
     @staticmethod
     def from_native(handle: c_void_p, *, delete: bool = False, keepalive: Any = DLL, takeref: bool) -> "VirtualObject":
