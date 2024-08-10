@@ -14,6 +14,7 @@ DLL.ZkRead_newMem.restype = c_void_p
 DLL.ZkRead_newPath.restype = c_void_p
 DLL.ZkRead_getSize.restype = c_size_t
 DLL.ZkRead_getBytes.restype = c_size_t
+DLL.ZkWrite_newPath.restype = c_void_p
 
 
 class Read:
