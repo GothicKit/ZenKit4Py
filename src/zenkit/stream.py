@@ -1,3 +1,8 @@
+__all__ = [
+    "Read",
+    "Write",
+]
+
 from ctypes import c_char_p
 from ctypes import c_size_t
 from ctypes import c_void_p
@@ -48,5 +53,29 @@ class Read:
 
     def __del__(self) -> None:
         DLL.ZkRead_del(self._handle)
+        self._handle = None
+        self._keepalive = None
+
+
+class Write:
+    __slots__ = ("_handle", "_native", "_keepalive")
+
+    def __init__(self, source: str | PathLike) -> None:
+        self._handle = c_void_p(None)
+        self._keepalive = DLL
+
+        self._native = str(source)
+        self._handle = c_void_p(DLL.ZkWrite_newPath(self._native.encode("windows-1252")))
+
+        if self._handle.value is None or self._handle.value == 0:
+            error = "Failed to create input stream, see logs."
+            raise ValueError(error)
+
+    @property
+    def handle(self) -> c_void_p:
+        return self._handle
+
+    def __del__(self) -> None:
+        DLL.ZkWrite_del(self._handle)
         self._handle = None
         self._keepalive = None
