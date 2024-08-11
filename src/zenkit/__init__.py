@@ -162,8 +162,8 @@ __all__ = [
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
-from zenkit._core import GameVersion
 from zenkit._core import Color
+from zenkit._core import GameVersion
 from zenkit._core import Quat
 from zenkit._core import Vec2f
 from zenkit._core import Vec3f

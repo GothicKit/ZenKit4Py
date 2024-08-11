@@ -1,11 +1,15 @@
 import math
-from ctypes import Structure, c_float
-from typing import ClassVar, Any, Union
+from ctypes import Structure
+from ctypes import c_float
+from typing import Any
+from typing import ClassVar
+from typing import Union
+
 
 class Vec4f(Structure):
     """
     A class to represent a 4D Vector using floats, supporting various Vector operations.
-    
+
     Attributes:
         x: The x-component of the Vector.
         y: The y-component of the Vector.
@@ -28,7 +32,7 @@ class Vec4f(Structure):
             A string in the format 'Vec4f(x, y, z, w)'.
         """
         return f"Vec4f(x={self.x}, y={self.y}, z={self.z}, w={self.w})"
-    
+
     def __neg__(self) -> "Vec4f":
         """
         Negate the Vector (reverse the direction of the Vector).
@@ -37,8 +41,8 @@ class Vec4f(Structure):
             A new Vec4f instance with negated components.
         """
         return Vec4f(-self.x, -self.y, -self.z, -self.w)
-    
-    def __eq__(self, other: Any) -> bool:
+
+    def __eq__(self, other: object) -> bool:
         """
         Check if two Vectors are equal component-wise.
 
@@ -54,7 +58,7 @@ class Vec4f(Structure):
         if isinstance(other, Vec4f):
             return self.x == other.x and self.y == other.y and self.z == other.z and self.w == other.w
         return False
-    
+
     def __lt__(self, other: "Vec4f") -> bool:
         """
         Check if this Vector is less than another based on magnitude.
@@ -122,7 +126,7 @@ class Vec4f(Structure):
         if isinstance(other, Vec4f):
             return self.length() >= other.length()
         return False
-    
+
     def __add__(self, other: Union["Vec4f", float, int]) -> "Vec4f":
         """
         Add this Vector to another Vector or a scalar component-wise.
@@ -179,7 +183,7 @@ class Vec4f(Structure):
         elif isinstance(other, (int, float)):
             return Vec4f(self.x * other, self.y * other, self.z * other, self.w * other)
         raise TypeError("Operand must be of type Vec4f, or Number")
-    
+
     def __truediv__(self, other: Union["Vec4f", float, int]) -> "Vec4f":
         """
         Divide this Vector by another Vector component-wise or by a scalar.
@@ -203,7 +207,7 @@ class Vec4f(Structure):
                 raise ValueError("Cannot divide by zero")
             return Vec4f(self.x / other, self.y / other, self.z / other, self.w / other)
         raise TypeError("Operand must be of type Vec4f, or Number")
-    
+
     def length(self) -> float:
         """
         Calculate the magnitude (length) of the Vector.

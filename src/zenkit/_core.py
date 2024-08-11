@@ -17,9 +17,7 @@ __all__ = [
 import platform
 from ctypes import CDLL
 from ctypes import Structure
-from ctypes import c_float
 from ctypes import c_size_t
-from ctypes import c_uint8
 from ctypes import c_uint16
 from ctypes import c_uint32
 from ctypes import c_void_p
@@ -88,6 +86,7 @@ class Date(Structure):
             f"Date(year={self.year}, month={self.month}, day={self.day}, "
             f"hour={self.hour}, minute={self.minute}, second={self.second})"
         )
+
 
 class Mat3x3(Structure):
     _fields_: ClassVar[tuple[str, Any]] = [

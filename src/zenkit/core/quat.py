@@ -1,6 +1,10 @@
 import math
-from ctypes import Structure, c_float
-from typing import ClassVar, Any, Union
+from ctypes import Structure
+from ctypes import c_float
+from typing import Any
+from typing import ClassVar
+from typing import Union
+
 
 class Quat(Structure):
     """
@@ -38,7 +42,7 @@ class Quat(Structure):
         """
         return Quat(-self.w, -self.x, -self.y, -self.z)
 
-    def __eq__(self, other: Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
         Check if two Quaternions are equal component-wise.
 
@@ -167,7 +171,7 @@ class Quat(Structure):
             return Quat(self.w * other, self.x * other, self.y * other, self.z * other)
         raise TypeError("Operand must be of type Quat or Number")
 
-    def __truediv__(self, other: Union[float, int]) -> "Quat":
+    def __truediv__(self, other: float | int) -> "Quat":
         """
         Divide this Quaternion by a scalar.
 

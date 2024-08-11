@@ -1,11 +1,15 @@
 import math
-from ctypes import Structure, c_float
-from typing import ClassVar, Any, Union
+from ctypes import Structure
+from ctypes import c_float
+from typing import Any
+from typing import ClassVar
+from typing import Union
+
 
 class Vec2f(Structure):
     """
     A class to represent a 2D Vector using floats, supporting various Vector operations.
-    
+
     Attributes:
         x: The x-component of the Vector.
         y: The y-component of the Vector.
@@ -24,7 +28,7 @@ class Vec2f(Structure):
             A string in the format 'Vec2f(x, y)'.
         """
         return f"Vec2f(x={self.x}, y={self.y})"
-    
+
     def __neg__(self) -> "Vec2f":
         """
         Negate the Vector (reverse the direction of the Vector).
@@ -33,8 +37,8 @@ class Vec2f(Structure):
             A new Vec2f instance with negated components.
         """
         return Vec2f(-self.x, -self.y)
-    
-    def __eq__(self, other: Any) -> bool:
+
+    def __eq__(self, other: object) -> bool:
         """
         Check if two Vectors are equal component-wise.
 
@@ -50,7 +54,7 @@ class Vec2f(Structure):
         if isinstance(other, Vec2f):
             return self.x == other.x and self.y == other.y
         return False
-    
+
     def __lt__(self, other: "Vec2f") -> bool:
         """
         Check if this Vector is less than another based on magnitude.
@@ -118,7 +122,7 @@ class Vec2f(Structure):
         if isinstance(other, Vec2f):
             return self.length() >= other.length()
         return False
-    
+
     def __add__(self, other: Union["Vec2f", float, int]) -> "Vec2f":
         """
         Add this Vector to another Vector or a scalar component-wise.
@@ -175,7 +179,7 @@ class Vec2f(Structure):
         elif isinstance(other, (int, float)):
             return Vec2f(self.x * other, self.y * other)
         raise TypeError("Operand must be of type Vec2f, or Number")
-    
+
     def __truediv__(self, other: Union["Vec2f", float, int]) -> "Vec2f":
         """
         Divide this Vector by another Vector component-wise or by a scalar.
@@ -199,7 +203,7 @@ class Vec2f(Structure):
                 raise ValueError("Cannot divide by zero")
             return Vec2f(self.x / other, self.y / other)
         raise TypeError("Operand must be of type Vec2f, or Number")
-    
+
     def length(self) -> float:
         """
         Calculate the magnitude (length) of the Vector.

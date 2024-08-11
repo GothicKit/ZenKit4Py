@@ -1,5 +1,9 @@
-from ctypes import Structure, c_uint8
-from typing import ClassVar, Any, Union
+from ctypes import Structure
+from ctypes import c_uint8
+from typing import Any
+from typing import ClassVar
+from typing import Union
+
 
 class Color(Structure):
     """
@@ -42,8 +46,8 @@ class Color(Structure):
     def __repr__(self) -> str:
         """Return a string representation of the color."""
         return f"<Color r={self._r} g={self._g} b={self._b} a={self._a}>"
-    
-    def __eq__(self, other: Any) -> bool:
+
+    def __eq__(self, other: object) -> bool:
         """
         Check if two Colors are equal component-wise.
 
@@ -57,7 +61,7 @@ class Color(Structure):
             return self._r == other._r and self._g == other._g and self._b == other._b and self._a == other._a
         return False
 
-    def __lt__(self, other: 'Color') -> bool:
+    def __lt__(self, other: "Color") -> bool:
         """
         Check if this Color is less than another based on magnitude.
 
@@ -69,7 +73,7 @@ class Color(Structure):
         """
         return self.average() < other.average()
 
-    def __le__(self, other: 'Color') -> bool:
+    def __le__(self, other: "Color") -> bool:
         """
         Check if this Color is less than or equal to another based on magnitude.
 
@@ -81,7 +85,7 @@ class Color(Structure):
         """
         return self.average() <= other.average()
 
-    def __gt__(self, other: 'Color') -> bool:
+    def __gt__(self, other: "Color") -> bool:
         """
         Check if this Color is greater than another based on magnitude.
 
@@ -93,7 +97,7 @@ class Color(Structure):
         """
         return self.average() > other.average()
 
-    def __ge__(self, other: 'Color') -> bool:
+    def __ge__(self, other: "Color") -> bool:
         """
         Check if this Color is greater than or equal to another based on magnitude.
 
@@ -105,7 +109,7 @@ class Color(Structure):
         """
         return self.average() >= other.average()
 
-    def __add__(self, other: Union['Color', float, int]) -> 'Color':
+    def __add__(self, other: Union["Color", float, int]) -> "Color":
         """
         Add this color to another color or scalar component-wise.
 
@@ -120,18 +124,18 @@ class Color(Structure):
                 min(self._r + other._r, 255),
                 min(self._g + other._g, 255),
                 min(self._b + other._b, 255),
-                min(self._a + other._a, 255)
+                min(self._a + other._a, 255),
             )
         elif isinstance(other, (int, float)):
             return Color(
                 min(int(self._r + other), 255),
                 min(int(self._g + other), 255),
                 min(int(self._b + other), 255),
-                min(int(self._a + other), 255)
+                min(int(self._a + other), 255),
             )
         raise TypeError("Operand must be of type Color or a number")
 
-    def __sub__(self, other: Union['Color', float, int]) -> 'Color':
+    def __sub__(self, other: Union["Color", float, int]) -> "Color":
         """
         Subtract another color or scalar from this color component-wise.
 
@@ -146,18 +150,18 @@ class Color(Structure):
                 max(self._r - other._r, 0),
                 max(self._g - other._g, 0),
                 max(self._b - other._b, 0),
-                max(self._a - other._a, 0)
+                max(self._a - other._a, 0),
             )
         elif isinstance(other, (int, float)):
             return Color(
                 max(int(self._r - other), 0),
                 max(int(self._g - other), 0),
                 max(int(self._b - other), 0),
-                max(int(self._a - other), 0)
+                max(int(self._a - other), 0),
             )
         raise TypeError("Operand must be of type Color or a number")
 
-    def __mul__(self, other: Union['Color', float, int]) -> 'Color':
+    def __mul__(self, other: Union["Color", float, int]) -> "Color":
         """
         Multiply this color by a scalar or another color component-wise.
 
@@ -172,18 +176,18 @@ class Color(Structure):
                 min(self._r * other._r // 255, 255),
                 min(self._g * other._g // 255, 255),
                 min(self._b * other._b // 255, 255),
-                min(self._a * other._a // 255, 255)
+                min(self._a * other._a // 255, 255),
             )
         elif isinstance(other, (int, float)):
             return Color(
                 min(int(self._r * other), 255),
                 min(int(self._g * other), 255),
                 min(int(self._b * other), 255),
-                min(int(self._a * other), 255)
+                min(int(self._a * other), 255),
             )
         raise TypeError("Operand must be of type Color or Number")
 
-    def __truediv__(self, other: Union[float, int]) -> 'Color':
+    def __truediv__(self, other: float | int) -> "Color":
         """
         Divide this color by a scalar.
 
@@ -199,7 +203,7 @@ class Color(Structure):
             min(int(self._r / other), 255),
             min(int(self._g / other), 255),
             min(int(self._b / other), 255),
-            min(int(self._a / other), 255)
+            min(int(self._a / other), 255),
         )
 
     def to_hex(self) -> str:
@@ -211,7 +215,7 @@ class Color(Structure):
         """
         return f"#{self._r:02X}{self._g:02X}{self._b:02X}{self._a:02X}"
 
-    def blend(self, other: 'Color', alpha: float) -> 'Color':
+    def blend(self, other: "Color", alpha: float) -> "Color":
         """
         Blend this color with another color based on the given Alpha value.
 
@@ -228,9 +232,9 @@ class Color(Structure):
             int(self._r * (1 - alpha) + other._r * alpha),
             int(self._g * (1 - alpha) + other._g * alpha),
             int(self._b * (1 - alpha) + other._b * alpha),
-            int(self._a * (1 - alpha) + other._a * alpha)
+            int(self._a * (1 - alpha) + other._a * alpha),
         )
-    
+
     def average(self) -> float:
         """
         Calculate the average intensity of the RGB components.
@@ -239,7 +243,7 @@ class Color(Structure):
             The average intensity of the color.
         """
         return (self._r + self._g + self._b + self._a) / 4.0
-    
+
     def __hash__(self) -> int:
         """
         Return a hash value for this Color based on its components.

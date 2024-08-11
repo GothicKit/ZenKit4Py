@@ -1,11 +1,15 @@
 import math
-from ctypes import Structure, c_float
-from typing import ClassVar, Any, Union
+from ctypes import Structure
+from ctypes import c_float
+from typing import Any
+from typing import ClassVar
+from typing import Union
+
 
 class Vec3f(Structure):
     """
     A class to represent a 3D Vector using floats, supporting various Vector operations.
-    
+
     Attributes:
         x: The x-component of the Vector.
         y: The y-component of the Vector.
@@ -26,7 +30,7 @@ class Vec3f(Structure):
             A string in the format 'Vec3f(x, y, z)'.
         """
         return f"Vec3f(x={self.x}, y={self.y}, z={self.z})"
-    
+
     def __neg__(self) -> "Vec3f":
         """
         Negate the Vector (reverse the direction of the Vector).
@@ -35,8 +39,8 @@ class Vec3f(Structure):
             A new Vec3f instance with negated components.
         """
         return Vec3f(-self.x, -self.y, -self.z)
-    
-    def __eq__(self, other: Any) -> bool:
+
+    def __eq__(self, other: object) -> bool:
         """
         Check if two Vectors are equal component-wise.
 
@@ -52,7 +56,7 @@ class Vec3f(Structure):
         if isinstance(other, Vec3f):
             return self.x == other.x and self.y == other.y and self.z == other.z
         return False
-    
+
     def __lt__(self, other: "Vec3f") -> bool:
         """
         Check if this Vector is less than another based on magnitude.
@@ -120,7 +124,7 @@ class Vec3f(Structure):
         if isinstance(other, Vec3f):
             return self.length() >= other.length()
         return False
-    
+
     def __add__(self, other: Union["Vec3f", float, int]) -> "Vec3f":
         """
         Add this Vector to another Vector or a scalar component-wise.
@@ -177,7 +181,7 @@ class Vec3f(Structure):
         elif isinstance(other, (int, float)):
             return Vec3f(self.x * other, self.y * other, self.z * other)
         raise TypeError("Operand must be of type Vec3f, or Number")
-    
+
     def __truediv__(self, other: Union["Vec3f", float, int]) -> "Vec3f":
         """
         Divide this Vector by another Vector component-wise or by a scalar.
@@ -201,7 +205,7 @@ class Vec3f(Structure):
                 raise ValueError("Cannot divide by zero")
             return Vec3f(self.x / other, self.y / other, self.z / other)
         raise TypeError("Operand must be of type Vec3f, or Number")
-    
+
     def length(self) -> float:
         """
         Calculate the magnitude (length) of the Vector.
