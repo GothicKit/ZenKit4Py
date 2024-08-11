@@ -17,9 +17,11 @@ __all__ = [
     "CutsceneBlock",
     "ModelAnimation",
     "AnimationSample",
+    "Color",
+    "Quat",
     "Vec2f",
     "Vec3f",
-    "Quat",
+    "Vec4f",
     "AxisAlignedBoundingBox",
     "ModelHierarchy",
     "ModelHierarchyNode",
@@ -160,10 +162,12 @@ __all__ = [
 ]
 
 from zenkit._core import AxisAlignedBoundingBox
+from zenkit._core import Color
 from zenkit._core import GameVersion
 from zenkit._core import Quat
 from zenkit._core import Vec2f
 from zenkit._core import Vec3f
+from zenkit._core import Vec4f
 from zenkit.cutscene_library import CutsceneBlock
 from zenkit.cutscene_library import CutsceneLibrary
 from zenkit.cutscene_library import CutsceneMessage
