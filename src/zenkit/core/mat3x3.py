@@ -1,8 +1,8 @@
 import math
 from ctypes import Structure, c_float
 from typing import Any, ClassVar, Union
-from ..core.mat4x4 import Mat4x4
-from ..core.quat import Quat
+import mat4x4
+import quat
 
 class Mat3x3(Structure):
     """
@@ -174,7 +174,7 @@ class Mat3x3(Structure):
                 self.m01 * (self.m10 * self.m22 - self.m12 * self.m20) +
                 self.m02 * (self.m10 * self.m21 - self.m11 * self.m20))
 
-    def transpose(self) -> "Mat3x3":
+    def transpose(self) -> mat4x4.Mat4x4:
         """
         Transpose the Matrix (swap rows with columns).
 
@@ -187,7 +187,7 @@ class Mat3x3(Structure):
             self.m02, self.m12, self.m22
         )
         
-    def to_mat4x4(self) -> "Mat4x4":
+    def to_mat4x4(self) -> "mat4x4.Mat4x4":
         """
         Create a Mat4x4 from a Mat3x3 by embedding the 3x3 matrix into the top-left corner of the 4x4 matrix,
         with the remaining elements set to the identity matrix.
@@ -195,14 +195,14 @@ class Mat3x3(Structure):
         Returns:
             A new Mat4x4 instance.
         """
-        return Mat4x4(
+        return mat4x4.Mat4x4(
             self.m00, self.m01, self.m02, 0.0,
             self.m10, self.m11, self.m12, 0.0,
             self.m20, self.m21, self.m22, 0.0,
             0.0,    0.0,    0.0,    1.0
         )
         
-    def to_quaternion(self) -> Quat:
+    def to_quaternion(self) -> quat.Quat:
         """
         Convert this 3x3 rotation matrix to a quaternion.
 
@@ -236,7 +236,7 @@ class Mat3x3(Structure):
             y = (self.m12 + self.m21) / s
             z = 0.25 * s
 
-        return Quat(w, x, y, z)
+        return quat.Quat(w, x, y, z)
 
     def __hash__(self) -> int:
         """
