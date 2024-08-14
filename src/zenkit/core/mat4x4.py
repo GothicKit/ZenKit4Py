@@ -1,8 +1,8 @@
 import math
 from ctypes import Structure, c_float
 from typing import Any, ClassVar, Union
-import mat3x3
-import quat
+from mat3x3 import Mat3x3
+from quat import Quat
 
 class Mat4x4(Structure):
     """
@@ -217,7 +217,7 @@ class Mat4x4(Structure):
         )
 
         
-    def to_mat3x3(self) -> mat3x3.Mat3x3:
+    def to_mat3x3(self) -> Mat3x3:
         """
         Extract the top-left 3x3 portion of a Mat4x4 to create a Mat3x3.
 
@@ -227,13 +227,13 @@ class Mat4x4(Structure):
         Returns:
             A new Mat3x3 instance.
         """
-        return mat3x3.Mat3x3(
+        return Mat3x3(
             self.m00, self.m01, self.m02,
             self.m10, self.m11, self.m12,
             self.m20, self.m21, self.m22
         )
 
-    def to_quaternion(self) -> quat.Quat:
+    def to_quaternion(self) -> Quat:
         """
         Convert this 4x4 rotation matrix to a quaternion by extracting the top-left 3x3 rotation matrix.
 
@@ -270,7 +270,7 @@ class Mat4x4(Structure):
             y = (self.m12 + self.m21) / s
             z = 0.25 * s
 
-        return quat.Quat(w, x, y, z)
+        return Quat(w, x, y, z)
 
     def __hash__(self) -> int:
         """
