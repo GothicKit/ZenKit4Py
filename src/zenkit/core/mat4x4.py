@@ -1,8 +1,8 @@
 import math
 from ctypes import Structure, c_float
 from typing import Any, ClassVar, Union
-from .mat3x3 import Mat3x3
-from .quat import Quat
+from ..core.mat3x3 import Mat3x3
+from ..core.quat import Quat
 
 class Mat4x4(Structure):
     """
