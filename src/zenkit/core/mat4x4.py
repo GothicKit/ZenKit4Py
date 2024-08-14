@@ -1,8 +1,6 @@
 import math
 from ctypes import Structure, c_float
 from typing import Any, ClassVar, Union
-from zenkit.core import Mat3x3
-from zenkit.core import Quat
 
 class Mat4x4(Structure):
     """
@@ -217,7 +215,7 @@ class Mat4x4(Structure):
         )
 
         
-    def to_mat3x3(self) -> Mat3x3:
+    def to_mat3x3(self):
         """
         Extract the top-left 3x3 portion of a Mat4x4 to create a Mat3x3.
 
@@ -227,13 +225,14 @@ class Mat4x4(Structure):
         Returns:
             A new Mat3x3 instance.
         """
+        from zenkit.core import Mat3x3
         return Mat3x3(
             self.m00, self.m01, self.m02,
             self.m10, self.m11, self.m12,
             self.m20, self.m21, self.m22
         )
 
-    def to_quaternion(self) -> Quat:
+    def to_quaternion(self):
         """
         Convert this 4x4 rotation matrix to a quaternion by extracting the top-left 3x3 rotation matrix.
 
@@ -243,6 +242,7 @@ class Mat4x4(Structure):
         Returns:
             A Quat instance representing the same rotation.
         """
+        from zenkit.core import Quat
         trace = self.m00 + self.m11 + self.m22
 
         if trace > 0:
