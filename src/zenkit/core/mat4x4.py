@@ -272,7 +272,7 @@ class Mat4x4(Structure):
 
         return Quat(w, x, y, z)
 
-    def to_euler_xyz(self):
+    def to_euler(self):
         """
         Convert this 4x4 matrix to Euler angles (x, y, z) in XYZ order.
 
