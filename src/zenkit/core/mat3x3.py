@@ -237,6 +237,38 @@ class Mat3x3(Structure):
             z = 0.25 * s
 
         return Quat(w, x, y, z)
+    
+    def to_euler(self):
+        """
+        Convert this 3x3 rotation matrix to Euler angles (x, y, z) in XYZ order.
+
+        Returns:
+            A tuple representing the Euler angles (x, y, z) in radians.
+        """
+        from zenkit.core import Vec3f
+        m = self  # shorthand for matrix elements
+        
+        # Calculate Euler angles
+        if m.m22 < 0:
+            if m.m22 > -0.999:
+                x = math.atan2(m.m21, m.m22)
+                y = math.atan2(-m.m20, math.sqrt(m.m21 ** 2 + m.m22 ** 2))
+                z = math.atan2(m.m10, m.m00)
+            else:  # gimbal lock
+                x = math.atan2(-m.m12, m.m11)
+                y = -math.pi / 2
+                z = 0
+        else:
+            if m.m22 < 0.999:
+                x = math.atan2(m.m21, m.m22)
+                y = math.atan2(-m.m20, math.sqrt(m.m21 ** 2 + m.m22 ** 2))
+                z = math.atan2(m.m01, m.m00)
+            else:  # gimbal lock
+                x = math.atan2(-m.m12, m.m11)
+                y = math.pi / 2
+                z = 0
+
+        return Vec3f(x, y, z)
 
     def __hash__(self) -> int:
         """
