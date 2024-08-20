@@ -22,6 +22,8 @@ __all__ = [
     "Vec2f",
     "Vec3f",
     "Vec4f",
+    "Mat3x3",
+    "Mat4x4",
     "AxisAlignedBoundingBox",
     "ModelHierarchy",
     "ModelHierarchyNode",
@@ -168,6 +170,7 @@ from zenkit._core import Quat
 from zenkit._core import Vec2f
 from zenkit._core import Vec3f
 from zenkit._core import Vec4f
+from zenkit._core import Mat3x3, Mat4x4
 from zenkit.cutscene_library import CutsceneBlock
 from zenkit.cutscene_library import CutsceneLibrary
 from zenkit.cutscene_library import CutsceneMessage

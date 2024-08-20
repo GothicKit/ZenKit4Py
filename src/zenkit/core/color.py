@@ -1,9 +1,6 @@
-from ctypes import Structure
-from ctypes import c_uint8
-from typing import Any
-from typing import ClassVar
-from typing import Union
-
+import math
+from ctypes import Structure, c_uint8
+from typing import Any, ClassVar, Union
 
 class Color(Structure):
     """
@@ -46,6 +43,31 @@ class Color(Structure):
     def __repr__(self) -> str:
         """Return a string representation of the color."""
         return f"<Color r={self._r} g={self._g} b={self._b} a={self._a}>"
+
+    def __getitem__(self, index: int) -> float:
+        """
+        Retrieve a color component by index.
+
+        Args:
+            index: The index of the color component to retrieve. 
+                Valid indices are 0 (red), 1 (green), 2 (blue), and 3 (alpha).
+
+        Returns:
+            The value of the color component at the specified index.
+
+        Raises:
+            IndexError: If the index is out of range (not 0, 1, 2, or 3).
+        """
+        if index == 0:
+            return self._r
+        elif index == 1:
+            return self._g
+        elif index == 2:
+            return self._b
+        elif index == 3:
+            return self._b
+        else:
+            raise IndexError("Index out of range. Valid indices are 0, 1, 2, and 3.")
 
     def __eq__(self, other: object) -> bool:
         """

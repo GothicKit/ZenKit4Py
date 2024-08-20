@@ -1,10 +1,6 @@
 import math
-from ctypes import Structure
-from ctypes import c_float
-from typing import Any
-from typing import ClassVar
-from typing import Union
-
+from ctypes import Structure, c_float
+from typing import Any, ClassVar, Union
 
 class Quat(Structure):
     """
