@@ -129,7 +129,7 @@ class Mat3x3(Structure):
             return Mat3x3(Vec3f(self.columns[i] * other) for i in range(3))
         raise TypeError("Operand must be of type Mat3x3, Vec3f, or Number")
 
-    def transposed(self) -> "Mat3x3":
+    def transpose(self) -> "Mat3x3":
         """
         Transpose the Matrix (swap rows and columns).
 
@@ -393,7 +393,7 @@ class Mat4x4(Structure):
             return Mat4x4(Vec4f(self.columns[i] * other) for i in range(4))
         raise TypeError("Operand must be of type Mat4x4, Vec4f, or Number")
 
-    def transposed(self) -> "Mat4x4":
+    def transpose(self) -> "Mat4x4":
         """
         Transpose the Matrix (swap rows and columns).
 

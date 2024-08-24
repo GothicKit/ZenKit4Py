@@ -65,7 +65,7 @@ class Color(Structure):
         elif index == 2:
             return self._b
         elif index == 3:
-            return self._b
+            return self._a
         else:
             raise IndexError("Index out of range. Valid indices are 0, 1, 2, and 3.")
 
