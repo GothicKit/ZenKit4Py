@@ -1,10 +1,13 @@
 import math
 from ctypes import Structure
-from typing import Any, ClassVar, Union
+from typing import Any
+from typing import ClassVar
+from typing import Union
 
+from zenkit.core import Quat
 from zenkit.core.vector import Vec3f
 from zenkit.core.vector import Vec4f
-from zenkit.core import Quat
+
 
 class Mat3x3(Structure):
     """
@@ -17,7 +20,7 @@ class Mat3x3(Structure):
     _fields_: ClassVar[tuple[str, Any]] = [
         ("columns", Vec3f * 3),
     ]
-    
+
     def __init__(self, c0: Vec3f = None, c1: Vec3f = None, c2: Vec3f = None) -> "Mat3x3":
         if c0 is None or c1 is None or c2 is None:
             c0 = (1.0, 0.0, 0.0)
@@ -32,13 +35,7 @@ class Mat3x3(Structure):
         Returns:
             A string in the format 'Mat3x3(columns)'.
         """
-        return (
-            f"Mat3x3(columns=[\n"
-            f"  {self.columns[0]},\n"
-            f"  {self.columns[1]},\n"
-            f"  {self.columns[2]}\n"
-            f"])"
-        )
+        return f"Mat3x3(columns=[\n" f"  {self.columns[0]},\n" f"  {self.columns[1]},\n" f"  {self.columns[2]}\n" f"])"
 
     def columns(self) -> tuple[Vec3f, Vec3f, Vec3f]:
         """
@@ -80,9 +77,7 @@ class Mat3x3(Structure):
             TypeError: If the operand is not a Mat3x3 object.
         """
         if isinstance(other, Mat3x3):
-            return Mat3x3(
-                Vec3f(self.columns[i] + other.columns[i]) for i in range(3)
-            )
+            return Mat3x3(Vec3f(self.columns[i] + other.columns[i]) for i in range(3))
         raise TypeError("Operand must be of type Mat3x3")
 
     def __sub__(self, other: "Mat3x3") -> "Mat3x3":
@@ -99,9 +94,7 @@ class Mat3x3(Structure):
             TypeError: If the operand is not a Mat3x3 object.
         """
         if isinstance(other, Mat3x3):
-            return Mat3x3(
-                Vec3f(self.columns[i] - other.columns[i]) for i in range(3)
-            )
+            return Mat3x3(Vec3f(self.columns[i] - other.columns[i]) for i in range(3))
         raise TypeError("Operand must be of type Mat3x3")
 
     def __mul__(self, other: Union["Mat3x3", Vec3f, float, int]) -> Union["Mat3x3", Vec3f]:
@@ -136,10 +129,7 @@ class Mat3x3(Structure):
         Returns:
             A new Mat3x3 instance representing the transposed Matrix.
         """
-        transposed_columns = [
-            Vec3f(self.columns[0][i], self.columns[1][i], self.columns[2][i])
-            for i in range(3)
-        ]
+        transposed_columns = [Vec3f(self.columns[0][i], self.columns[1][i], self.columns[2][i]) for i in range(3)]
         return Mat3x3(*transposed_columns)
 
     def to_euler(self) -> Vec3f:
@@ -150,7 +140,7 @@ class Mat3x3(Structure):
             A tuple containing the Euler angles (roll, pitch, yaw) in radians.
         """
         m = [[self.columns[i][j] for j in range(3)] for i in range(3)]
-        
+
         if m[0][2] < 1:
             if m[0][2] > -1:
                 yaw = math.atan2(-m[0][1], m[0][0])
@@ -203,7 +193,7 @@ class Mat3x3(Structure):
             z = 0.25 * s
 
         return Quat(w, x, y, z)
-    
+
     def rotation(self, angle: float, axis: Vec3f) -> "Mat3x3":
         """
         Apply a rotation to the current matrix around the given axis by the specified angle in radians.
@@ -222,12 +212,12 @@ class Mat3x3(Structure):
         t = 1 - c
 
         rot_matrix = Mat3x3(
-            Vec3f(t*x*x + c, t*x*y - s*z, t*x*z + s*y),
-            Vec3f(t*x*y + s*z, t*y*y + c, t*y*z - s*x),
-            Vec3f(t*x*z - s*y, t*y*z + s*x, t*z*z + c)
+            Vec3f(t * x * x + c, t * x * y - s * z, t * x * z + s * y),
+            Vec3f(t * x * y + s * z, t * y * y + c, t * y * z - s * x),
+            Vec3f(t * x * z - s * y, t * y * z + s * x, t * z * z + c),
         )
         return self * rot_matrix
-    
+
     def scale(self, scale: Vec3f) -> "Mat3x3":
         """
         Apply scaling to the current matrix by the specified scale vector.
@@ -238,13 +228,9 @@ class Mat3x3(Structure):
         Returns:
             A new Mat3x3 instance with the applied scaling.
         """
-        scale_matrix = Mat3x3(
-            Vec3f(scale.x, 0, 0),
-            Vec3f(0, scale.y, 0),
-            Vec3f(0, 0, scale.z)
-        )
+        scale_matrix = Mat3x3(Vec3f(scale.x, 0, 0), Vec3f(0, scale.y, 0), Vec3f(0, 0, scale.z))
         return self * scale_matrix
-    
+
     def to_mat4x4(self) -> "Mat4x4":
         """
         Convert the 3x3 Matrix to a 4x4 Matrix.
@@ -258,7 +244,7 @@ class Mat3x3(Structure):
         col3 = Vec4f(0.0, 0.0, 0.0, 1.0)
 
         return Mat4x4(col0, col1, col2, col3)
-    
+
     def __hash__(self) -> int:
         """
         Return a hash value for this Matrix based on its columns.
@@ -267,6 +253,7 @@ class Mat3x3(Structure):
             The hash value of the Matrix.
         """
         return hash(tuple(self.columns))
+
 
 class Mat4x4(Structure):
     """
@@ -279,7 +266,7 @@ class Mat4x4(Structure):
     _fields_: ClassVar[tuple[str, Any]] = [
         ("columns", Vec4f * 4),
     ]
-    
+
     def __init__(self, c0: Vec4f = None, c1: Vec4f = None, c2: Vec4f = None, c3: Vec4f = None) -> "Mat4x4":
         if c0 is None or c1 is None or c2 is None or c3 is None:
             c0 = Vec4f(1.0, 0.0, 0.0, 0.0)
@@ -344,9 +331,7 @@ class Mat4x4(Structure):
             TypeError: If the operand is not a Mat4x4 object.
         """
         if isinstance(other, Mat4x4):
-            return Mat4x4(
-                Vec4f(self.columns[i] + other.columns[i]) for i in range(4)
-            )
+            return Mat4x4(Vec4f(self.columns[i] + other.columns[i]) for i in range(4))
         raise TypeError("Operand must be of type Mat4x4")
 
     def __sub__(self, other: "Mat4x4") -> "Mat4x4":
@@ -363,9 +348,7 @@ class Mat4x4(Structure):
             TypeError: If the operand is not a Mat4x4 object.
         """
         if isinstance(other, Mat4x4):
-            return Mat4x4(
-                Vec4f(self.columns[i] - other.columns[i]) for i in range(4)
-            )
+            return Mat4x4(Vec4f(self.columns[i] - other.columns[i]) for i in range(4))
         raise TypeError("Operand must be of type Mat4x4")
 
     def __mul__(self, other: Union["Mat4x4", Vec4f, float, int]) -> Union["Mat4x4", Vec4f]:
@@ -401,8 +384,7 @@ class Mat4x4(Structure):
             A new Mat4x4 instance representing the transposed Matrix.
         """
         transposed_columns = [
-            Vec4f(self.columns[0][i], self.columns[1][i], self.columns[2][i], self.columns[3][i])
-            for i in range(4)
+            Vec4f(self.columns[0][i], self.columns[1][i], self.columns[2][i], self.columns[3][i]) for i in range(4)
         ]
         return Mat4x4(*transposed_columns)
 
@@ -414,7 +396,7 @@ class Mat4x4(Structure):
             A tuple containing the Euler angles (roll, pitch, yaw) in radians.
         """
         m = [[self.columns[i][j] for j in range(4)] for i in range(4)]
-        
+
         if m[0][2] < 1:
             if m[0][2] > -1:
                 yaw = math.atan2(-m[0][1], m[0][0])
@@ -439,7 +421,7 @@ class Mat4x4(Structure):
             A Quat instance representing the Quaternion (w, x, y, z).
         """
         m = [[self.columns[i][j] for j in range(4)] for i in range(4)]
-        
+
         trace = m[0][0] + m[1][1] + m[2][2]
         if trace > 0:
             s = 0.5 / math.sqrt(trace + 1.0)
@@ -467,7 +449,7 @@ class Mat4x4(Structure):
             z = 0.25 * s
 
         return Quat(w, x, y, z)
-    
+
     def rotation(self, angle: float, axis: Vec3f) -> "Mat4x4":
         """
         Apply a rotation to the current matrix.
@@ -486,13 +468,13 @@ class Mat4x4(Structure):
         t = 1 - c
 
         rot_matrix = Mat4x4(
-            Vec4f(t*x*x + c, t*x*y - s*z, t*x*z + s*y, 0),
-            Vec4f(t*x*y + s*z, t*y*y + c, t*y*z - s*x, 0),
-            Vec4f(t*x*z - s*y, t*y*z + s*x, t*z*z + c, 0),
-            Vec4f(0, 0, 0, 1)
+            Vec4f(t * x * x + c, t * x * y - s * z, t * x * z + s * y, 0),
+            Vec4f(t * x * y + s * z, t * y * y + c, t * y * z - s * x, 0),
+            Vec4f(t * x * z - s * y, t * y * z + s * x, t * z * z + c, 0),
+            Vec4f(0, 0, 0, 1),
         )
         return self * rot_matrix
-    
+
     def scale(self, scale: Vec3f) -> "Mat4x4":
         """
         Apply scaling to the current matrix.
@@ -504,13 +486,10 @@ class Mat4x4(Structure):
             A new Mat4x4 instance with the additional scaling applied.
         """
         scale_matrix = Mat4x4(
-            Vec4f(scale.x, 0, 0, 0),
-            Vec4f(0, scale.y, 0, 0),
-            Vec4f(0, 0, scale.z, 0),
-            Vec4f(0, 0, 0, 1)
+            Vec4f(scale.x, 0, 0, 0), Vec4f(0, scale.y, 0, 0), Vec4f(0, 0, scale.z, 0), Vec4f(0, 0, 0, 1)
         )
         return self * scale_matrix
-    
+
     def translation(self, translation: Vec3f) -> "Mat4x4":
         """
         Apply translation to the current matrix.
@@ -525,10 +504,10 @@ class Mat4x4(Structure):
             Vec4f(1, 0, 0, translation.x),
             Vec4f(0, 1, 0, translation.y),
             Vec4f(0, 0, 1, translation.z),
-            Vec4f(0, 0, 0, 1)
+            Vec4f(0, 0, 0, 1),
         )
         return self * translation_matrix
-    
+
     def to_mat3x3(self) -> "Mat3x3":
         """
         Convert the 4x4 Matrix to a 3x3 Matrix by extracting the top-left 3x3 portion.

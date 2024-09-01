@@ -1,14 +1,12 @@
 import math
-from enum import Enum
-from ctypes import Structure, c_float
-from typing import Any, ClassVar, Union
+from ctypes import Structure
+from ctypes import c_float
+from typing import Any
+from typing import ClassVar
+from typing import Union
 
-comp = {
-    0: "x",
-    1: "y",
-    2: "z",
-    3: "w"
-}
+comp = {0: "x", 1: "y", 2: "z", 3: "w"}
+
 
 class Vector(Structure):
     """
@@ -26,7 +24,7 @@ class Vector(Structure):
 
         Args:
             components: The components of the Vector. Must be 2, 3, or 4 components.
-        
+
         Raises:
             ValueError: If the number of components is not 2, 3, or 4.
         """
@@ -233,7 +231,7 @@ class Vector(Structure):
         elif isinstance(other, (int, float)):
             return Vector(*(getattr(self, comp[i]) * other for i in range(len(self._fields_))))
         raise TypeError("Operand must be of type Vector, or Number")
-    
+
     def __truediv__(self, other: Union["Vector", float, int]) -> "Vector":
         """
         Divide this vector by another vector or a scalar.
@@ -267,7 +265,7 @@ class Vector(Structure):
         Returns:
             The length of the vector.
         """
-        return math.sqrt(sum(getattr(self, comp[i])**2 for i in range(len(self._fields_))))
+        return math.sqrt(sum(getattr(self, comp[i]) ** 2 for i in range(len(self._fields_))))
 
     def normalize(self) -> "Vector":
         """
@@ -290,16 +288,18 @@ class Vector(Structure):
         """
         return hash(tuple(getattr(self, comp[i]) for i in range(len(self._fields_))))
 
+
 class Vec2f(Vector):
     _fields_: ClassVar[tuple[str, Any]] = [
         ("x", c_float),
         ("y", c_float),
     ]
-    
+
     def __init__(self, x: float = 0.0, y: float = None):
         if y is None:
             y = x
         super().__init__(x, y)
+
 
 class Vec3f(Vector):
     _fields_: ClassVar[tuple[str, Any]] = [
@@ -307,13 +307,14 @@ class Vec3f(Vector):
         ("y", c_float),
         ("z", c_float),
     ]
-    
+
     def __init__(self, x: float = 0.0, y: float = None, z: float = None):
         if y is None and z is None:
             y = z = x
         elif y is None or z is None:
             raise ValueError("Vec3f requires all intermediate components to be provided.")
         super().__init__(x, y, z)
+
 
 class Vec4f(Vector):
     _fields_: ClassVar[tuple[str, Any]] = [
@@ -322,7 +323,7 @@ class Vec4f(Vector):
         ("z", c_float),
         ("w", c_float),
     ]
-    
+
     def __init__(self, x: float = 0.0, y: float = None, z: float = None, w: float = None):
         if y is None and z is None and w is None:
             y = z = w = x

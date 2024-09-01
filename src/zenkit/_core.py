@@ -32,10 +32,13 @@ from typing import ClassVar
 from typing import Final
 from typing import Union
 
-from .core.quat import Quat
-from .core.vector import Vec2f, Vec3f, Vec4f
-from .core.matrix import Mat3x3, Mat4x4
 from .core.color import Color
+from .core.matrix import Mat3x3
+from .core.matrix import Mat4x4
+from .core.quat import Quat
+from .core.vector import Vec2f
+from .core.vector import Vec3f
+from .core.vector import Vec4f
 
 if TYPE_CHECKING:
     from zenkit.stream import Read
@@ -85,6 +88,7 @@ class Date(Structure):
             f"Date(year={self.year}, month={self.month}, day={self.day}, "
             f"hour={self.hour}, minute={self.minute}, second={self.second})"
         )
+
 
 class AxisAlignedBoundingBox(Structure):
     _fields_: ClassVar[tuple[str, Any]] = [

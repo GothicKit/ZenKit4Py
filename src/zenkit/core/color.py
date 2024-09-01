@@ -1,6 +1,9 @@
-import math
-from ctypes import Structure, c_uint8
-from typing import Any, ClassVar, Union
+from ctypes import Structure
+from ctypes import c_uint8
+from typing import Any
+from typing import ClassVar
+from typing import Union
+
 
 class Color(Structure):
     """
@@ -49,7 +52,7 @@ class Color(Structure):
         Retrieve a color component by index.
 
         Args:
-            index: The index of the color component to retrieve. 
+            index: The index of the color component to retrieve.
                 Valid indices are 0 (red), 1 (green), 2 (blue), and 3 (alpha).
 
         Returns:
