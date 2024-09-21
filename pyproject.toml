@@ -67,6 +67,7 @@ namespaces = false
 zenkit = ["native/*"]
 
 [tool.ruff]
+target-version = "py310"
 line-length = 120
 
 [tool.ruff.lint]
