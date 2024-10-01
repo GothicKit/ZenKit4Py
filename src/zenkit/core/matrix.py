@@ -4,9 +4,9 @@ from typing import Any
 from typing import ClassVar
 from typing import Union
 
-from zenkit.core import Quat
-from zenkit.core.vector import Vec3f
-from zenkit.core.vector import Vec4f
+from .quat import Quat
+from .vector import Vec3f
+from .vector import Vec4f
 
 
 class Mat3x3(Structure):
