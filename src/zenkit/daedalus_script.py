@@ -187,6 +187,16 @@ class DaedalusSymbol:
     def return_type(self) -> DaedalusDataType:
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getReturnType(self._handle))
 
+    @property
+    def value(self) -> float | int | str | None:
+        if self.type == DaedalusDataType.FLOAT:
+            return self.get_float()
+        if self.type == DaedalusDataType.INT:
+            return self.get_int()
+        if self.type == DaedalusDataType.STRING:
+            return self.get_string()
+        return None
+
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r} type={self.type.name}>"
 
