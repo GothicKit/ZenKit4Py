@@ -192,6 +192,29 @@ class DaedalusSymbol:
     def return_type(self) -> DaedalusDataType:
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getReturnType(self._handle))
 
+    @property
+    def value(self) -> float | int | str | None:
+        if self.type == DaedalusDataType.FLOAT:
+            return self.get_float()
+        if self.type == DaedalusDataType.INT:
+            return self.get_int()
+        if self.type == DaedalusDataType.STRING:
+            return self.get_string()
+        if self.type == DaedalusDataType.INSTANCE:
+            return self.get_instance()
+        return None
+
+    @value.setter
+    def value(self, value: DaedalusSymbolValue):
+        if self.type == DaedalusDataType.FLOAT:
+            self.set_float(value)
+        elif self.type == DaedalusDataType.INT:
+            self.set_int(value)
+        elif self.type == DaedalusDataType.STRING:
+            self.set_string(value)
+        else:
+            raise ValueError(f"Symbol of type {self.type.name} doesn't support value assignment")
+
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r} type={self.type.name}>"
 
