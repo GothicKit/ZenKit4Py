@@ -125,13 +125,13 @@ class DaedalusSymbol:
         )
 
     def get_int(self, i: int = 0, ctx: DaedalusInstance | None = None) -> int:
-        return DLL.ZkDaedalusSymbol_getInt(self._handle, c_uint16(i), ctx.handle if ctx else None).value
+        return DLL.ZkDaedalusSymbol_getInt(self._handle, c_uint16(i), ctx.handle if ctx else None)
 
     def set_int(self, val: int, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setInt(self._handle, c_int32(val), c_uint16(i), ctx.handle if ctx else None)
 
     def get_float(self, i: int = 0, ctx: DaedalusInstance | None = None) -> float:
-        return DLL.ZkDaedalusSymbol_getFloat(self._handle, c_uint16(i), ctx.handle if ctx else None).value
+        return DLL.ZkDaedalusSymbol_getFloat(self._handle, c_uint16(i), ctx.handle if ctx else None)
 
     def set_float(self, val: float, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setFloat(self._handle, c_float(val), c_uint16(i), ctx.handle if ctx else None)
