@@ -44,3 +44,12 @@ _INSTANCES = {
     DaedalusInstanceType.SOUND_EFFECT: SoundEffectInstance,
     DaedalusInstanceType.SOUND_SYSTEM: SoundSystemInstance,
 }
+
+_CLASS_TYPES = {
+    "C_NPC": DaedalusInstanceType.NPC,
+    "C_MISSION": DaedalusInstanceType.MISSION,
+    "C_ITEM": DaedalusInstanceType.ITEM,
+    "C_INFO": DaedalusInstanceType.INFO,
+    "C_ITEMREACT": DaedalusInstanceType.ITEM_REACT,
+    "C_FOCUS": DaedalusInstanceType.FOCUS,
+}
