@@ -135,6 +135,17 @@ class DaedalusSymbol:
     def set_float(self, val: float, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setFloat(self._handle, c_float(val), c_uint16(i), ctx.handle if ctx else None)
 
+    def get_parent_as_symbol(self, find_root: bool = False) -> "DaedalusSymbol | None":
+        if self.parent < 0:
+            return None
+
+        handle = self._keepalive.get_symbol_by_index(self.parent)
+
+        while find_root and handle and handle.parent >= 0:
+            handle = self._keepalive.get_symbol_by_index(handle.parent)
+
+        return handle
+
     @property
     def is_const(self) -> bool:
         return DLL.ZkDaedalusSymbol_getIsConst(self._handle) != 0
