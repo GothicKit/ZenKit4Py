@@ -139,6 +139,17 @@ class DaedalusSymbol:
     def get_instance(self) -> DaedalusInstance:
         value = DLL.ZkDaedalusSymbol_getInstance(self._handle)
         return DaedalusInstance.from_native(value)
+    
+    def get_parent_as_symbol(self, find_root: bool = False) -> "DaedalusSymbol | None":
+        if self.parent < 0:
+            return None
+
+        handle = self._keepalive.get_symbol_by_index(self.parent)
+
+        while find_root and handle and handle.parent >= 0:
+            handle = self._keepalive.get_symbol_by_index(handle.parent)
+
+        return handle
 
     @property
     def is_const(self) -> bool:
