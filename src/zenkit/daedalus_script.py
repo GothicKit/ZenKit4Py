@@ -20,8 +20,10 @@ from typing import Any
 from typing import ClassVar
 
 from zenkit import _native
+from zenkit.daedalus import _CLASS_TYPES
 from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
+from zenkit._core import DaedalusSymbolValue
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
@@ -199,13 +201,17 @@ class DaedalusSymbol:
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getReturnType(self._handle))
 
     @property
-    def value(self) -> float | int | str | None:
+    def value(self) -> DaedalusSymbolValue:
         if self.type == DaedalusDataType.FLOAT:
             return self.get_float()
         if self.type == DaedalusDataType.INT:
             return self.get_int()
         if self.type == DaedalusDataType.STRING:
             return self.get_string()
+        if self._keepalive.__class__.__name__ == "DaedalusVm" and self.type == DaedalusDataType.INSTANCE:
+            class_sym = self.get_parent_as_symbol(find_root=True)
+            if class_sym:  # Instances always have parent symbols, except for .PAR instances in functions...
+                return self._keepalive.init_instance(self, _CLASS_TYPES[class_sym.name])
         return None
 
     def __repr__(self) -> str:
