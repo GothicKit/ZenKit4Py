@@ -54,6 +54,7 @@ _PATH = Path(__file__).parent / "native" / _NAME
 DLL: Final[CDLL] = CDLL(str(_PATH))
 
 PathOrFileLike = Union[str, PathLike, "Read", bytes, bytearray, "VfsNode"]
+DaedalusSymbolValue = Union[float, int, str, "DaedalusInstance", None]
 
 
 class GameVersion(IntEnum):
