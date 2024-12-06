@@ -232,8 +232,9 @@ class Vfs:
         DLL.ZkVfs_remove.restype = c_int
         return DLL.ZkVfs_remove(self._handle, str(path).encode("windows-1252")) != 0
 
-    def save(self, path: str | PathLike, version: GameVersion) -> None:
-        DLL.ZkVfs_save(self._handle, str(path).encode("windows-1252"), c_int(version.value))
+    def save(self, path: str | PathLike, version: GameVersion, time: int | datetime) -> None:
+        timestamp = int(time.timestamp()) if isinstance(time, datetime) else time
+        DLL.ZkVfs_save(self._handle, str(path).encode("windows-1252"), c_int(version.value), c_int(timestamp))
 
     @property
     def root(self) -> VfsNode:
