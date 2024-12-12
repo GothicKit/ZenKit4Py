@@ -20,8 +20,10 @@ from typing import Any
 from typing import ClassVar
 
 from zenkit import _native
+from zenkit.daedalus import _CLASS_TYPES
 from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
+from zenkit._core import DaedalusSymbolValue
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
@@ -124,16 +126,27 @@ class DaedalusSymbol:
         )
 
     def get_int(self, i: int = 0, ctx: DaedalusInstance | None = None) -> int:
-        return DLL.ZkDaedalusSymbol_getInt(self._handle, c_uint16(i), ctx.handle if ctx else None).value
+        return DLL.ZkDaedalusSymbol_getInt(self._handle, c_uint16(i), ctx.handle if ctx else None)
 
     def set_int(self, val: int, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setInt(self._handle, c_int32(val), c_uint16(i), ctx.handle if ctx else None)
 
     def get_float(self, i: int = 0, ctx: DaedalusInstance | None = None) -> float:
-        return DLL.ZkDaedalusSymbol_getFloat(self._handle, c_uint16(i), ctx.handle if ctx else None).value
+        return DLL.ZkDaedalusSymbol_getFloat(self._handle, c_uint16(i), ctx.handle if ctx else None)
 
     def set_float(self, val: float, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setFloat(self._handle, c_float(val), c_uint16(i), ctx.handle if ctx else None)
+
+    def get_parent_as_symbol(self, find_root: bool = False) -> "DaedalusSymbol | None":
+        if self.parent < 0:
+            return None
+
+        handle = self._keepalive.get_symbol_by_index(self.parent)
+
+        while find_root and handle and handle.parent >= 0:
+            handle = self._keepalive.get_symbol_by_index(handle.parent)
+
+        return handle
 
     @property
     def is_const(self) -> bool:
@@ -187,8 +200,26 @@ class DaedalusSymbol:
     def return_type(self) -> DaedalusDataType:
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getReturnType(self._handle))
 
+    @property
+    def value(self) -> DaedalusSymbolValue:
+        if self.type == DaedalusDataType.FLOAT:
+            return self.get_float()
+        if self.type == DaedalusDataType.INT:
+            return self.get_int()
+        if self.type == DaedalusDataType.STRING:
+            return self.get_string()
+        if self._keepalive.__class__.__name__ == "DaedalusVm" and self.type == DaedalusDataType.INSTANCE:
+            class_sym = self.get_parent_as_symbol(find_root=True)
+            if class_sym:  # Instances always have parent symbols, except for .PAR instances in functions...
+                return self._keepalive.init_instance(self, _CLASS_TYPES[class_sym.name])
+        return None
+
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r} type={self.type.name}>"
+
+    def __str__(self) -> str:
+        value = self.value
+        return value.__str__() if value is not None else self.__repr__()
 
 
 class DaedalusInstruction(Structure):
