@@ -7,6 +7,7 @@ __all__ = [
 ]
 
 from abc import abstractmethod
+from collections.abc import Generator
 from ctypes import Structure
 from ctypes import c_float
 from ctypes import c_int
@@ -292,9 +293,9 @@ class DaedalusScript:
         return DaedalusScript(_handle=handle, _delete=True)
 
     @property
-    def symbols(self) -> list[DaedalusSymbol]:
+    def symbols(self) -> Generator[DaedalusSymbol]:
         count = DLL.ZkDaedalusScript_getSymbolCount(self._handle)
-        return [self.get_symbol_by_index(i) for i in range(count)]
+        return (self.get_symbol_by_index(i) for i in range(count))
 
     def get_instruction(self, address: int) -> DaedalusInstruction:
         return DLL.ZkDaedalusScript_getInstruction(self._handle, c_size_t(address))
