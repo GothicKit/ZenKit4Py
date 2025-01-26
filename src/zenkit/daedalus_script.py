@@ -86,6 +86,7 @@ class DaedalusDataType(IntEnum):
 DLL.ZkDaedalusSymbol_getString.restype = ZkString
 DLL.ZkDaedalusSymbol_getInt.restype = c_int32
 DLL.ZkDaedalusSymbol_getFloat.restype = c_float
+DLL.ZkDaedalusSymbol_getInstance.restype = ZkPointer
 DLL.ZkDaedalusSymbol_getIsConst.restype = c_int
 DLL.ZkDaedalusSymbol_getIsMember.restype = c_int
 DLL.ZkDaedalusSymbol_getIsExternal.restype = c_int
@@ -134,6 +135,10 @@ class DaedalusSymbol:
 
     def set_float(self, val: float, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setFloat(self._handle, c_float(val), c_uint16(i), ctx.handle if ctx else None)
+
+    def get_instance(self) -> DaedalusInstance:
+        value = DLL.ZkDaedalusSymbol_getInstance(self._handle)
+        return DaedalusInstance.from_native(value)
 
     @property
     def is_const(self) -> bool:
