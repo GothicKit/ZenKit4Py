@@ -148,7 +148,7 @@ class DaedalusVm(DaedalusScript):
             sym = self.get_symbol_by_name(sym)
 
         handle = DLL.ZkDaedalusVm_initInstance(self._handle, sym.handle, typ.value).value
-        return DaedalusInstance.from_native(handle)
+        return DaedalusInstance.from_native(handle, sym)
 
     def init_instance_direct(self, sym: DaedalusInstance) -> None:
         DLL.ZkDaedalusVm_initInstanceDirect(self._handle, sym.handle)

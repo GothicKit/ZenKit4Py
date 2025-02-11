@@ -42,22 +42,25 @@ class DaedalusInstance:
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = None
+        self._sym = None
 
         if "_handle" in kwargs:
             self._handle = kwargs.pop("_handle")
 
+        if "_sym" in kwargs:
+            self._sym = kwargs.pop("_sym")
+
     @staticmethod
-    def from_native(handle: c_void_p | None) -> "DaedalusInstance | None":
+    def from_native(handle: c_void_p | None, sym: "DaedalusSymbol | None" = None) -> "DaedalusInstance | None":
         from zenkit.daedalus import _INSTANCES
 
-        print(handle, handle.value if handle is not None else None)
         if handle is None or handle.value is None or handle.value == 0 or (isinstance(handle.value, c_void_p) and handle.value.value == None):
             return None
 
         DLL.ZkDaedalusInstance_getType.restype = c_int
         typ = DaedalusInstanceType(DLL.ZkDaedalusInstance_getType(handle))
 
-        return _INSTANCES.get(typ, DaedalusInstance)(_handle=handle)
+        return _INSTANCES.get(typ, DaedalusInstance)(_handle=handle, _sym=sym)
 
     @property
     def handle(self) -> c_void_p:
@@ -72,3 +75,10 @@ class DaedalusInstance:
     def index(self) -> int:
         DLL.ZkDaedalusInstance_getIndex.restype = c_uint32
         return DLL.ZkDaedalusInstance_getIndex(self._handle)
+
+    def __str__(self) -> str:
+        sym_part = f"({self._sym.name})" if self._sym else ""
+        if not sym_part:
+            sym_part = f"({self.index})" if self.index else ""
+        name_part = f"={self.name}" if hasattr(self, "name") else ""
+        return f"{self.__class__.__name__}{sym_part}{name_part}"

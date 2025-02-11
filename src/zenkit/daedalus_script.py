@@ -141,7 +141,7 @@ class DaedalusSymbol:
 
     def get_instance(self) -> DaedalusInstance:
         value = DLL.ZkDaedalusSymbol_getInstance(self._handle)
-        return DaedalusInstance.from_native(value)
+        return DaedalusInstance.from_native(value, self)
     
     def get_parent_as_symbol(self, find_root: bool = False) -> "DaedalusSymbol | None":
         if self.parent < 0:
