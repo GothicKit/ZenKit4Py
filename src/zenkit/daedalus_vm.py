@@ -17,6 +17,7 @@ from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
+from zenkit.daedalus import _CLASS_TYPES
 from zenkit.daedalus.base import DaedalusInstance
 from zenkit.daedalus.base import DaedalusInstanceType
 from zenkit.daedalus_script import DaedalusScript
@@ -102,7 +103,7 @@ class DaedalusVm(DaedalusScript):
         elif isinstance(val, str):
             DLL.ZkDaedalusVm_pushString(self._handle, val.encode("windows-1252"))
         else:
-            raise TypeError("Unsupported type: " + type(val))
+            raise TypeError(f"Unsupported type: {type(val)}")
 
     def pop(self, typ: type[DaedalusTypeGeneric]) -> DaedalusTypeGeneric:
         if typ == DaedalusInstance:
@@ -141,14 +142,21 @@ class DaedalusVm(DaedalusScript):
         handle = DLL.ZkDaedalusVm_allocInstance(self._handle, sym.handle, typ.value).value
         return DaedalusInstance.from_native(handle)
 
-    def init_instance(self, sym: DaedalusSymbol | str, typ: DaedalusInstanceType) -> DaedalusInstance:
+    def init_instance(self, sym: DaedalusSymbol | str, typ: DaedalusInstanceType = None) -> DaedalusInstance:
         DLL.ZkDaedalusVm_initInstance.restype = ZkPointer
 
         if isinstance(sym, str):
             sym = self.get_symbol_by_name(sym)
 
+        if typ is None:
+            class_sym = self.get_parent_symbol(sym, find_root=True)
+            if class_sym and class_sym.name in _CLASS_TYPES:
+                typ = _CLASS_TYPES[class_sym.name]
+            else:
+                raise ValueError(f"Failed to guess DaedalusInstanceType to init {sym.name}")
+
         handle = DLL.ZkDaedalusVm_initInstance(self._handle, sym.handle, typ.value).value
-        return DaedalusInstance.from_native(handle)
+        return DaedalusInstance.from_native(handle, sym)
 
     def init_instance_direct(self, sym: DaedalusInstance) -> None:
         DLL.ZkDaedalusVm_initInstanceDirect(self._handle, sym.handle)
