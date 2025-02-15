@@ -318,6 +318,17 @@ class DaedalusScript:
             return None
         return DaedalusSymbol(_handle=handle, _keepalive=self)
 
+    def get_parent_symbol(self, child: DaedalusSymbol, find_root: bool = False) -> DaedalusSymbol | None:
+        if child.parent < 0:
+            return None
+
+        symbol = self.get_symbol_by_index(child.parent)
+
+        while find_root and symbol and symbol.parent >= 0:
+            symbol = self.get_symbol_by_index(symbol.parent)
+
+        return symbol
+
     def __del__(self) -> None:
         self._deleter()
 
