@@ -103,7 +103,7 @@ class DaedalusVm(DaedalusScript):
         elif isinstance(val, str):
             DLL.ZkDaedalusVm_pushString(self._handle, val.encode("windows-1252"))
         else:
-            raise TypeError("Unsupported type: " + type(val))
+            raise TypeError(f"Unsupported type: {type(val)}")
 
     def pop(self, typ: type[DaedalusTypeGeneric]) -> DaedalusTypeGeneric:
         if typ == DaedalusInstance:
