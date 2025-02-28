@@ -75,6 +75,7 @@ DLL.ZkMaterial_getDisableCollision.restype = c_int
 DLL.ZkMaterial_getDisableLightmap.restype = c_int
 DLL.ZkMaterial_getDontCollapse.restype = c_int
 DLL.ZkMaterial_getDetailObject.restype = ZkString
+DLL.ZkMaterial_getDetailObjectScale.restype = c_float
 DLL.ZkMaterial_getForceOccluder.restype = c_int
 DLL.ZkMaterial_getEnvironmentMapping.restype = c_int
 DLL.ZkMaterial_getEnvironmentMappingStrength.restype = c_float
@@ -148,6 +149,10 @@ class Material:
     @property
     def detail_object(self) -> str:
         return DLL.ZkMaterial_getDetailObject(self._handle).value
+
+    @property
+    def detail_object_scale(self) -> float:
+        return DLL.ZkMaterial_getDetailObjectScale(self._handle)
 
     @property
     def force_occluder(self) -> bool:
