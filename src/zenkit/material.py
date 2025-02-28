@@ -9,11 +9,11 @@ __all__ = [
 
 from ctypes import c_float
 from ctypes import c_int
-from ctypes import c_uint
 from ctypes import c_void_p
 from enum import IntEnum
 from typing import Any
 
+from zenkit._core import Color
 from zenkit._core import DLL
 from zenkit._core import Vec2f
 from zenkit._native import ZkString
@@ -64,7 +64,7 @@ class AlphaFunction(IntEnum):
 
 DLL.ZkMaterial_getName.restype = ZkString
 DLL.ZkMaterial_getGroup.restype = c_int
-DLL.ZkMaterial_getColor.restype = c_uint
+DLL.ZkMaterial_getColor.restype = Color
 DLL.ZkMaterial_getSmoothAngle.restype = c_float
 DLL.ZkMaterial_getTexture.restype = ZkString
 DLL.ZkMaterial_getTextureScale.restype = Vec2f
@@ -106,7 +106,7 @@ class Material:
         return MaterialGroup(DLL.ZkMaterial_getGroup(self._handle))
 
     @property
-    def color(self) -> int:
+    def color(self) -> Color:
         return DLL.ZkMaterial_getColor(self._handle)
 
     @property
