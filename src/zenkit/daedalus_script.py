@@ -7,6 +7,7 @@ __all__ = [
 ]
 
 from abc import abstractmethod
+from collections.abc import Generator
 from ctypes import Structure
 from ctypes import c_float
 from ctypes import c_int
@@ -20,8 +21,10 @@ from typing import Any
 from typing import ClassVar
 
 from zenkit import _native
+from zenkit.daedalus import _CLASS_TYPES
 from zenkit._core import DLL
 from zenkit._core import PathOrFileLike
+from zenkit._core import DaedalusSymbolValue
 from zenkit._native import ZkPointer
 from zenkit._native import ZkString
 from zenkit.daedalus.base import DaedalusInstance
@@ -131,14 +134,25 @@ class DaedalusSymbol:
         DLL.ZkDaedalusSymbol_setInt(self._handle, c_int32(val), c_uint16(i), ctx.handle if ctx else None)
 
     def get_float(self, i: int = 0, ctx: DaedalusInstance | None = None) -> float:
-        return DLL.ZkDaedalusSymbol_getFloat(self._handle, c_uint16(i), ctx.handle if ctx else None).value
+        return DLL.ZkDaedalusSymbol_getFloat(self._handle, c_uint16(i), ctx.handle if ctx else None)
 
     def set_float(self, val: float, i: int = 0, ctx: DaedalusInstance | None = None) -> None:
         DLL.ZkDaedalusSymbol_setFloat(self._handle, c_float(val), c_uint16(i), ctx.handle if ctx else None)
 
     def get_instance(self) -> DaedalusInstance:
         value = DLL.ZkDaedalusSymbol_getInstance(self._handle)
-        return DaedalusInstance.from_native(value)
+        return DaedalusInstance.from_native(value, self)
+    
+    def get_parent_as_symbol(self, find_root: bool = False) -> "DaedalusSymbol | None":
+        if self.parent < 0:
+            return None
+
+        handle = self._keepalive.get_symbol_by_index(self.parent)
+
+        while find_root and handle and handle.parent >= 0:
+            handle = self._keepalive.get_symbol_by_index(handle.parent)
+
+        return handle
 
     @property
     def is_const(self) -> bool:
@@ -192,8 +206,34 @@ class DaedalusSymbol:
     def return_type(self) -> DaedalusDataType:
         return DaedalusDataType(DLL.ZkDaedalusSymbol_getReturnType(self._handle))
 
+    @property
+    def value(self) -> DaedalusSymbolValue:
+        if self.type == DaedalusDataType.FLOAT:
+            return self.get_float()
+        if self.type == DaedalusDataType.INT:
+            return self.get_int()
+        if self.type == DaedalusDataType.STRING:
+            return self.get_string()
+        if self.type == DaedalusDataType.INSTANCE:
+            return self.get_instance()
+        return None
+
+    @value.setter
+    def value(self, value: DaedalusSymbolValue):
+        if self.type == DaedalusDataType.FLOAT:
+            self.set_float(value)
+        elif self.type == DaedalusDataType.INT:
+            self.set_int(value)
+        elif self.type == DaedalusDataType.STRING:
+            self.set_string(value)
+        else:
+            raise ValueError(f"Symbol of type {self.type.name} doesn't support value assignment")
+
     def __repr__(self) -> str:
         return f"<{self.__class__.__name__} handle={self._handle} name={self.name!r} type={self.type.name}>"
+
+    def __str__(self) -> str:
+        return str(self.value) if self.value is not None else self.name
 
 
 class DaedalusInstruction(Structure):
@@ -253,9 +293,9 @@ class DaedalusScript:
         return DaedalusScript(_handle=handle, _delete=True)
 
     @property
-    def symbols(self) -> list[DaedalusSymbol]:
+    def symbols(self) -> Generator[DaedalusSymbol]:
         count = DLL.ZkDaedalusScript_getSymbolCount(self._handle)
-        return [self.get_symbol_by_index(i) for i in range(count)]
+        return (self.get_symbol_by_index(i) for i in range(count))
 
     def get_instruction(self, address: int) -> DaedalusInstruction:
         return DLL.ZkDaedalusScript_getInstruction(self._handle, c_size_t(address))
@@ -277,6 +317,17 @@ class DaedalusScript:
         if handle is None or handle.value is None:
             return None
         return DaedalusSymbol(_handle=handle, _keepalive=self)
+
+    def get_parent_symbol(self, child: DaedalusSymbol, find_root: bool = False) -> DaedalusSymbol | None:
+        if child.parent < 0:
+            return None
+
+        symbol = self.get_symbol_by_index(child.parent)
+
+        while find_root and symbol and symbol.parent >= 0:
+            symbol = self.get_symbol_by_index(symbol.parent)
+
+        return symbol
 
     def __del__(self) -> None:
         self._deleter()
