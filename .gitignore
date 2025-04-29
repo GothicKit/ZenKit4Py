@@ -4,6 +4,7 @@
 
 /.cache/
 /dist/
+/build/
 /?venv/
 
 *.egg-info/
