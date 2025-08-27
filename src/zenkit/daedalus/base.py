@@ -50,7 +50,6 @@ class DaedalusInstance:
     def from_native(handle: c_void_p | None) -> "DaedalusInstance | None":
         from zenkit.daedalus import _INSTANCES
 
-        print(handle, handle.value if handle is not None else None)
         if handle is None or handle.value is None or handle.value == 0 or (isinstance(handle.value, c_void_p) and handle.value.value == None):
             return None
 
