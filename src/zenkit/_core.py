@@ -1,17 +1,17 @@
 __all__ = [
     "DLL",
+    "AxisAlignedBoundingBox",
+    "Color",
+    "Date",
+    "GameVersion",
+    "Mat3x3",
+    "Mat4x4",
+    "OrientedBoundingBox",
+    "PathOrFileLike",
     "Quat",
     "Vec2f",
     "Vec3f",
     "Vec4f",
-    "Mat3x3",
-    "Mat4x4",
-    "AxisAlignedBoundingBox",
-    "OrientedBoundingBox",
-    "Date",
-    "PathOrFileLike",
-    "Color",
-    "GameVersion",
 ]
 
 import platform

@@ -1,8 +1,8 @@
 __all__ = [
     "Sound",
     "SoundDaytime",
-    "SoundTriggerVolumeType",
     "SoundMode",
+    "SoundTriggerVolumeType",
 ]
 
 from ctypes import c_float

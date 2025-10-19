@@ -1,10 +1,10 @@
 __all__ = [
-    "AnimationCombine",
-    "AnimationBlend",
-    "AnimationAlias",
     "Animation",
-    "AnimationFlags",
+    "AnimationAlias",
+    "AnimationBlend",
+    "AnimationCombine",
     "AnimationDirection",
+    "AnimationFlags",
     "EventCameraTremor",
     "EventMorphAnimation",
     "EventParticleEffect",
@@ -184,7 +184,7 @@ DLL.ZkAnimationAlias_getDirection.restype = c_int
 
 
 class ModelScript:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -265,7 +265,7 @@ class ModelScript:
 
 
 class Animation:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -388,7 +388,7 @@ class Animation:
 
 
 class AnimationCombine:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -435,7 +435,7 @@ class AnimationCombine:
 
 
 class AnimationBlend:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -466,7 +466,7 @@ class AnimationBlend:
 
 
 class AnimationAlias:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -513,7 +513,7 @@ class AnimationAlias:
 
 
 class EventTag:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -558,7 +558,7 @@ class EventTag:
 
 
 class EventParticleEffect:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -593,7 +593,7 @@ class EventParticleEffect:
 
 
 class EventParticleEffectStop:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -616,7 +616,7 @@ class EventParticleEffectStop:
 
 
 class EventSoundEffect:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -647,7 +647,7 @@ class EventSoundEffect:
 
 
 class EventSoundEffectGround:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -678,7 +678,7 @@ class EventSoundEffectGround:
 
 
 class EventMorphAnimation:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -708,7 +708,7 @@ class EventMorphAnimation:
 
 
 class EventCameraTremor:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

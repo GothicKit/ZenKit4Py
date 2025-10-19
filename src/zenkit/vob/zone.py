@@ -1,7 +1,7 @@
 __all__ = [
-    "ZoneMusic",
-    "ZoneFog",
     "ZoneFarPlane",
+    "ZoneFog",
+    "ZoneMusic",
 ]
 
 from ctypes import c_float

@@ -63,14 +63,13 @@ class Color(Structure):
         """
         if index == 0:
             return self._r
-        elif index == 1:
+        if index == 1:
             return self._g
-        elif index == 2:
+        if index == 2:
             return self._b
-        elif index == 3:
+        if index == 3:
             return self._a
-        else:
-            raise IndexError("Index out of range. Valid indices are 0, 1, 2, and 3.")
+        raise IndexError("Index out of range. Valid indices are 0, 1, 2, and 3.")
 
     def __eq__(self, other: object) -> bool:
         """
@@ -134,7 +133,7 @@ class Color(Structure):
         """
         return self.average() >= other.average()
 
-    def __add__(self, other: Union["Color", float, int]) -> "Color":
+    def __add__(self, other: Union["Color", float]) -> "Color":
         """
         Add this color to another color or scalar component-wise.
 
@@ -151,7 +150,7 @@ class Color(Structure):
                 min(self._b + other._b, 255),
                 min(self._a + other._a, 255),
             )
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             return Color(
                 min(int(self._r + other), 255),
                 min(int(self._g + other), 255),
@@ -160,7 +159,7 @@ class Color(Structure):
             )
         raise TypeError("Operand must be of type Color or a number")
 
-    def __sub__(self, other: Union["Color", float, int]) -> "Color":
+    def __sub__(self, other: Union["Color", float]) -> "Color":
         """
         Subtract another color or scalar from this color component-wise.
 
@@ -177,7 +176,7 @@ class Color(Structure):
                 max(self._b - other._b, 0),
                 max(self._a - other._a, 0),
             )
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             return Color(
                 max(int(self._r - other), 0),
                 max(int(self._g - other), 0),
@@ -186,7 +185,7 @@ class Color(Structure):
             )
         raise TypeError("Operand must be of type Color or a number")
 
-    def __mul__(self, other: Union["Color", float, int]) -> "Color":
+    def __mul__(self, other: Union["Color", float]) -> "Color":
         """
         Multiply this color by a scalar or another color component-wise.
 
@@ -203,7 +202,7 @@ class Color(Structure):
                 min(self._b * other._b // 255, 255),
                 min(self._a * other._a // 255, 255),
             )
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             return Color(
                 min(int(self._r * other), 255),
                 min(int(self._g * other), 255),
@@ -212,7 +211,7 @@ class Color(Structure):
             )
         raise TypeError("Operand must be of type Color or Number")
 
-    def __truediv__(self, other: float | int) -> "Color":
+    def __truediv__(self, other: float) -> "Color":
         """
         Divide this color by a scalar.
 

@@ -1,4 +1,4 @@
-__all__ = ["BspTree", "BspNode", "BspSector", "BspTreeType"]
+__all__ = ["BspNode", "BspSector", "BspTree", "BspTreeType"]
 
 from ctypes import POINTER
 from ctypes import Structure
@@ -71,7 +71,7 @@ DLL.ZkBspSector_getPortalPolygonIndices.restype = POINTER(c_uint32)
 
 
 class BspSector:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -118,7 +118,7 @@ DLL.ZkBspTree_getSector.restype = ZkPointer
 
 
 class BspTree:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

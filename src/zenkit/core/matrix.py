@@ -1,9 +1,12 @@
 import math
 from ctypes import Structure
-from typing import Any, ClassVar, Union
+from typing import Any
+from typing import ClassVar
+from typing import Union
 
 from .quat import Quat
-from .vector import Vec3f, Vec4f
+from .vector import Vec3f
+from .vector import Vec4f
 
 
 class Mat3x3(Structure):
@@ -18,9 +21,7 @@ class Mat3x3(Structure):
         ("columns", Vec3f * 3),
     ]
 
-    def __init__(
-        self, c0: Vec3f = None, c1: Vec3f = None, c2: Vec3f = None
-    ) -> "Mat3x3":
+    def __init__(self, c0: Vec3f = None, c1: Vec3f = None, c2: Vec3f = None) -> "Mat3x3":
         if c0 is None or c1 is None or c2 is None:
             c0 = (1.0, 0.0, 0.0)
             c1 = (0.0, 1.0, 0.0)
@@ -34,13 +35,7 @@ class Mat3x3(Structure):
         Returns:
             A string in the format 'Mat3x3(columns)'.
         """
-        return (
-            f"Mat3x3(columns=[\n"
-            f"  {self.columns[0]},\n"
-            f"  {self.columns[1]},\n"
-            f"  {self.columns[2]}\n"
-            f"])"
-        )
+        return f"Mat3x3(columns=[\n  {self.columns[0]},\n  {self.columns[1]},\n  {self.columns[2]}\n])"
 
     def matrix_columns(self) -> tuple[Vec3f, Vec3f, Vec3f]:
         """
@@ -102,9 +97,7 @@ class Mat3x3(Structure):
             return Mat3x3(Vec3f(self.columns[i] - other.columns[i]) for i in range(3))
         raise TypeError("Operand must be of type Mat3x3")
 
-    def __mul__(
-        self, other: Union["Mat3x3", Vec3f, float, int]
-    ) -> Union["Mat3x3", Vec3f]:
+    def __mul__(self, other: Union["Mat3x3", Vec3f, float]) -> Union["Mat3x3", Vec3f]:
         """
         Multiply this Matrix by another Matrix, Vector, or scalar.
 
@@ -119,23 +112,13 @@ class Mat3x3(Structure):
         """
         if isinstance(other, Mat3x3):
             result_columns = [
-                Vec3f(
-                    *[
-                        sum(self.columns[j][k] * other.columns[i][j] for j in range(3))
-                        for k in range(3)
-                    ]
-                )
+                Vec3f(*[sum(self.columns[j][k] * other.columns[i][j] for j in range(3)) for k in range(3)])
                 for i in range(3)
             ]
             return Mat3x3(*result_columns)
-        elif isinstance(other, Vec3f):
-            return Vec3f(
-                *[
-                    sum(self.columns[i][j] * other[i] for i in range(3))
-                    for j in range(3)
-                ]
-            )
-        elif isinstance(other, (int, float)):
+        if isinstance(other, Vec3f):
+            return Vec3f(*[sum(self.columns[i][j] * other[i] for i in range(3)) for j in range(3)])
+        if isinstance(other, (int, float)):
             return Mat3x3(Vec3f(self.columns[i] * other) for i in range(3))
         raise TypeError("Operand must be of type Mat3x3, Vec3f, or Number")
 
@@ -146,10 +129,7 @@ class Mat3x3(Structure):
         Returns:
             A new Mat3x3 instance representing the transposed Matrix.
         """
-        transposed_columns = [
-            Vec3f(self.columns[0][i], self.columns[1][i], self.columns[2][i])
-            for i in range(3)
-        ]
+        transposed_columns = [Vec3f(self.columns[0][i], self.columns[1][i], self.columns[2][i]) for i in range(3)]
         return Mat3x3(*transposed_columns)
 
     def to_euler(self) -> Vec3f:
@@ -248,9 +228,7 @@ class Mat3x3(Structure):
         Returns:
             A new Mat3x3 instance with the applied scaling.
         """
-        scale_matrix = Mat3x3(
-            Vec3f(scale.x, 0, 0), Vec3f(0, scale.y, 0), Vec3f(0, 0, scale.z)
-        )
+        scale_matrix = Mat3x3(Vec3f(scale.x, 0, 0), Vec3f(0, scale.y, 0), Vec3f(0, 0, scale.z))
         return self * scale_matrix
 
     def to_mat4x4(self) -> "Mat4x4":
@@ -289,9 +267,7 @@ class Mat4x4(Structure):
         ("columns", Vec4f * 4),
     ]
 
-    def __init__(
-        self, c0: Vec4f = None, c1: Vec4f = None, c2: Vec4f = None, c3: Vec4f = None
-    ) -> "Mat4x4":
+    def __init__(self, c0: Vec4f = None, c1: Vec4f = None, c2: Vec4f = None, c3: Vec4f = None) -> "Mat4x4":
         if c0 is None or c1 is None or c2 is None or c3 is None:
             c0 = Vec4f(1.0, 0.0, 0.0, 0.0)
             c1 = Vec4f(0.0, 1.0, 0.0, 0.0)
@@ -375,9 +351,7 @@ class Mat4x4(Structure):
             return Mat4x4(Vec4f(self.columns[i] - other.columns[i]) for i in range(4))
         raise TypeError("Operand must be of type Mat4x4")
 
-    def __mul__(
-        self, other: Union["Mat4x4", Vec4f, float, int]
-    ) -> Union["Mat4x4", Vec4f]:
+    def __mul__(self, other: Union["Mat4x4", Vec4f, float]) -> Union["Mat4x4", Vec4f]:
         """
         Multiply this Matrix by another Matrix, Vector, or scalar.
 
@@ -392,23 +366,13 @@ class Mat4x4(Structure):
         """
         if isinstance(other, Mat4x4):
             result_columns = [
-                Vec4f(
-                    *[
-                        sum(self.columns[j][k] * other.columns[i][j] for j in range(4))
-                        for k in range(4)
-                    ]
-                )
+                Vec4f(*[sum(self.columns[j][k] * other.columns[i][j] for j in range(4)) for k in range(4)])
                 for i in range(4)
             ]
             return Mat4x4(*result_columns)
-        elif isinstance(other, Vec4f):
-            return Vec4f(
-                *[
-                    sum(self.columns[i][j] * other[i] for i in range(4))
-                    for j in range(4)
-                ]
-            )
-        elif isinstance(other, (int, float)):
+        if isinstance(other, Vec4f):
+            return Vec4f(*[sum(self.columns[i][j] * other[i] for i in range(4)) for j in range(4)])
+        if isinstance(other, (int, float)):
             return Mat4x4(Vec4f(self.columns[i] * other) for i in range(4))
         raise TypeError("Operand must be of type Mat4x4, Vec4f, or Number")
 

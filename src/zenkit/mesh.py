@@ -194,7 +194,7 @@ DLL.ZkMesh_getLightMap.restype = ZkPointer
 
 
 class Mesh:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

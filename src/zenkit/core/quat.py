@@ -146,7 +146,7 @@ class Quat(Structure):
             return Quat(self.w - other.w, self.x - other.x, self.y - other.y, self.z - other.z)
         raise TypeError("Operand must be of type Quat")
 
-    def __mul__(self, other: Union["Quat", float, int]) -> "Quat":
+    def __mul__(self, other: Union["Quat", float]) -> "Quat":
         """
         Multiply this Quaternion by another Quaternion or a scalar.
 
@@ -167,11 +167,11 @@ class Quat(Structure):
             y = self.w * other.y - self.x * other.z + self.y * other.w + self.z * other.x
             z = self.w * other.z + self.x * other.y - self.y * other.x + self.z * other.w
             return Quat(w, x, y, z)
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             return Quat(self.w * other, self.x * other, self.y * other, self.z * other)
         raise TypeError("Operand must be of type Quat or Number")
 
-    def __truediv__(self, other: float | int) -> "Quat":
+    def __truediv__(self, other: float) -> "Quat":
         """
         Divide this Quaternion by a scalar.
 

@@ -1,11 +1,11 @@
 __all__ = [
     "Color",
+    "Mat3x3",
+    "Mat4x4",
     "Quat",
     "Vec2f",
     "Vec3f",
     "Vec4f",
-    "Mat3x3",
-    "Mat4x4",
 ]
 
 from .color import Color

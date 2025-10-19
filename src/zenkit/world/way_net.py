@@ -1,6 +1,6 @@
 __all__ = [
-    "WayNet",
     "WayEdge",
+    "WayNet",
     "WayPoint",
 ]
 
@@ -47,7 +47,7 @@ DLL.ZkWayPoint_getFreePoint.restype = c_int
 
 
 class WayPoint:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -94,7 +94,7 @@ DLL.ZkWayNet_getPoint.restype = ZkPointer
 
 
 class WayNet:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

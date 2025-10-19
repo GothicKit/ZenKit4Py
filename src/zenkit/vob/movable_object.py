@@ -1,9 +1,9 @@
 __all__ = [
-    "MovableObject",
-    "InteractiveObject",
     "Container",
     "Door",
     "Fire",
+    "InteractiveObject",
+    "MovableObject",
     "SoundMaterialType",
 ]
 

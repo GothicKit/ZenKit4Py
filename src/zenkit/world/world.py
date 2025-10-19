@@ -27,7 +27,7 @@ DLL.ZkWorld_getRootObject.restype = ZkPointer
 
 
 class World:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_delete", "_handle")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

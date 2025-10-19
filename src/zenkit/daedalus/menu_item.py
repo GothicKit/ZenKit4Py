@@ -1,7 +1,7 @@
 __all__ = [
-    "MenuItemType",
     "MenuItemFlag",
     "MenuItemInstance",
+    "MenuItemType",
 ]
 
 from ctypes import c_float

@@ -1,7 +1,7 @@
 __all__ = [
+    "CutsceneBlock",
     "CutsceneLibrary",
     "CutsceneMessage",
-    "CutsceneBlock",
 ]
 
 from ctypes import c_size_t
@@ -85,7 +85,7 @@ DLL.ZkCutsceneLibrary_getBlock.restype = ZkPointer
 
 
 class CutsceneLibrary:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_delete", "_handle")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

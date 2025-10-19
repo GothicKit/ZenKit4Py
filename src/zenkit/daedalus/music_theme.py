@@ -1,7 +1,7 @@
 __all__ = [
-    "MusicTransitionType",
-    "MusicTransitionEffect",
     "MusicThemeInstance",
+    "MusicTransitionEffect",
+    "MusicTransitionType",
 ]
 
 from ctypes import c_float

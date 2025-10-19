@@ -1,17 +1,17 @@
 __all__ = [
-    "VirtualObject",
-    "Visual",
-    "VobType",
-    "EventManager",
     "Ai",
+    "AiHuman",
+    "AiMove",
+    "AiType",
     "AnimationType",
+    "EventManager",
     "ShadowType",
     "SpriteAlignment",
+    "VirtualObject",
+    "Visual",
     "VisualDecal",
     "VisualType",
-    "AiType",
-    "AiMove",
-    "AiHuman",
+    "VobType",
 ]
 
 from collections.abc import Iterator
@@ -125,7 +125,7 @@ DLL.ZkVisual_new.restype = ZkPointer
 
 
 class Visual:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -192,7 +192,7 @@ class VisualDecal(Visual):
 
     @staticmethod
     def new(*_args: Any) -> "VisualDecal":
-        return cast(VisualDecal, Visual.new(VisualType.DECAL))
+        return cast("VisualDecal", Visual.new(VisualType.DECAL))
 
     @property
     def name(self) -> str:
@@ -275,7 +275,7 @@ DLL.ZkAi_getType.restype = c_int
 
 
 class Ai:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -341,7 +341,7 @@ class AiHuman(Ai):
 
     @staticmethod
     def new(*_args: Any) -> "AiHuman":
-        return cast(AiHuman, Ai.new(AiType.HUMAN))
+        return cast("AiHuman", Ai.new(AiType.HUMAN))
 
     @property
     def water_level(self) -> int:
@@ -478,7 +478,7 @@ class AiMove(Ai):
 
     @staticmethod
     def new(*_args: Any) -> "AiMove":
-        return cast(AiMove, Ai.new(AiType.MOVE))
+        return cast("AiMove", Ai.new(AiType.MOVE))
 
     @property
     def vob(self) -> "VirtualObject":
@@ -509,7 +509,7 @@ DLL.ZkEventManager_getActive.restype = c_int
 
 
 class EventManager:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)
@@ -588,7 +588,7 @@ DLL.ZkObject_takeRef.restype = ZkPointer
 
 
 class VirtualObject:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

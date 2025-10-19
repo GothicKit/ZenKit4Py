@@ -1,10 +1,10 @@
 __all__ = [
+    "AlphaFunction",
+    "AnimationMapping",
     "Material",
     "MaterialGroup",
-    "AnimationMapping",
-    "WaveSpeed",
-    "AlphaFunction",
     "WaveMode",
+    "WaveSpeed",
 ]
 
 from ctypes import c_float
@@ -13,8 +13,8 @@ from ctypes import c_void_p
 from enum import IntEnum
 from typing import Any
 
-from zenkit._core import Color
 from zenkit._core import DLL
+from zenkit._core import Color
 from zenkit._core import Vec2f
 from zenkit._native import ZkString
 

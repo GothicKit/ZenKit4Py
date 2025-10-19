@@ -1,6 +1,6 @@
 __all__ = [
-    "ModelAnimation",
     "AnimationSample",
+    "ModelAnimation",
 ]
 
 from ctypes import POINTER
@@ -61,7 +61,7 @@ DLL.ZkModelAnimation_getNodeIndices.restype = POINTER(c_uint32)
 
 
 class ModelAnimation:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

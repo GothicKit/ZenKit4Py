@@ -18,13 +18,13 @@ DLL.ZkWrite_newPath.restype = c_void_p
 
 
 class Read:
-    __slots__ = ("_handle", "_native", "_keepalive")
+    __slots__ = ("_handle", "_keepalive", "_native")
 
     def __init__(self, source: str | PathLike | bytes | bytearray | c_void_p) -> None:
         self._handle = c_void_p(None)
         self._keepalive = DLL
 
-        if isinstance(source, (bytes, bytearray)):  # noqa: UP038 / X|Y would degrade performance
+        if isinstance(source, (bytes, bytearray)):
             self._native = source
             self._handle = c_void_p(DLL.ZkRead_newMem(c_char_p(source), len(source)))
         elif isinstance(source, c_void_p):
@@ -59,7 +59,7 @@ class Read:
 
 
 class Write:
-    __slots__ = ("_handle", "_native", "_keepalive")
+    __slots__ = ("_handle", "_keepalive", "_native")
 
     def __init__(self, source: str | PathLike) -> None:
         self._handle = c_void_p(None)

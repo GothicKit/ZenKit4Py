@@ -4,9 +4,9 @@ __all__ = [
     "NpcInstanceAttribute",
     "NpcInstanceFlag",
     "NpcInstanceMissionSlot",
-    "NpcInstanceType",
-    "NpcInstanceTalent",
     "NpcInstanceNameSlot",
+    "NpcInstanceTalent",
+    "NpcInstanceType",
 ]
 
 from ctypes import c_int

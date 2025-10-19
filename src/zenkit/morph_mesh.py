@@ -1,7 +1,7 @@
 __all__ = [
+    "MorphAnimation",
     "MorphMesh",
     "MorphSource",
-    "MorphAnimation",
 ]
 
 from ctypes import POINTER
@@ -138,7 +138,7 @@ DLL.ZkMorphMesh_getSource.restype = ZkPointer
 
 
 class MorphMesh:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_delete", "_handle")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

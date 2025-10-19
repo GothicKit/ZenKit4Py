@@ -1,9 +1,9 @@
 __all__ = [
+    "DaedalusDataType",
+    "DaedalusInstruction",
+    "DaedalusOpcode",
     "DaedalusScript",
     "DaedalusSymbol",
-    "DaedalusInstruction",
-    "DaedalusDataType",
-    "DaedalusOpcode",
 ]
 
 from abc import abstractmethod
@@ -237,7 +237,7 @@ DLL.ZkDaedalusScript_getSymbolByName.restype = ZkPointer
 
 
 class DaedalusScript:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         self._handle = c_void_p(None)

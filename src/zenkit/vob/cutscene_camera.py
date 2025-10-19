@@ -1,10 +1,10 @@
 __all__ = [
-    "CutsceneCamera",
-    "CameraMotion",
     "CameraLerpType",
     "CameraLoopType",
+    "CameraMotion",
     "CameraTrajectory",
     "CameraTrajectoryFrame",
+    "CutsceneCamera",
 ]
 
 from ctypes import c_float

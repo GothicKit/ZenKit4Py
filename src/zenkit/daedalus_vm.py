@@ -1,12 +1,16 @@
 __all__ = [
-    "DaedalusVm",
     "DaedalusType",
+    "DaedalusVm",
 ]
 
+from _ctypes import POINTER
+from _ctypes import byref
 from collections.abc import Callable
 from ctypes import CFUNCTYPE
+from ctypes import c_bool
 from ctypes import c_float
 from ctypes import c_int32
+from ctypes import c_size_t
 from ctypes import c_void_p
 from types import NoneType
 from typing import Any
@@ -27,10 +31,11 @@ DaedalusTypeGeneric = TypeVar("DaedalusTypeGeneric", bound=DaedalusType)
 
 DaedalusVmExternalCallback = CFUNCTYPE(None, c_void_p, c_void_p)
 DaedalusVmExternalDefaultCallback = CFUNCTYPE(None, c_void_p, c_void_p, c_void_p)
+DaedalusVmCallTrapCallback = CFUNCTYPE(c_bool, c_void_p, c_void_p)
 
 
 class DaedalusVm(DaedalusScript):
-    __slots__ = ("_handle", "_delete", "_keepalive", "_externals")
+    __slots__ = ("_delete", "_externals", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         super().__init__(**kwargs)
@@ -102,7 +107,7 @@ class DaedalusVm(DaedalusScript):
         elif isinstance(val, str):
             DLL.ZkDaedalusVm_pushString(self._handle, val.encode("windows-1252"))
         else:
-            raise TypeError("Unsupported type: " + type(val))
+            raise TypeError("Unsupported type: " + str(type(val)))
 
     def pop(self, typ: type[DaedalusTypeGeneric]) -> DaedalusTypeGeneric:
         if typ == DaedalusInstance:
@@ -113,7 +118,7 @@ class DaedalusVm(DaedalusScript):
             return self.pop_float()
         if typ == str:
             return self.pop_string()
-        raise ValueError("Unsupported type: " + typ)
+        raise ValueError("Unsupported type: " + str(typ))
 
     def pop_int(self) -> int:
         DLL.ZkDaedalusVm_popInt.restype = c_int32
@@ -190,6 +195,21 @@ class DaedalusVm(DaedalusScript):
         fptr = DaedalusVmExternalDefaultCallback(_wrapper)
         self._externals.append(fptr)
         DLL.ZkDaedalusVm_registerExternalDefault(self._handle, fptr, c_void_p(None))
+
+    @property
+    def call_stack(self) -> list[DaedalusSymbol]:
+        DLL.ZkDaedalusVm_getCallStack.restype = POINTER(c_void_p)
+        count = c_size_t(0)
+        stack = DLL.ZkDaedalusVm_getCallStack(self._handle, byref(count))
+        return [DaedalusSymbol(_handle=c_void_p(stack[i]), _keepalive=self) for i in range(count.value)]
+
+    def register_call_trap(self, callback: Callable[[DaedalusSymbol], bool]) -> None:
+        def _wrapper(_vm: int, sym: int) -> bool:
+            return callback(DaedalusSymbol(_handle=c_void_p(sym)))
+
+        fptr = DaedalusVmCallTrapCallback(_wrapper)
+        self._externals.append(fptr)
+        DLL.ZkDaedalusVm_registerCallTrap(self._handle, fptr)
 
     def _call_function(self, sym: DaedalusSymbol) -> None:
         DLL.ZkDaedalusVm_callFunction(self._handle, sym.handle)

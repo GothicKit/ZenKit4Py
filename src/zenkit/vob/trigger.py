@@ -1,16 +1,16 @@
 __all__ = [
-    "Trigger",
-    "TriggerList",
-    "TriggerScript",
-    "TriggerChangeLevel",
-    "TriggerWorldStart",
-    "TriggerUntouch",
     "Mover",
     "MoverBehavior",
     "MoverLerpType",
     "MoverSpeedType",
+    "Trigger",
     "TriggerBatchMode",
+    "TriggerChangeLevel",
+    "TriggerList",
     "TriggerListTarget",
+    "TriggerScript",
+    "TriggerUntouch",
+    "TriggerWorldStart",
 ]
 
 from ctypes import c_float

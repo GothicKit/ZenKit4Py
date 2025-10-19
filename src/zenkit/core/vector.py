@@ -59,8 +59,7 @@ class Vector(Structure):
         """
         if 0 <= index < len(self._fields_):
             return getattr(self, comp[index])
-        else:
-            raise IndexError("Index out of range.")
+        raise IndexError("Index out of range.")
 
     def __neg__(self) -> "Vector":
         """
@@ -166,7 +165,7 @@ class Vector(Structure):
             return self.length() >= other.length()
         return False
 
-    def __add__(self, other: Union["Vector", float, int]) -> "Vector":
+    def __add__(self, other: Union["Vector", float]) -> "Vector":
         """
         Add another vector or a scalar to this vector.
 
@@ -184,11 +183,11 @@ class Vector(Structure):
             if len(self._fields_) != len(other._fields_):
                 raise ValueError("Vectors must have the same number of components.")
             return Vector(*(getattr(self, comp[i]) + getattr(other, comp[i]) for i in range(len(self._fields_))))
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             return Vector(*(getattr(self, comp[i]) + other for i in range(len(self._fields_))))
         raise TypeError("Operand must be of type Vector, or Number")
 
-    def __sub__(self, other: Union["Vector", float, int]) -> "Vector":
+    def __sub__(self, other: Union["Vector", float]) -> "Vector":
         """
         Subtract another vector or a scalar from this vector.
 
@@ -206,11 +205,11 @@ class Vector(Structure):
             if len(self._fields_) != len(other._fields_):
                 raise ValueError("Vectors must have the same number of components.")
             return Vector(*(getattr(self, comp[i]) - getattr(other, comp[i]) for i in range(len(self._fields_))))
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             return Vector(*(getattr(self, comp[i]) - other for i in range(len(self._fields_))))
         raise TypeError("Operand must be of type Vector, or Number")
 
-    def __mul__(self, other: Union["Vector", float, int]) -> "Vector":
+    def __mul__(self, other: Union["Vector", float]) -> "Vector":
         """
         Multiply this vector by another vector or a scalar.
 
@@ -228,11 +227,11 @@ class Vector(Structure):
             if len(self._fields_) != len(other._fields_):
                 raise ValueError("Vectors must have the same number of components.")
             return Vector(*(getattr(self, comp[i]) * getattr(other, comp[i]) for i in range(len(self._fields_))))
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             return Vector(*(getattr(self, comp[i]) * other for i in range(len(self._fields_))))
         raise TypeError("Operand must be of type Vector, or Number")
 
-    def __truediv__(self, other: Union["Vector", float, int]) -> "Vector":
+    def __truediv__(self, other: Union["Vector", float]) -> "Vector":
         """
         Divide this vector by another vector or a scalar.
 
@@ -252,7 +251,7 @@ class Vector(Structure):
             if any(getattr(other, comp[i]) == 0 for i in range(len(self._fields_))):
                 raise ValueError("Cannot divide by a Vector with zero components")
             return Vector(*(getattr(self, comp[i]) / getattr(other, comp[i]) for i in range(len(self._fields_))))
-        elif isinstance(other, (int, float)):
+        if isinstance(other, (int, float)):
             if other == 0:
                 raise ValueError("Cannot divide by zero")
             return Vector(*(getattr(self, comp[i]) / other for i in range(len(self._fields_))))

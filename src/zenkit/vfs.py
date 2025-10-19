@@ -41,7 +41,7 @@ DLL.ZkVfsNode_open.restype = c_void_p
 
 
 class VfsNode:
-    __slots__ = ("_handle", "_delete", "_keepalive")
+    __slots__ = ("_delete", "_handle", "_keepalive")
 
     def __init__(self, **kwargs: Any) -> None:
         if "_handle" in kwargs:
@@ -180,7 +180,7 @@ class VfsNode:
 
 
 class Vfs:
-    __slots__ = ("_handle", "_delete")
+    __slots__ = ("_delete", "_handle")
 
     def __init__(self) -> None:
         DLL.ZkVfs_new.restype = c_void_p
