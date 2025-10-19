@@ -1,5 +1,6 @@
-__all__ = ["SoftSkinMesh", "SoftSkinWeight", "SoftSkinWedgeNormal"]
+__all__ = ["SoftSkinMesh", "SoftSkinWedgeNormal", "SoftSkinWeight"]
 
+from ctypes import CFUNCTYPE
 from ctypes import POINTER
 from ctypes import Structure
 from ctypes import byref
@@ -70,6 +71,8 @@ DLL.ZkSoftSkinMesh_getWedgeNormalCount.restype = c_size_t
 DLL.ZkSoftSkinMesh_getWedgeNormal.restype = SoftSkinWedgeNormal
 DLL.ZkSoftSkinMesh_getNodes.restype = POINTER(c_int)
 
+_OrientedBoundingBoxEnumerator = CFUNCTYPE(c_int, c_void_p, ZkPointer)
+
 
 class SoftSkinMesh:
     __slots__ = ("_handle", "_keepalive")
@@ -88,13 +91,14 @@ class SoftSkinMesh:
 
     @property
     def bboxes(self) -> list[OrientedBoundingBox]:
-        count = DLL.ZkSoftSkinMesh_getNodeCount(self._handle)
+        def _enumerate(_ctx: int, ptr: ZkPointer) -> int:
+            items.append(OrientedBoundingBox(_handle=ptr))
+            return 0
+
         items = []
+        enumerator = _OrientedBoundingBoxEnumerator(_enumerate)
 
-        for i in range(count):
-            handle = DLL.ZkSoftSkinMesh_getMesh(self._handle, i).value
-            items.append(OrientedBoundingBox(_handle=handle))
-
+        DLL.ZkSoftSkinMesh_enumerateBoundingBoxes(self._handle, enumerator, c_void_p(None))
         return items
 
     @property
